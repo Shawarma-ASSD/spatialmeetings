@@ -16,14 +16,16 @@ export class HomeComponent implements OnInit {
 
   errorMessage = '';
 
-  constructor(private router:Router,
-              private route:ActivatedRoute,
-              iconRegistry: MatIconRegistry,
-              sanitizer: DomSanitizer) {
-                iconRegistry.addSvgIcon(
-                  'github',
-                  sanitizer.bypassSecurityTrustResourceUrl('assets/github.svg'));
-              }
+  constructor(
+    private router:Router,
+    private route:ActivatedRoute,
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer
+  ) {
+    iconRegistry.addSvgIcon(
+      'github',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/github.svg'));
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(
