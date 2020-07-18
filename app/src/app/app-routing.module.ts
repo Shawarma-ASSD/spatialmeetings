@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { RoomComponent } from './room/room.component';
+import { HomeComponent } from './components/home/home.component';
+import { RoomComponent } from './components/room/room.component';
 
 const routes: Routes = [
-  { path: ':home', component: HomeComponent },
-  { path: 'room/:roomName', component: RoomComponent }
+  { path: '', component: HomeComponent },
+  { path: 'room/:roomName', component: RoomComponent },
+  { path:'**',redirectTo:''}
 ];
 
 @NgModule({
