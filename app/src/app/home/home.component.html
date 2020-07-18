@@ -1,1 +1,51 @@
-<p>home works!</p>
+<div class="master-div">
+
+  <section class="banner">
+    <div class="main-page-title">
+      <h1>Spatial Meetings</h1>
+    </div>
+  </section>
+
+
+  <div class="mdc-layout-grid__cell--span-6">
+    <div class="container">
+      <div class="row">
+          <div class="col-12">
+              <div class="col-6">
+                  <h2 class="text-center">Crear nueva sala</h2>
+                  <form>
+                    <mat-form-field class="room-name">
+                      <mat-label>Nombre de la sala</mat-label>
+                      <input matInput placeholder="hola">
+                    </mat-form-field>
+                  </form>
+                  <div class="column">
+                    <form>
+                      <mat-form-field appearance="fill">
+                        <mat-select >
+                          <mat-option value="create">Crear Nueva Sala</mat-option>
+                          <mat-option value="join">Unirse</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <button mat-raised-button type="submit" color="accent" (click)="onButtonClicked()">{{ buttonLabel }} </button>
+                    </form>
+
+                  </div>
+              </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <hr>
+  <section>
+    About
+  </section>
+  <hr>
+  <footer>
+    <div>
+    <button mat-icon-button color="white" (click)="goToUrl('https://github.com/Shawarma-ASSD/spatialmeetings')" >
+      <mat-icon svgIcon="github"></mat-icon>
+    </button>
+  </div>
+  </footer>
+</div>
