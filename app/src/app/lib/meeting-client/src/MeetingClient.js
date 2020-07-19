@@ -292,12 +292,9 @@ class MeetingClient {
      */
     _parseResponse(body) {
         if(body.status == "success") {
-            console.log("Result: ", body.result);
             return body.result;
         }
         else {
-            // exception?
-            console.log("Request failed", body.result);
             throw Error(`Request failed: ${body.result}`);
         }
     }
@@ -351,7 +348,6 @@ class MeetingClient {
         // Set behaviour on state connection change
         this.sendTransport.on('connectionstatechange', async (state) => {
             // Code here...
-            console.log(`sendTransport connection state changed to ${state}`);
         });
     }
 
@@ -377,7 +373,6 @@ class MeetingClient {
         // Set behaviour on state connection change
         this.recvTransport.on('connectionstatechange', async (state) => {
             // Code here...
-            console.log(`recvTransport connection state changed to ${state}`);
         });
     }
 
