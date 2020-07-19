@@ -4,6 +4,8 @@
 
 .leftContainer {
     float: left;
+    background-color: black;
+    width: 70%;
 }
 
 .leftContainer:after {
@@ -11,6 +13,17 @@
     clear: left;
 }
 
+.attendeeContainer {
+    width: 100%;
+}
+
 .panelContainer {
     float: right;
+    background-color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14;
+    color: black;
+    width: 26%;
+    padding: 1%;
+    margin: 1%;
 }
