@@ -5,6 +5,10 @@ module.exports = {
     tls: {
       cert: '/etc/ssl/certs/ssl-cert-snakeoil.pem',
       key: '/etc/ssl/private/ssl-cert-snakeoil.key'
+    },
+    tlsVM: {
+      cert: '/home/nico/www.spatialmeetings.live.chained.crt',
+      key: '/etc/ssl/www.spatialmeetings.live.key'
     }
   },
   // Router settings
@@ -27,6 +31,12 @@ module.exports = {
               }
           },
         ]
+  },
+  // Worker settings
+  worker :
+  {
+    rtcMinPort : 40000,
+    rtcMaxPort : 49999
   },
   // WebRtcTransport settings
   transport: {
