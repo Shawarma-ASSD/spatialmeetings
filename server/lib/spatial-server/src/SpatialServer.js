@@ -1,3 +1,4 @@
+<<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
 // Node modules
 const fs = require('fs');
 const express = require('express');
@@ -10,6 +11,9 @@ const { ServerIRContainer } = require('./ServerIRContainer');
 
 // Local modules
 const { ServerIRContainer } = require('./ServerIRContainer');
+=======
+const fs = require('fs');
+>>>>>>> Adding ServerIRContainer
 
 /**
  * SpatialServerResponse
@@ -62,6 +66,10 @@ class SpatialServerResponse {
     }
 }
 
+<<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
+=======
+
+>>>>>>> Adding ServerIRContainer
 /**
  * SpatialServer
  */
@@ -72,9 +80,12 @@ class SpatialServer {
      * @param {Paths to the IRs files} config 
      */
     constructor(config) {
+<<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
 <<<<<<< 623ca1285ee955027588b39f7960ab2efe3081e2
 <<<<<<< 33b4c11b5862f81c644ff375790da8cfb0e6c687
 =======
+=======
+>>>>>>> Adding ServerIRContainer
         // IRs files paths
         this.hrirPath = config.hrir;
         this.brirPath = config.brir;
@@ -83,15 +94,19 @@ class SpatialServer {
         this.hrirContainer = 
         this.brirContainer = 
 
+<<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
 >>>>>>> Adding ServerIRContainer
 =======
 >>>>>>> Coded SpatialServer, let's debug
+=======
+>>>>>>> Adding ServerIRContainer
         // Creates an internal HTTP Router, to attach a handler for each 
         // method requested, working as a dispatcher. An externally server 
         // Express App will route request through this Router.
         this.router = express.Router();
         this.router.use(express.urlencoded({extended: true}));
         this.router.use(express.json());
+<<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
 <<<<<<< 623ca1285ee955027588b39f7960ab2efe3081e2
 <<<<<<< 33b4c11b5862f81c644ff375790da8cfb0e6c687
 =======
@@ -140,6 +155,10 @@ class SpatialServer {
 =======
         });
 >>>>>>> Coded SpatialServer, let's debug
+=======
+        this.router.get('/hrirs', async (req, res) => this.getHrirs(req, res));
+        this.router.get('/brirs', async(req, res) => this.brirs(req, res));
+>>>>>>> Adding ServerIRContainer
     }
 
     /**
@@ -152,6 +171,7 @@ class SpatialServer {
     }
 
     /**
+<<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
 <<<<<<< 623ca1285ee955027588b39f7960ab2efe3081e2
 <<<<<<< 33b4c11b5862f81c644ff375790da8cfb0e6c687
      * getIRs
@@ -237,6 +257,33 @@ class SpatialServer {
         // Return success with the desired information
         response.send( SpatialServerResponse.result(irs) );
 >>>>>>> Coded SpatialServer, let's debug
+=======
+     * hrirs
+     * Returns the requested IRs, which can be filtered by azimutal,
+     * elevation and/or distance. 
+     * @param {HTTP Request} request 
+     * @param {HTTP Response} response
+     */
+    getHrirs(request, response) {
+        const { azimutal, elevation, distance } = request.body;
+
+        let hrirs = {
+            impulseResponses: new Array(),
+            positions: new Array()
+        };
+
+        this.hrirSources.forEach( (source, index) => {
+            if( distance === undefined || this.areClose(distance, source[2] )) {
+                if( elevation === undefined || this.areClose(elevation, source[1]) ) {
+                    if( azimutal === undefined || this.areClose(azimutal, source[0]) ) {
+                        hrirs.positions.push(source);
+                        hrirs.impulseResponses.push(this.hrir[index].);
+                    }    
+                }
+            }
+        });
+
+>>>>>>> Adding ServerIRContainer
     }
 
     /**
@@ -246,6 +293,7 @@ class SpatialServer {
      * @param {Number} y 
      * @param {Number} tol 
      */
+<<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
 <<<<<<< 821a6b6b798792a5f92d3a567dd29e8cb2016839
 <<<<<<< 33b4c11b5862f81c644ff375790da8cfb0e6c687
     areClose(x, y, tol = 1e-6) {
@@ -255,6 +303,9 @@ class SpatialServer {
 =======
     areClose(x, y, tol = 1e-6) {
 >>>>>>> SpatialServer working
+=======
+    static areClose(x, y, tol = 1e-6) {
+>>>>>>> Adding ServerIRContainer
         return Math.abs(x - y) < tol;
     }
 }
