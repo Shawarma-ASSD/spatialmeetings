@@ -315,7 +315,9 @@ class SpatialServer {
         // Response data field
         let irs = {
             impulseResponses: new Array(),
-            positions: new Array()
+            positions: new Array(),
+            sampleRate: container.sampleRate,
+            size: container.size
         };
         let positions = container.getPositions();
         // For each position check if it matches the given arguments
