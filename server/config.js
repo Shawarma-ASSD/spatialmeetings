@@ -33,6 +33,7 @@ module.exports = {
               }
           },
         ]
+<<<<<<< 6457b639abaa5853ccc4118d5ed3e5d2fed26577
   },
   // Worker settings
   worker :
@@ -49,6 +50,8 @@ module.exports = {
             }
         },
       ]
+=======
+>>>>>>> Added reference to impulse responses on config.js and added the large .JSON files to .gitignore
     },
     // Worker settings
     worker :
@@ -79,7 +82,7 @@ module.exports = {
     }
   },
   spatial: {
-    hrir: ' ',
-    brir: ' '
+    hrir: '../resources/hrir/ari.json',
+    brir: '../resources/brir/SBSBRIR00.json'
   }
 };
