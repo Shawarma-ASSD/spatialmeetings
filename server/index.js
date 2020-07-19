@@ -27,7 +27,7 @@ let app;
 
     // Creates the meeting server
     meetingServer = await MeetingServer.createMeetingServer(httpServer, config.meeting);
-
+    
     // Adding CORS
     app.use(cors());
 

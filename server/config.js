@@ -34,7 +34,7 @@ module.exports = {
               }
           },
         ]
-  },
+    },
     // Worker settings
     worker :
     {
