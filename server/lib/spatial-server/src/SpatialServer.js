@@ -1,9 +1,12 @@
 // Node modules
 const fs = require('fs');
 const express = require('express');
+<<<<<<< 821a6b6b798792a5f92d3a567dd29e8cb2016839
 
 // Local modules
 const { ServerIRContainer } = require('./ServerIRContainer');
+=======
+>>>>>>> SpatialServer working
 
 // Local modules
 const { ServerIRContainer } = require('./ServerIRContainer');
@@ -104,12 +107,18 @@ class SpatialServer {
                 // Load HRIR Container
                 this.hrirContainer = ServerIRContainer.fromJson( JSON.parse(data) );
             }
+<<<<<<< 821a6b6b798792a5f92d3a567dd29e8cb2016839
 <<<<<<< 623ca1285ee955027588b39f7960ab2efe3081e2
             else {
                 console.log("Couldn't open HRIR file", config.hrir, err.message);
             }
 =======
 >>>>>>> Coded SpatialServer, let's debug
+=======
+            else {
+                console.log("Couldn't open HRIR file", config.hrir, err.message);
+            }
+>>>>>>> SpatialServer working
         });
 
         fs.readFile(config.brir, 'utf8', (err, data) => {
@@ -117,7 +126,10 @@ class SpatialServer {
                 // Load BRIR Container
                 this.brirContainer = ServerIRContainer.fromJson( JSON.parse(data) );
             }
+<<<<<<< 821a6b6b798792a5f92d3a567dd29e8cb2016839
 <<<<<<< 623ca1285ee955027588b39f7960ab2efe3081e2
+=======
+>>>>>>> SpatialServer working
             else {
                 console.log("Couldn't open BRIR file", config.brir, err.message);
             }
@@ -157,6 +169,7 @@ class SpatialServer {
         console.log('azimutal: ', azimutal);
         console.log('elevation: ', elevation);
         console.log('distance: ', distance);
+<<<<<<< 821a6b6b798792a5f92d3a567dd29e8cb2016839
         // Type of request
         let container = type === 'HRIR' ? this.hrirContainer : this.brirContainer;
         // Response data field
@@ -194,6 +207,8 @@ class SpatialServer {
     getIRs(type, request, response) {
         // Request parameters
         const { azimutal, elevation, distance } = request.body;
+=======
+>>>>>>> SpatialServer working
         // Type of request
         let container = type === 'HRIR' ? this.hrirContainer : this.brirContainer;
         // Response data field
@@ -204,11 +219,11 @@ class SpatialServer {
         let positions = container.getPositions();
         // For each position check if it matches the given arguments
         for(let i = 0 ; i < positions.length ; i++) {
-            if( distance === undefined || this.areClose(distance, pos[2] )) {
-                if( elevation === undefined || this.areClose(elevation, pos[1]) ) {
-                    if( azimutal === undefined || this.areClose(azimutal, pos[0]) ) {
+            if( distance === undefined || this.areClose(distance, positions[i][2] )) {
+                if( elevation === undefined || this.areClose(elevation, positions[i][1]) ) {
+                    if( azimutal === undefined || this.areClose(azimutal, positions[i][0]) ) {
                         irs.positions.push(positions[i]);
-                        irs.impulseResponses.push(container.getIRs(index));
+                        irs.impulseResponses.push(container.getIRs(i));
                     }    
                 }
             }
@@ -230,11 +245,15 @@ class SpatialServer {
      * @param {Number} y 
      * @param {Number} tol 
      */
+<<<<<<< 821a6b6b798792a5f92d3a567dd29e8cb2016839
 <<<<<<< 33b4c11b5862f81c644ff375790da8cfb0e6c687
     areClose(x, y, tol = 1e-6) {
 =======
     static areClose(x, y, tol = 1e-6) {
 >>>>>>> Adding ServerIRContainer
+=======
+    areClose(x, y, tol = 1e-6) {
+>>>>>>> SpatialServer working
         return Math.abs(x - y) < tol;
     }
 }
