@@ -6,30 +6,23 @@
     </div>
   </section>
 
-
   <div class="mdc-layout-grid__cell--span-6">
     <div class="container">
       <div class="row">
           <div class="col-12">
               <div class="col-6">
-                  <h2 class="text-center">Crear nueva sala</h2>
-                  <form>
+                  <div id="enter-create-room">
+                    <h2 class="text-center">Crear nueva sala</h2>
                     <mat-form-field class="room-name">
-                      <mat-label>Nombre de la sala</mat-label>
-                      <input matInput placeholder="hola">
+                      <input matInput placeholder="Nombre de la sala">
                     </mat-form-field>
-                  </form>
-                  <div class="column">
-                    <form>
-                      <mat-form-field appearance="fill">
-                        <mat-select >
-                          <mat-option value="create">Crear Nueva Sala</mat-option>
-                          <mat-option value="join">Unirse</mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                      <button mat-raised-button type="submit" color="accent" (click)="onButtonClicked()">{{ buttonLabel }} </button>
-                    </form>
-
+                    <mat-form-field appearance="fill">
+                      <mat-select>
+                        <mat-option value="create">Crear</mat-option>
+                        <mat-option value="join">Unirse</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <button mat-raised-button color="accent" (click)="onButtonClicked()">{{ buttonLabel }} </button>
                   </div>
               </div>
           </div>

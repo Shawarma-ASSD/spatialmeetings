@@ -11,10 +11,7 @@ import {ErrorCode, ErrorMessage} from '../../interfaces/codes'
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
-  buttonLabel = 'hola';
-
-  errorMessage = '';
+  buttonLabel: string = 'Crear';
 
   constructor(
     private router: Router,
@@ -30,19 +27,28 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(
       (queryParams: Params) => {
-          this.errorMessage = queryParams['errorCode'] ? ErrorMessage[ErrorCode[+queryParams['errorCode']]] : 'papa';
-          console.log(this.errorMessage);
+          let errorMessage = queryParams['errorCode'] ? ErrorMessage[ErrorCode[+queryParams['errorCode']]] : null;
+          
+          // Code here, snack...
       }
     );
   }
 
+  /**
+   * onButtonClicked
+   * When the button is clicked, either the room is created
+   * or the user wants to join the meeting.
+   */
   onButtonClicked(){
-    //chequar que el campo no este vacio
-    //guardar el id de la llamada en el service
-    this.router.navigate(['room','hola']);
+    // Code here...
   }
 
-  goToUrl(url:string){
+  /**
+   * goToUrl
+   * Open a new window redirecting the user to the GitHub repository
+   * of the application.
+   */
+  goToUrl(url: string){
     window.open(url);
   }
 }

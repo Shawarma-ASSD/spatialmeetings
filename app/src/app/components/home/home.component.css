@@ -4,6 +4,7 @@
   height: 100vh;
 
 }
+
 .banner {
   position: relative;
   width: 100%;
@@ -11,7 +12,12 @@
   min-height: 300px;
   max-height: 1200px;
 }
-.main-page-title{
-  text-align:center;
-  color:#e91e63;
+
+.main-page-title {
+  text-align: center;
+  color: #e91e63;
+}
+
+.text-center {
+  text-align: center;
 }
