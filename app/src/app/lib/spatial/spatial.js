@@ -1,0 +1,1 @@
+export { SpatialProcessorNode } from './src/SpatialProcessor';
