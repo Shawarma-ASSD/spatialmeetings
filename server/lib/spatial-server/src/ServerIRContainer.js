@@ -1,4 +1,3 @@
-<<<<<<< fc3abf313ab02a198fa28fdccbf6f94c0c8fe073
 /**
  * ServerIRContainer
  * Contains an HRIR or a BRIR, formed by the impulse responses and their corresponding
@@ -62,8 +61,4 @@ class ServerIRContainer {
 
 module.exports = {
     ServerIRContainer
-=======
-class ServerIRContainer {
-    
->>>>>>> Adding ServerIRContainer
 }
