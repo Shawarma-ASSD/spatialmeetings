@@ -34,11 +34,7 @@ module.exports = {
               }
           },
         ]
-<<<<<<< be7fe00844678d21044e5b8aab0bf3b10965fa64
   },
-=======
-    },
->>>>>>> Adding Spatial sound...
     // Worker settings
     worker :
     {

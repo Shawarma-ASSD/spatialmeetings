@@ -30,12 +30,9 @@ let app;
 
     // Creates the spatial server
     spatialServer = new SpatialServer(config.spatial);
-<<<<<<< be7fe00844678d21044e5b8aab0bf3b10965fa64
 
     // Adding CORS
     app.use(cors());
-=======
->>>>>>> Adding Spatial sound...
 
     // Logging requests
     app.use((req, res, next) => {
@@ -56,20 +53,12 @@ let app;
 
     // Serve client files
     app.use(express.static(process.cwd() + "/app/dist/app/"));
-<<<<<<< 57fab266efa5e0b89d2997c76f93e91b491a921c
-
-=======
     
->>>>>>> Adding some tests with the LocalAttendee
     // Serve index.html for default route
     app.get('*', (req, res) => {
         res.sendFile(process.cwd() + "/app/dist/app/index.html");
     });
 
-<<<<<<< 57fab266efa5e0b89d2997c76f93e91b491a921c
-
-=======
->>>>>>> Adding some tests with the LocalAttendee
     // Console message
     console.log(`[Server] The server is listening to port ${config.server.port}`);
 })();
