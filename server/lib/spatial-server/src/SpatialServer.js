@@ -1,7 +1,11 @@
+<<<<<<< 6bc636839b0a8d917d392b7d7fdd32d7fe6526a2
 <<<<<<< a7b12c0eb399fe23aa1cff0246c740f6cefe0285
 <<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
 =======
 >>>>>>> Coded SpatialServer, let's debug
+=======
+<<<<<<< fc3abf313ab02a198fa28fdccbf6f94c0c8fe073
+>>>>>>> Adding ServerIRContainer
 // Node modules
 const fs = require('fs');
 const express = require('express');
@@ -23,6 +27,9 @@ const fs = require('fs');
 
 // Local modules
 const { ServerIRContainer } = require('./ServerIRContainer');
+=======
+const fs = require('fs');
+>>>>>>> Adding ServerIRContainer
 
 /**
  * SpatialServerResponse
@@ -89,11 +96,16 @@ class SpatialServer {
      * @param {Paths to the IRs files} config 
      */
     constructor(config) {
+<<<<<<< 6bc636839b0a8d917d392b7d7fdd32d7fe6526a2
 <<<<<<< a7b12c0eb399fe23aa1cff0246c740f6cefe0285
 <<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
 <<<<<<< 623ca1285ee955027588b39f7960ab2efe3081e2
 <<<<<<< 33b4c11b5862f81c644ff375790da8cfb0e6c687
 =======
+=======
+>>>>>>> Adding ServerIRContainer
+=======
+<<<<<<< fc3abf313ab02a198fa28fdccbf6f94c0c8fe073
 =======
 >>>>>>> Adding ServerIRContainer
         // IRs files paths
@@ -104,6 +116,7 @@ class SpatialServer {
         this.hrirContainer = 
         this.brirContainer = 
 
+<<<<<<< 6bc636839b0a8d917d392b7d7fdd32d7fe6526a2
 <<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
 >>>>>>> Adding ServerIRContainer
 =======
@@ -112,12 +125,16 @@ class SpatialServer {
 >>>>>>> Adding ServerIRContainer
 =======
 >>>>>>> Coded SpatialServer, let's debug
+=======
+>>>>>>> Adding ServerIRContainer
+>>>>>>> Adding ServerIRContainer
         // Creates an internal HTTP Router, to attach a handler for each 
         // method requested, working as a dispatcher. An externally server 
         // Express App will route request through this Router.
         this.router = express.Router();
         this.router.use(express.urlencoded({extended: true}));
         this.router.use(express.json());
+<<<<<<< 6bc636839b0a8d917d392b7d7fdd32d7fe6526a2
 <<<<<<< a7b12c0eb399fe23aa1cff0246c740f6cefe0285
 <<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
 <<<<<<< 623ca1285ee955027588b39f7960ab2efe3081e2
@@ -126,6 +143,9 @@ class SpatialServer {
 >>>>>>> Coded SpatialServer, let's debug
 =======
 >>>>>>> Coded SpatialServer, let's debug
+=======
+<<<<<<< fc3abf313ab02a198fa28fdccbf6f94c0c8fe073
+>>>>>>> Adding ServerIRContainer
         this.router.get('/hrirs', async (req, res) => this.getIRs('HRIR', req, res));
         this.router.get('/brirs', async(req, res) => this.getIRs('BRIR', req, res));
 
@@ -192,7 +212,14 @@ class SpatialServer {
             }
 >>>>>>> SpatialServer working
         });
+<<<<<<< 6bc636839b0a8d917d392b7d7fdd32d7fe6526a2
 >>>>>>> Coded SpatialServer, let's debug
+=======
+=======
+        this.router.get('/hrirs', async (req, res) => this.getHrirs(req, res));
+        this.router.get('/brirs', async(req, res) => this.brirs(req, res));
+>>>>>>> Adding ServerIRContainer
+>>>>>>> Adding ServerIRContainer
     }
 
     /**
@@ -205,6 +232,7 @@ class SpatialServer {
     }
 
     /**
+<<<<<<< 6bc636839b0a8d917d392b7d7fdd32d7fe6526a2
 <<<<<<< a7b12c0eb399fe23aa1cff0246c740f6cefe0285
 <<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
 <<<<<<< 623ca1285ee955027588b39f7960ab2efe3081e2
@@ -250,6 +278,9 @@ class SpatialServer {
 =======
      * hrirs
 =======
+=======
+<<<<<<< fc3abf313ab02a198fa28fdccbf6f94c0c8fe073
+>>>>>>> Adding ServerIRContainer
      * getIRs
 >>>>>>> Coded SpatialServer, let's debug
      * Returns the requested IRs, which can be filtered by azimutal,
@@ -338,7 +369,37 @@ class SpatialServer {
         }
         // Return success with the desired information
         response.send( SpatialServerResponse.result(irs) );
+<<<<<<< 6bc636839b0a8d917d392b7d7fdd32d7fe6526a2
 >>>>>>> Coded SpatialServer, let's debug
+=======
+=======
+     * hrirs
+     * Returns the requested IRs, which can be filtered by azimutal,
+     * elevation and/or distance. 
+     * @param {HTTP Request} request 
+     * @param {HTTP Response} response
+     */
+    getHrirs(request, response) {
+        const { azimutal, elevation, distance } = request.body;
+
+        let hrirs = {
+            impulseResponses: new Array(),
+            positions: new Array()
+        };
+
+        this.hrirSources.forEach( (source, index) => {
+            if( distance === undefined || this.areClose(distance, source[2] )) {
+                if( elevation === undefined || this.areClose(elevation, source[1]) ) {
+                    if( azimutal === undefined || this.areClose(azimutal, source[0]) ) {
+                        hrirs.positions.push(source);
+                        hrirs.impulseResponses.push(this.hrir[index].);
+                    }    
+                }
+            }
+        });
+
+>>>>>>> Adding ServerIRContainer
+>>>>>>> Adding ServerIRContainer
     }
 
     /**
@@ -348,6 +409,7 @@ class SpatialServer {
      * @param {Number} y 
      * @param {Number} tol 
      */
+<<<<<<< 6bc636839b0a8d917d392b7d7fdd32d7fe6526a2
 <<<<<<< bec5e364a462be30ae87d46973d6bf7f17ff088a
 <<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
 <<<<<<< 821a6b6b798792a5f92d3a567dd29e8cb2016839
@@ -365,6 +427,13 @@ class SpatialServer {
 =======
     areClose(x, y, tol = 1e-6) {
 >>>>>>> SpatialServer working
+=======
+<<<<<<< fc3abf313ab02a198fa28fdccbf6f94c0c8fe073
+    areClose(x, y, tol = 1e-6) {
+=======
+    static areClose(x, y, tol = 1e-6) {
+>>>>>>> Adding ServerIRContainer
+>>>>>>> Adding ServerIRContainer
         return Math.abs(x - y) < tol;
     }
 }
