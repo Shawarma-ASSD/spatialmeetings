@@ -9,9 +9,17 @@ export interface Polar {
 }
 
 /**
+ * Cartesian poisition coordinates interface
+ */
+export interface Point {
+    x: number,
+    y: number
+}
+
+/**
  * Position class
  */
-export class Position {
+export class Position implements Point {
     x: number;
     y: number;
 
@@ -30,6 +38,14 @@ export class Position {
     public set(x: number, y: number) {
         this.x = x;
         this.y = y;
+    }
+
+    /**
+     * setFromPoint
+     * Sets the new position from Point interface
+     */
+    public setFromPoint(point: Point) {
+        this.set(point.x, point.y);
     }
 
     /**

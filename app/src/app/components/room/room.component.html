@@ -11,7 +11,7 @@
 -->
 <div class="attendeeContainer">
     <ul>
-        <div *ngFor="let attendee of attendees" cdkDrag cdkDragBoundary=".attendeeContainer" (cdkDragEnded)="setAttendeePosition($event, attendee)">
+        <div *ngFor="let attendee of attendees" cdkDrag cdkDragBoundary=".attendeeContainer" (cdkDragEnded)="attendee.position.setFromPoint($event.source.getFreeDragPosition())">
             <app-attendee [attendee]="attendee"></app-attendee>
         </div>
     </ul>
