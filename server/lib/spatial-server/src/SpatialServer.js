@@ -1,5 +1,6 @@
 // Node modules
 const fs = require('fs');
+const express = require('express');
 
 // Local modules
 const { ServerIRContainer } = require('./ServerIRContainer');
@@ -82,12 +83,18 @@ class SpatialServer {
                 // Load HRIR Container
                 this.hrirContainer = ServerIRContainer.fromJson( JSON.parse(data) );
             }
+            else {
+                console.log("Couldn't open HRIR file", config.hrir, err.message);
+            }
         });
 
         fs.readFile(config.brir, 'utf8', (err, data) => {
             if(!err) {
                 // Load BRIR Container
                 this.brirContainer = ServerIRContainer.fromJson( JSON.parse(data) );
+            }
+            else {
+                console.log("Couldn't open BRIR file", config.brir, err.message);
             }
         });
     }
@@ -111,7 +118,11 @@ class SpatialServer {
      */
     getIRs(type, request, response) {
         // Request parameters
-        const { azimutal, elevation, distance } = request.body;
+        const { azimutal, elevation, distance } = request.query;
+        console.log('req: ', request.query);
+        console.log('azimutal: ', azimutal);
+        console.log('elevation: ', elevation);
+        console.log('distance: ', distance);
         // Type of request
         let container = type === 'HRIR' ? this.hrirContainer : this.brirContainer;
         // Response data field
@@ -122,11 +133,11 @@ class SpatialServer {
         let positions = container.getPositions();
         // For each position check if it matches the given arguments
         for(let i = 0 ; i < positions.length ; i++) {
-            if( distance === undefined || this.areClose(distance, pos[2] )) {
-                if( elevation === undefined || this.areClose(elevation, pos[1]) ) {
-                    if( azimutal === undefined || this.areClose(azimutal, pos[0]) ) {
+            if( distance === undefined || this.areClose(distance, positions[i][2] )) {
+                if( elevation === undefined || this.areClose(elevation, positions[i][1]) ) {
+                    if( azimutal === undefined || this.areClose(azimutal, positions[i][0]) ) {
                         irs.positions.push(positions[i]);
-                        irs.impulseResponses.push(container.getIRs(index));
+                        irs.impulseResponses.push(container.getIRs(i));
                     }    
                 }
             }
@@ -142,7 +153,7 @@ class SpatialServer {
      * @param {Number} y 
      * @param {Number} tol 
      */
-    static areClose(x, y, tol = 1e-6) {
+    areClose(x, y, tol = 1e-6) {
         return Math.abs(x - y) < tol;
     }
 }
