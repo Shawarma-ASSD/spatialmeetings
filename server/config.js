@@ -5,6 +5,10 @@ module.exports = {
     tls: {
       cert: '/etc/ssl/certs/ssl-cert-snakeoil.pem',
       key: '/etc/ssl/private/ssl-cert-snakeoil.key'
+    },
+    tlsVM: {
+      cert: '/home/nico/www.spatialmeetings.live.chained.crt',
+      key: '/etc/ssl/www.spatialmeetings.live.key'
     }
   },
   meeting: {
@@ -29,6 +33,15 @@ module.exports = {
           },
         ]
     },
+<<<<<<< HEAD
+=======
+    // Worker settings
+    worker :
+    {
+      rtcMinPort : 40000,
+      rtcMaxPort : 49999
+    },
+>>>>>>> 5d650658f3d16c25430fd1658bef0c1dc0883749
     // WebRtcTransport settings
     transport: {
         options: {
@@ -50,5 +63,14 @@ module.exports = {
       fragmentOutgoingMessages  : true,
       fragmentationThreshold    : 960000
     }
+<<<<<<< HEAD
+=======
+  },
+  spatial: {
+    // These files can be found here: https://github.com/Shawarma-ASSD/resources
+    // hrir: '../resources/hrir/ari.json',
+    hrir: './lib/spatial-server/resources/hrir/ari.json',
+    brir: './lib/spatial-server/resources/brir/SBSBRIR00.json'
+>>>>>>> 5d650658f3d16c25430fd1658bef0c1dc0883749
   }
 };

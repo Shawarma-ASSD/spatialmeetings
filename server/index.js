@@ -6,12 +6,14 @@ const cors = require('cors');
 
 // Importing project modules
 const { MeetingServer } = require('./lib/meeting-server/meeting-server');
+const { SpatialServer } = require('./lib/spatial-server/spatial-server');
 
 // Importing server configuration
 const config = require('./config');
 
 // Global variables
 let meetingServer;
+let spatialServer;
 let httpServer;
 let app;
 
@@ -28,19 +30,26 @@ let app;
     meetingServer = await MeetingServer.createMeetingServer(httpServer, config.meeting);
 
     // Creates the spatial server
+<<<<<<< HEAD
     spatialServer = await SpatialServer.createSpatialServer(config.spatial);
+=======
+    spatialServer = new SpatialServer(config.spatial);
+>>>>>>> 5d650658f3d16c25430fd1658bef0c1dc0883749
 
     // Adding CORS
     app.use(cors());
-    
+
     // Logging requests
     app.use((req, res, next) => {
-        console.log(`[Server] HTTP - ${req.method} - ${req.path} with ${JSON.stringify(req.query)}`);
+        console.log(`[Server] HTTP - ${req.method} - ${req.path}`);
         next();
     });
 
     // Sets the route of the meeting server api
     app.use('/api/media', meetingServer.getRouter());
+
+    // Sets the route of the spatial server api
+    app.use('/api/spatial', spatialServer.getRouter());
 
     // Console message
     console.log(`[Server] The server is listening to port ${config.server.port}`);

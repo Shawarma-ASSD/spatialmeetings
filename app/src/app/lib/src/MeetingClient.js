@@ -198,7 +198,6 @@ class MeetingClient {
         return this._parseResponse( await this.httpClient.createRoom(room, this.user) ).created;
     }
 
-
     /**
      * connect
      * Performs the signaling connection protocol to connect to
