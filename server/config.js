@@ -7,8 +7,9 @@ module.exports = {
       key: '/etc/ssl/private/ssl-cert-snakeoil.key'
     }
   },
-  // Router settings
-  router: {
+  meeting: {
+    // Router settings
+    router: {
       mediaCodecs:
         [
           {
@@ -27,26 +28,27 @@ module.exports = {
               }
           },
         ]
-  },
-  // WebRtcTransport settings
-  transport: {
-      options: {
-        listenIps: [
-            {
-                ip          : '127.0.0.1',
-                announcedIp : null
-            }
-        ],
-        enableUdp: true,
-        enableTcp: true,
-        preferUdp: true
-      }
-  },
-  // WebSocket settings
-  socket: {
-    maxReceivedFrameSize      : 960000,
-    maxReceivedMessageSize    : 960000,
-    fragmentOutgoingMessages  : true,
-    fragmentationThreshold    : 960000
+    },
+    // WebRtcTransport settings
+    transport: {
+        options: {
+          listenIps: [
+              {
+                  ip          : '127.0.0.1',
+                  announcedIp : null
+              }
+          ],
+          enableUdp: true,
+          enableTcp: true,
+          preferUdp: true
+        }
+    },
+    // WebSocket settings
+    socket: {
+      maxReceivedFrameSize      : 960000,
+      maxReceivedMessageSize    : 960000,
+      fragmentOutgoingMessages  : true,
+      fragmentationThreshold    : 960000
+    }
   }
 };
