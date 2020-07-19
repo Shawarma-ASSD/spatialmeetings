@@ -11,7 +11,7 @@ class ServerIRContainer {
      * @param {Object} json 
      */
     static fromJson(json) {
-        return new SpatialIRContainer(
+        return new ServerIRContainer(
             json.sampleRate,
             json.dimensions[2],
             json.positions,
