@@ -214,6 +214,7 @@ import { catchError, retry } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 >>>>>>> SpatialService working!
 
+
 // Local modules
 import { SpatialIRContainer } from '../lib/spatial/spatial';
 import { Observable } from 'rxjs';
