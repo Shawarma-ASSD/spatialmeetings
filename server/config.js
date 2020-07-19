@@ -13,26 +13,26 @@ module.exports = {
     }
   },
   meeting: {
-  // Router settings
-  router: {
-    mediaCodecs:
-      [
-        {
-          kind      : 'audio',
-          mimeType  : 'audio/opus',
-          clockRate : 48000,
-          channels  : 2
-        },
-        {
-          kind      : 'video',
-          mimeType  : 'video/VP8',
-          clockRate : 90000,
-          parameters:
-            {
-              'x-google-start-bitrate': 1000
-            }
-        },
-      ]
+    // Router settings
+    router: {
+      mediaCodecs:
+        [
+          {
+            kind      : 'audio',
+            mimeType  : 'audio/opus',
+            clockRate : 48000,
+            channels  : 2
+          },
+          {
+            kind      : 'video',
+            mimeType  : 'video/VP8',
+            clockRate : 90000,
+            parameters:
+              {
+                'x-google-start-bitrate': 1000
+              }
+          },
+        ]
     },
     // Worker settings
     worker :
@@ -63,7 +63,7 @@ module.exports = {
     }
   },
   spatial: {
-    hrir: ' ',
-    brir: ' '
+    hrir: '../resources/hrir/ari.json',
+    brir: '../resources/brir/SBSBRIR00.json'
   }
 };
