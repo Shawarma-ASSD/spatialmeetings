@@ -2,6 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+<<<<<<< 7dba22a9d5f77406182188a8b84c2a69fa9b832a
+=======
+import { AppComponent } from './app.component';
+import { HomeComponent } from './components/home/home.component';
+import { RoomComponent } from './components/room/room.component';
+import { TestComponent } from './components/test/test.component';
+import { SpatialService } from './services/spatial.service';
+>>>>>>> SpatialService working!
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input'
 import { MatSelectModule } from '@angular/material/select';
@@ -29,6 +37,7 @@ import { AttendeePanelComponent } from './components/attendee-panel/attendee-pan
 
 import { MicIconPipe } from './pipes/MicIconPipe';
 import { CameraIconPipe } from './pipes/CameraIconPipe';
+
 
 @NgModule({
   declarations: [
