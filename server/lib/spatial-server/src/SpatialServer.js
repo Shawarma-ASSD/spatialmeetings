@@ -1,4 +1,7 @@
+<<<<<<< a7b12c0eb399fe23aa1cff0246c740f6cefe0285
 <<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
+=======
+>>>>>>> Coded SpatialServer, let's debug
 // Node modules
 const fs = require('fs');
 const express = require('express');
@@ -14,6 +17,9 @@ const { ServerIRContainer } = require('./ServerIRContainer');
 =======
 const fs = require('fs');
 >>>>>>> Adding ServerIRContainer
+
+// Local modules
+const { ServerIRContainer } = require('./ServerIRContainer');
 
 /**
  * SpatialServerResponse
@@ -80,6 +86,7 @@ class SpatialServer {
      * @param {Paths to the IRs files} config 
      */
     constructor(config) {
+<<<<<<< a7b12c0eb399fe23aa1cff0246c740f6cefe0285
 <<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
 <<<<<<< 623ca1285ee955027588b39f7960ab2efe3081e2
 <<<<<<< 33b4c11b5862f81c644ff375790da8cfb0e6c687
@@ -100,15 +107,20 @@ class SpatialServer {
 >>>>>>> Coded SpatialServer, let's debug
 =======
 >>>>>>> Adding ServerIRContainer
+=======
+>>>>>>> Coded SpatialServer, let's debug
         // Creates an internal HTTP Router, to attach a handler for each 
         // method requested, working as a dispatcher. An externally server 
         // Express App will route request through this Router.
         this.router = express.Router();
         this.router.use(express.urlencoded({extended: true}));
         this.router.use(express.json());
+<<<<<<< a7b12c0eb399fe23aa1cff0246c740f6cefe0285
 <<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
 <<<<<<< 623ca1285ee955027588b39f7960ab2efe3081e2
 <<<<<<< 33b4c11b5862f81c644ff375790da8cfb0e6c687
+=======
+>>>>>>> Coded SpatialServer, let's debug
 =======
 >>>>>>> Coded SpatialServer, let's debug
         this.router.get('/hrirs', async (req, res) => this.getIRs('HRIR', req, res));
@@ -121,6 +133,7 @@ class SpatialServer {
                 // Load HRIR Container
                 this.hrirContainer = ServerIRContainer.fromJson( JSON.parse(data) );
             }
+<<<<<<< a7b12c0eb399fe23aa1cff0246c740f6cefe0285
 <<<<<<< 821a6b6b798792a5f92d3a567dd29e8cb2016839
 <<<<<<< 623ca1285ee955027588b39f7960ab2efe3081e2
             else {
@@ -133,6 +146,8 @@ class SpatialServer {
                 console.log("Couldn't open HRIR file", config.hrir, err.message);
             }
 >>>>>>> SpatialServer working
+=======
+>>>>>>> Coded SpatialServer, let's debug
         });
 
         fs.readFile(config.brir, 'utf8', (err, data) => {
@@ -140,6 +155,7 @@ class SpatialServer {
                 // Load BRIR Container
                 this.brirContainer = ServerIRContainer.fromJson( JSON.parse(data) );
             }
+<<<<<<< a7b12c0eb399fe23aa1cff0246c740f6cefe0285
 <<<<<<< 821a6b6b798792a5f92d3a567dd29e8cb2016839
 <<<<<<< 623ca1285ee955027588b39f7960ab2efe3081e2
 =======
@@ -159,6 +175,9 @@ class SpatialServer {
         this.router.get('/hrirs', async (req, res) => this.getHrirs(req, res));
         this.router.get('/brirs', async(req, res) => this.brirs(req, res));
 >>>>>>> Adding ServerIRContainer
+=======
+        });
+>>>>>>> Coded SpatialServer, let's debug
     }
 
     /**
@@ -171,6 +190,7 @@ class SpatialServer {
     }
 
     /**
+<<<<<<< a7b12c0eb399fe23aa1cff0246c740f6cefe0285
 <<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
 <<<<<<< 623ca1285ee955027588b39f7960ab2efe3081e2
 <<<<<<< 33b4c11b5862f81c644ff375790da8cfb0e6c687
@@ -259,31 +279,45 @@ class SpatialServer {
 >>>>>>> Coded SpatialServer, let's debug
 =======
      * hrirs
+=======
+     * getIRs
+>>>>>>> Coded SpatialServer, let's debug
      * Returns the requested IRs, which can be filtered by azimutal,
      * elevation and/or distance. 
+     * @param {IR type} type: 'HRIR' or 'BRIR'
      * @param {HTTP Request} request 
      * @param {HTTP Response} response
      */
-    getHrirs(request, response) {
+    getIRs(type, request, response) {
+        // Request parameters
         const { azimutal, elevation, distance } = request.body;
-
-        let hrirs = {
+        // Type of request
+        let container = type === 'HRIR' ? this.hrirContainer : this.brirContainer;
+        // Response data field
+        let irs = {
             impulseResponses: new Array(),
             positions: new Array()
         };
-
-        this.hrirSources.forEach( (source, index) => {
-            if( distance === undefined || this.areClose(distance, source[2] )) {
-                if( elevation === undefined || this.areClose(elevation, source[1]) ) {
-                    if( azimutal === undefined || this.areClose(azimutal, source[0]) ) {
-                        hrirs.positions.push(source);
-                        hrirs.impulseResponses.push(this.hrir[index].);
+        let positions = container.getPositions();
+        // For each position check if it matches the given arguments
+        for(let i = 0 ; i < positions.length ; i++) {
+            if( distance === undefined || this.areClose(distance, pos[2] )) {
+                if( elevation === undefined || this.areClose(elevation, pos[1]) ) {
+                    if( azimutal === undefined || this.areClose(azimutal, pos[0]) ) {
+                        irs.positions.push(positions[i]);
+                        irs.impulseResponses.push(container.getIRs(index));
                     }    
                 }
             }
+<<<<<<< a7b12c0eb399fe23aa1cff0246c740f6cefe0285
         });
 
 >>>>>>> Adding ServerIRContainer
+=======
+        }
+        // Return success with the desired information
+        response.send( SpatialServerResponse.result(irs) );
+>>>>>>> Coded SpatialServer, let's debug
     }
 
     /**
