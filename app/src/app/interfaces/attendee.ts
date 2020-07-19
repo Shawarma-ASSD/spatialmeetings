@@ -1,6 +1,52 @@
 import { MediaStreamTypes } from '../lib/meeting-client/meeting-client';
 
 /**
+ * Polar position coordinates interface
+ */
+export interface Polar {
+    angle: number;
+    distance: number;
+}
+
+/**
+ * Position class
+ */
+export class Position {
+    x: number;
+    y: number;
+
+    /**
+     * Position's constructor
+     */
+    constructor(x: number, y: number) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * set
+     * Sets the new position coordinates
+     */
+    public set(x: number, y: number) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * polar
+     * Returns a Polar instance of the coordinates
+     */
+    public polar(): Polar {
+        let distance = Math.sqrt( Math.pow(this.x, 2) + Math.pow(this.y, 2) );
+        let angle = Math.atan( this.y / this.x );
+        return {
+            distance: distance,
+            angle: angle
+        };
+    }
+};
+
+/**
  * Attendee
  * Attendee's data model class
  */
@@ -9,6 +55,7 @@ export class Attendee {
     streams: Map<any, any>;
     microphone: boolean;
     camera: boolean;
+    position: Position;
 
     /**
      * Attendee's constructor
@@ -16,6 +63,7 @@ export class Attendee {
     constructor(user: string) {
         this.user = user;
         this.streams = new Map();
+        this.position = new Position(0, 0);
     }
 
     /**

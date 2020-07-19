@@ -14,10 +14,18 @@ export class AttendeeComponent implements OnInit {
 
   ngOnInit(): void { }
 
+  /**
+   * camera
+   * Provisional method, for status pipe, should be replaced.
+   */
   camera() {
     return this.attendee.getCameraStatus() ? 'Activada' : 'Desactivada';
   }
 
+  /**
+   * mic
+   * Provisional method, fro status pipe, should be replaced.
+   */
   mic() {
     return this.attendee.getMicrophoneStatus() ? 'Activado' : 'Desactivado';
   }

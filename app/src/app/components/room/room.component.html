@@ -1,5 +1,5 @@
 <!-- 
-    Isolating the local AttendeeComponent's instance, not a draggable component 
+    Isolating the local AttendeeComponent's instance, not a draggable component.
 -->
 <div *ngIf="local" class="localContainer">
     <app-attendee [attendee]="local"></app-attendee>
@@ -11,7 +11,7 @@
 -->
 <div class="attendeeContainer">
     <ul>
-        <div *ngFor="let attendee of attendees" cdkDrag cdkDragBoundary=".attendeeContainer">
+        <div *ngFor="let attendee of attendees" cdkDrag cdkDragBoundary=".attendeeContainer" (cdkDragEnded)="setAttendeePosition($event, attendee)">
             <app-attendee [attendee]="attendee"></app-attendee>
         </div>
     </ul>

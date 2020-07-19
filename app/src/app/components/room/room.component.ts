@@ -44,6 +44,11 @@ export class RoomComponent implements OnInit {
     }
   }
 
+  public setAttendeePosition(event, attendee) {
+    console.log(event.source.getFreeDragPosition());
+    console.log(attendee);
+  }
+
   /**
    * hangOut
    * Hangs out, exits the meeting room.
