@@ -430,8 +430,12 @@ class SpatialServer {
         }
         // Return success with the desired information
         response.send( SpatialServerResponse.result(irs) );
+<<<<<<< 7a4e52fda79d12a631f0d4d408a412563c604b1b
 >>>>>>> Coded SpatialServer, let's debug
     }
+=======
+        }
+>>>>>>> Added reference to impulse responses on config.js and added the large .JSON files to .gitignore
 
     /**
      * areClose
