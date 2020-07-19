@@ -10,8 +10,8 @@ export class SessionService {
   auth: any = null;
 
   constructor() {
-    // Initializing the GoogleAuth API
-    this.initGoogleAuth();
+    // Loading the script and initializing the Google Auth API
+    this.loadGoogleScript();
   }
 
   /**
@@ -76,6 +76,22 @@ export class SessionService {
    */
   private gapi() {
     return window['gapi'];
+  }
+
+  /**
+   * loadGoogleScript
+   * Loads the javascript script from the Google API.
+   */
+  private loadGoogleScript() {
+      const node = document.createElement('script');
+      node.src = 'https://apis.google.com/js/api.js';
+      node.type = 'text/javascript';
+      node.async = false;
+      node.charset = 'utf-8';
+      node.onload = async () => {
+        await this.initGoogleAuth();
+      };
+      document.getElementsByTagName('head')[0].appendChild(node);
   }
   
   /**

@@ -1,31 +1,33 @@
-<!-- 
-    Attendee Container
-    Boundary container for the draggable AttendeeComponent, views of the Attendee model 
--->
-<div class="attendeeContainer">
-    <ul>
-        <div *ngFor="let attendee of attendees" cdkDrag cdkDragBoundary=".attendeeContainer" (cdkDragEnded)="attendee.position.setFromPoint($event.source.getFreeDragPosition())">
-            <app-attendee [attendee]="attendee"></app-attendee>
-        </div>
-    </ul>
-    
+<div class="leftContainer">
     <!-- 
-        Isolating the local AttendeeComponent's instance, not a draggable component.
+        Attendee Container
+        Boundary container for the draggable AttendeeComponent, views of the Attendee model 
     -->
-    <div *ngIf="local">
-        <app-attendee [attendee]="local"></app-attendee>
+    <div class="attendeeContainer">
+        <ul>
+            <div *ngFor="let attendee of attendees" cdkDrag cdkDragBoundary=".attendeeContainer" (cdkDragEnded)="attendee.position.setFromPoint($event.source.getFreeDragPosition())">
+                <app-attendee [attendee]="attendee"></app-attendee>
+            </div>
+        </ul>
+        
+        <!-- 
+            Isolating the local AttendeeComponent's instance, not a draggable component.
+        -->
+        <div *ngIf="local">
+            <app-attendee [attendee]="local"></app-attendee>
+        </div>
     </div>
-</div>
 
-<!-- 
-    Control Container
-    Contains action buttons for the local attendee during the meeting 
--->
-<div class="controlContainer">
-    <button (click)="toggleMicrophone()">Toggle Mic</button>
-    <button (click)="toggleCamera()">Toggle Camera</button>
-    <button (click)="hangOut()">Hang Out</button>
-    <button >Share Link</button>
+    <!-- 
+        Control Container
+        Contains action buttons for the local attendee during the meeting 
+    -->
+    <div class="controlContainer">
+        <button (click)="toggleMicrophone()">Toggle Mic</button>
+        <button (click)="toggleCamera()">Toggle Camera</button>
+        <button (click)="hangOut()">Hang Out</button>
+        <button >Share Link</button>
+    </div>
 </div>
 
 <!-- 

@@ -1,0 +1,16 @@
+.controlContainer {
+    float: right;
+}
+
+.leftContainer {
+    float: left;
+}
+
+.leftContainer:after {
+    content: '';
+    clear: left;
+}
+
+.panelContainer {
+    float: right;
+}
