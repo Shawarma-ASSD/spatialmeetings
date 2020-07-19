@@ -186,7 +186,7 @@ class MeetingClient {
      * @param {string} room 
      */
     async roomExists(room) {
-        return this._parseResponse( await this.httpClient.roomExists(room) );
+        return this._parseResponse( await this.httpClient.roomExists(room) ).exists;
     }
 
     /**
@@ -195,7 +195,7 @@ class MeetingClient {
      * @param {string} room 
      */
     async createRoom(room) {
-        return this._parseResponse( await this.httpClient.createRoom(room, this.user) );
+        return this._parseResponse( await this.httpClient.createRoom(room, this.user) ).created;
     }
 
 

@@ -14,15 +14,15 @@
                   <div id="enter-create-room">
                     <h2 class="text-center">Crear nueva sala</h2>
                     <mat-form-field class="room-name">
-                      <input matInput placeholder="Nombre de la sala">
+                      <input [(ngModel)]="room" matInput placeholder="Nombre de la sala">
                     </mat-form-field>
                     <mat-form-field appearance="fill">
-                      <mat-select>
-                        <mat-option value="create">Crear</mat-option>
-                        <mat-option value="join">Unirse</mat-option>
+                      <mat-select [(ngModel)]="method">
+                        <mat-option value="Crear">Crear</mat-option>
+                        <mat-option value="Unirse">Unirse</mat-option>
                       </mat-select>
                     </mat-form-field>
-                    <button mat-raised-button color="accent" (click)="onButtonClicked()">{{ buttonLabel }} </button>
+                    <button mat-raised-button color="accent" (click)="onButtonClicked()">{{ method }}</button>
                   </div>
               </div>
           </div>
