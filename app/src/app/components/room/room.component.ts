@@ -15,7 +15,7 @@ import { Attendee } from '../../interfaces/attendee';
 })
 export class RoomComponent implements OnInit {
   attendees: Array<Attendee> = [];
-  local: Attendee;
+  local: Attendee = null;
 
   constructor(
     private zone: NgZone,
@@ -41,12 +41,42 @@ export class RoomComponent implements OnInit {
   }
 
   /**
+   * toggleCamera
+   * Toggle the local attendee's camera status.
+   */
+  public toggleCamera() {
+    if (this.local) {
+      this.local.toggleCamera();
+      if (this.local.getCameraStatus()) {
+        this.meeting.getClient().resumeStream(MediaStreamTypes.WebCam);
+      } else {
+        this.meeting.getClient().pauseStream(MediaStreamTypes.WebCam);
+      }
+    }
+  }
+
+  /**
+   * toggleMicrophone
+   * Toggle the local attendee's microphone status.
+   */
+  public toggleMicrophone() {
+    if (this.local) {
+      this.local.toggleMicrophone();
+      if (this.local.getMicrophoneStatus()) {
+        this.meeting.getClient().resumeStream(MediaStreamTypes.Microphone);
+      } else {
+        this.meeting.getClient().pauseStream(MediaStreamTypes.Microphone);
+      }
+    }
+  }
+
+  /**
    * onAttendeeJoined
    * Fired when a new Attendee joined the meeting room.
    */
   private onAttendeeJoined(user: string) {
     this.zone.run( () => {
-
+      this.addAttendee(user);
     });
   }
 
@@ -56,7 +86,7 @@ export class RoomComponent implements OnInit {
    */
   private onAttendeeLeft(user: string) {
     this.zone.run( () => {
-
+      this.removeAttendee(user);
     });
   }
 
@@ -86,7 +116,12 @@ export class RoomComponent implements OnInit {
    */
   private onStreamPaused(user: string, type: any) {
     this.zone.run( () => {
-
+      let attendee = this.getAttendee(user);
+      if (type == MediaStreamTypes.Microphone) {
+        attendee.setMicrophoneStatus(false);
+      } else if (type == MediaStreamTypes.WebCam) {
+        attendee.setCameraStatus(false);
+      }
     });
   }
 
@@ -96,13 +131,31 @@ export class RoomComponent implements OnInit {
    */
   private onStreamResumed(user: string, type: any) {
     this.zone.run( () => {
-
+      let attendee = this.getAttendee(user);
+      if (type == MediaStreamTypes.Microphone) {
+        attendee.setMicrophoneStatus(true);
+      } else if (type == MediaStreamTypes.WebCam) {
+        attendee.setCameraStatus(true);
+      }
     });
   }
 
   /**
+   * addAttendee
+   * Adds a new Attendee.
+   */
+  private addAttendee(user: string) {
+    let attendee = null;
+    if ( !this.hasAttendee(user) ) {
+      attendee = new Attendee(user);
+      this.attendees.push(attendee);
+    }
+    return attendee;
+  }
+
+  /**
    * hasAttendee
-   * Returns if exists or not the attendee.
+   * Returns if Attendee exists.
    */
   private hasAttendee(user: string) {
     return this.attendees.find(attendee => attendee.getUser() == user) !== undefined;
@@ -115,10 +168,19 @@ export class RoomComponent implements OnInit {
   private getAttendee(user: string) {
     let attendee = this.attendees.find(attendee => attendee.getUser() == user);
     if ( !attendee ) {
-      attendee = new Attendee(user);
-      this.attendees.push(attendee);
+      attendee = this.addAttendee(user);
     }
     return attendee;
+  }
+
+  /**
+   * removeAttendee
+   * Removes an attendee.
+   */
+  private removeAttendee(user: string) {
+    let attendee = this.attendees.find(attendee => attendee.getUser() == user);
+    let index = this.attendees.indexOf(attendee);
+    this.attendees.splice(index, 1);
   }
 
   /**
@@ -157,6 +219,13 @@ export class RoomComponent implements OnInit {
 
       // ¡Try to connect to the Meeting Room!
       this.meeting.getClient().connect(roomName);
+
+      // Get the meeting room attendees, verifying if we missed
+      // some because it did not have stream devices
+      let attendees = this.meeting.getClient().getAttendees();
+      for ( let attendee of attendees ) {
+        this.addAttendee(attendee);
+      }
     } else {
       this.router.navigate(['', { code: ErrorCode.RoomNotFound }]);
     }

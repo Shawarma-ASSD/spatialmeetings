@@ -5,10 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input'
 import { MatSelectModule } from '@angular/material/select';
-import {MatButtonModule} from '@angular/material/button'
-import {MatIconModule} from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { SessionService } from './services/session.service';
 import { MeetingService } from './services/meeting.service';
@@ -35,7 +36,8 @@ import { AttendeeComponent } from './components/attendee/attendee.component';
     MatIconModule,
     HttpClientModule,
     FlexLayoutModule,
-    FormsModule
+    FormsModule,
+    DragDropModule
   ],
   providers: [
     SessionService,
