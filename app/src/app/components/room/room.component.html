@@ -1,11 +1,4 @@
 <!-- 
-    Isolating the local AttendeeComponent's instance, not a draggable component.
--->
-<div *ngIf="local" class="localContainer">
-    <app-attendee [attendee]="local"></app-attendee>
-</div>
-
-<!-- 
     Attendee Container
     Boundary container for the draggable AttendeeComponent, views of the Attendee model 
 -->
@@ -15,6 +8,13 @@
             <app-attendee [attendee]="attendee"></app-attendee>
         </div>
     </ul>
+    
+    <!-- 
+        Isolating the local AttendeeComponent's instance, not a draggable component.
+    -->
+    <div *ngIf="local">
+        <app-attendee [attendee]="local"></app-attendee>
+    </div>
 </div>
 
 <!-- 
@@ -35,7 +35,7 @@
 -->
 <div class="panelContainer">
     <ul>
-        <li>
+        <li *ngIf="local">
             {{local.user}}
         </li>
         <li *ngFor="let attendee of attendees">

@@ -230,7 +230,7 @@ export class RoomComponent implements OnInit {
       this.meeting.getClient().setStreamResumed( (user, type) => this.onStreamResumed(user, type) );
 
       // ¡Try to connect to the Meeting Room!
-      this.meeting.getClient().connect(roomName);
+      await this.meeting.getClient().connect(roomName);
 
       // Get the meeting room attendees, verifying if we missed
       // some because it did not have stream devices
