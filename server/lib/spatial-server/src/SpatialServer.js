@@ -413,11 +413,11 @@ class SpatialServer {
         let positions = container.getPositions();
         // For each position check if it matches the given arguments
         for(let i = 0 ; i < positions.length ; i++) {
-            if( distance === undefined || this.areClose(distance, pos[2] )) {
-                if( elevation === undefined || this.areClose(elevation, pos[1]) ) {
-                    if( azimutal === undefined || this.areClose(azimutal, pos[0]) ) {
+            if( distance === undefined || this.areClose(distance, positions[i][2] )) {
+                if( elevation === undefined || this.areClose(elevation, positions[i][1]) ) {
+                    if( azimutal === undefined || this.areClose(azimutal, positions[i][0]) ) {
                         irs.positions.push(positions[i]);
-                        irs.impulseResponses.push(container.getIRs(index));
+                        irs.impulseResponses.push(container.getIRs(i));
                     }    
                 }
             }
