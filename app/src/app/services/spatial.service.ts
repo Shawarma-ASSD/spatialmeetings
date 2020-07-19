@@ -1,5 +1,6 @@
 // Angular modules
 import { Injectable } from '@angular/core';
+<<<<<<< 80bbb054754e824381991ddaf3a9fcb76ae83bef
 import { HttpClient, HttpParams } from '@angular/common/http';
 <<<<<<< be7fe00844678d21044e5b8aab0bf3b10965fa64
 <<<<<<< bb1cf1a63d1202c2b705ac4b0655c64d0a8f98ed
@@ -199,5 +200,26 @@ export class SpatialService {
     else {
       throw new Error("Error while fetching " + type);
     }
+=======
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
+
+// Local modules
+import { SpatialProcessorNode } from '../lib/spatial/spatial';
+
+@Injectable()
+/**
+ * SpatialService
+ * Service to communicate to the SpatialServer, get the HRIRs and BRIRs and
+ * create the SpatialProcessorNodes.
+ */
+export class SpatialService {
+
+  clientAddress: string = 'localhost:8080';
+
+  constructor(private http: HttpClient) { 
+
+>>>>>>> Brought sound processing modules from spatial-hearing
   }
 }
