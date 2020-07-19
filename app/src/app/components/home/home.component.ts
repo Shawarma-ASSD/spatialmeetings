@@ -38,6 +38,7 @@ export class HomeComponent implements OnInit {
           
           if (errorMessage) {
             // ¡ERROR! Message needs to be displayed
+            console.log(errorMessage);
           }
       }
     );
@@ -51,7 +52,7 @@ export class HomeComponent implements OnInit {
   public async onButtonClicked(){
     // Verifying if the user has not signed in
     if (!this.session.isSigned()) {
-      this.session.signIn();
+      await this.session.signIn();
     }
 
     // Setup the meeting client with the current user mail

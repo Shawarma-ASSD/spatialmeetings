@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { User } from '../interfaces/user';
 
 @Injectable({
@@ -6,14 +6,21 @@ import { User } from '../interfaces/user';
 })
 export class SessionService {
   clientId: string = '224942652925-ogd3js0pdhkonbgltb6mdr5oo06ehftp.apps.googleusercontent.com';
-  auth: any;
+  ready: EventEmitter<any> = new EventEmitter();
+  auth: any = null;
 
   constructor() {
     // Initializing the GoogleAuth API
     this.initGoogleAuth();
+  }
 
-    // Setting default members
-    this.auth = null;
+  /**
+   * isReady
+   * Returns whether the SessionService is ready to be used, or
+   * it is waiting the Google API SDK to be loaded and initialized.
+   */
+  public isReady(): boolean {
+    return this.auth !== null;
   }
 
   /**
@@ -87,6 +94,7 @@ export class SessionService {
         .init({ client_id: this.clientId })
         .then(auth => {
           this.auth = auth;
+          this.ready.emit();
         });
     });
   }

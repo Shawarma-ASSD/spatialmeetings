@@ -1,0 +1,3 @@
+<p>{{attendee.getUser()}}</p>
+<video autoplay playsinline [srcObject]="attendee.getStream('webcam')" ></video>
+<audio autoplay [srcObject]="attendee.getStream('mic')"></audio>

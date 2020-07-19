@@ -1,1 +1,8 @@
-<p>room works!</p>
+<div *ngIf="local">
+    <app-attendee [attendee]="local"></app-attendee>
+</div>
+<ul>
+    <il *ngFor="let attendee of attendees"> 
+        <app-attendee [attendee]="attendee"></app-attendee>
+    </il>
+</ul>
