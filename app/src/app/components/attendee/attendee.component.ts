@@ -1,6 +1,20 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Pipe, PipeTransform } from '@angular/core';
 
 import { Attendee } from '../../interfaces/attendee';
+
+@Pipe( { name: 'micicon' } )
+export class MicIconPipe implements PipeTransform {
+  transform(status: boolean) {
+    return status ? 'mic' : 'mic_off';
+  }
+}
+
+@Pipe( { name: 'cameraicon' } )
+export class CameraIconPipe implements PipeTransform {
+  transform(status: boolean) {
+    return status ? 'videocam' : 'videocam_off';
+  }
+}
 
 @Component({
   selector: 'app-attendee',
@@ -13,20 +27,4 @@ export class AttendeeComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void { }
-
-  /**
-   * camera
-   * Provisional method, for status pipe, should be replaced.
-   */
-  camera() {
-    return this.attendee.getCameraStatus() ? 'Activada' : 'Desactivada';
-  }
-
-  /**
-   * mic
-   * Provisional method, fro status pipe, should be replaced.
-   */
-  mic() {
-    return this.attendee.getMicrophoneStatus() ? 'Activado' : 'Desactivado';
-  }
 }

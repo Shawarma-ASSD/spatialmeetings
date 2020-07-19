@@ -3,9 +3,9 @@
         Attendee Container
         Boundary container for the draggable AttendeeComponent, views of the Attendee model 
     -->
-    <div class="attendeeContainer">
+    <div class="attendeesContainer">
         <ul>
-            <div *ngFor="let attendee of attendees" cdkDrag cdkDragBoundary=".attendeeContainer" (cdkDragEnded)="attendee.position.setFromPoint($event.source.getFreeDragPosition())">
+            <div *ngFor="let attendee of attendees" class="attendeeContainer" cdkDrag cdkDragBoundary=".attendeeContainer" (cdkDragEnded)="attendee.position.setFromPoint($event.source.getFreeDragPosition())">
                 <app-attendee [attendee]="attendee"></app-attendee>
             </div>
         </ul>

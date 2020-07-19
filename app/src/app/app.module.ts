@@ -22,12 +22,16 @@ import { HomeComponent } from './components/home/home.component';
 import { RoomComponent } from './components/room/room.component';
 import { AttendeeComponent } from './components/attendee/attendee.component';
 
+import { MicIconPipe, CameraIconPipe } from './components/attendee/attendee.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     RoomComponent,
-    AttendeeComponent
+    AttendeeComponent,
+    MicIconPipe,
+    CameraIconPipe
   ],
   imports: [
     BrowserModule,

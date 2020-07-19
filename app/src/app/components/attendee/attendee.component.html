@@ -11,5 +11,7 @@
     and whether the camera has been turned off or on.
     Refactoring is needed, only functional approach implemented here.
 -->
-<p><span>Mic: </span>{{mic()}}</p>
-<p><span>Camera: </span>{{camera()}}</p>
+<div class="icon-container">
+    <mat-icon id="mic" class="material-icons-rounded">{{ attendee.microphone | micicon }}</mat-icon>
+    <mat-icon id="videocam" class="material-icons-rounded">{{ attendee.camera | cameraicon }}</mat-icon>
+</div>
