@@ -25,7 +25,10 @@ let app;
     await runHTTPSServer(app);
 
     // Creates the meeting server
-    meetingServer = await MeetingServer.createMeetingServer(httpServer, config);
+    meetingServer = await MeetingServer.createMeetingServer(httpServer, config.meeting);
+
+    // Creates the spatial server
+    spatialServer = await SpatialServer.createSpatialServer(config.spatial);
 
     // Adding CORS
     app.use(cors());

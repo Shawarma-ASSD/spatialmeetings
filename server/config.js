@@ -12,8 +12,9 @@ module.exports = {
       key: '/etc/ssl/www.spatialmeetings.live.key'
     }
   },
-  // Router settings
-  router: {
+  meeting: {
+    // Router settings
+    router: {
       mediaCodecs:
         [
           {
