@@ -62,6 +62,7 @@ module.exports = {
     }
   },
   spatial: {
+    // These files can be found here: https://github.com/Shawarma-ASSD/resources
     hrir: '../resources/hrir/ari.json',
     brir: '../resources/brir/SBSBRIR00.json'
   }
