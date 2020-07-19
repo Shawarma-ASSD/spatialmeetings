@@ -1,22 +1,26 @@
 <div class="master-div">
-
-  <section class="banner">
-    <div class="main-page-title">
-      <h1>Spatial Meetings</h1>
+   <div fxLayout="row" fxLayoutAlign="center center">
+    <div class="banner" fxLayoutAlign="center center">
+      <div class="main-page-title">
+        <h1>Spatial Meetings</h1>
+      </div>
     </div>
-  </section>
-
-  <div class="mdc-layout-grid__cell--span-6">
+  </div>
+  <div class="main-page-info">
     <div class="container">
-      <div class="row">
-          <div class="col-12">
-              <div class="col-6">
-                  <div id="enter-create-room">
-                    <h2 class="text-center">Crear nueva sala</h2>
-                    <mat-form-field class="room-name">
+      <div fxLayout="row">
+          <div>
+              <div class="vertical-center">
+
+                <div id="enter-create-room"  >
+                  <h2 class="text-center">Crear nueva sala</h2>
+                  <div fxLayoutAlign="center center">
+                    <mat-form-field >
                       <input [(ngModel)]="room" matInput placeholder="Nombre de la sala">
                     </mat-form-field>
-                    <mat-form-field appearance="fill">
+
+                    <mat-form-field appearance="fill" fxLayout="row">
+                      <mat-label>Seleccionar una opcion</mat-label>
                       <mat-select [(ngModel)]="method">
                         <mat-option value="Crear">Crear</mat-option>
                         <mat-option value="Unirse">Unirse</mat-option>
@@ -24,21 +28,23 @@
                     </mat-form-field>
                     <button mat-raised-button color="accent" (click)="onButtonClicked()">{{ method }}</button>
                   </div>
+                </div>
               </div>
           </div>
         </div>
     </div>
   </div>
-  <hr>
-  <section>
-    About
-  </section>
-  <hr>
-  <footer>
-    <div>
-    <button mat-icon-button color="white" (click)="goToUrl('https://github.com/Shawarma-ASSD/spatialmeetings')" >
-      <mat-icon svgIcon="github"></mat-icon>
-    </button>
-  </div>
-  </footer>
+
 </div>
+<mat-divider></mat-divider>
+<section>
+  About
+</section>
+<mat-divider></mat-divider>
+<footer>
+  <div>
+  <button mat-icon-button color="accent" (click)="goToUrl('https://github.com/Shawarma-ASSD/spatialmeetings')" >
+    <mat-icon svgIcon="github"></mat-icon>
+  </button>
+</div>
+</footer>

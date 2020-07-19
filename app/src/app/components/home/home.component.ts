@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MatIconRegistry } from '@angular/material/icon';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
@@ -24,7 +25,8 @@ export class HomeComponent implements OnInit {
     private session: SessionService,
     private meeting: MeetingService,
     iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer
+    sanitizer: DomSanitizer,
+    private snackBar: MatSnackBar
   ) {
     iconRegistry.addSvgIcon(
       'github',
@@ -34,11 +36,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(
       (queryParams: Params) => {
-          let errorMessage = queryParams['errorCode'] ? ErrorMessage[ErrorCode[+queryParams['errorCode']]] : null;
-          
-          if (errorMessage) {
-            // ¡ERROR! Message needs to be displayed
-            console.log(errorMessage);
+          let errorCode = queryParams['errorCode'];
+          if (errorCode) {
+            this.showSnackBar(errorCode);
           }
       }
     );
@@ -71,8 +71,17 @@ export class HomeComponent implements OnInit {
     if (result) {
       this.router.navigate(['room', this.room]);
     } else {
-      // ¡ERROR! Room not found, message needs to be displayed
+      this.showSnackBar(this.method == 'Crear' ? ErrorCode.RoomAlreadyExists : ErrorCode.RoomNotFound);
     }
+  }
+
+  /**
+   * showSnackBar
+   * show snackbar showing a message for the user
+   */
+  private showSnackBar(code: ErrorCode) {
+    const message = ErrorMessage[ErrorCode[code]];
+    this.snackBar.open(message, 'OK', { duration: 6000, politeness: 'assertive' });
   }
 
   /**
