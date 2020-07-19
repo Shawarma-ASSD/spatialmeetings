@@ -45,20 +45,41 @@ module.exports = {
       options: {
         listenIps: [
             {
-                ip          : '127.0.0.1',
-                announcedIp : null
+              'x-google-start-bitrate': 1000
             }
-        ],
-        enableUdp: true,
-        enableTcp: true,
-        preferUdp: true
-      }
+        },
+      ]
+    },
+    // Worker settings
+    worker :
+    {
+      rtcMinPort : 40000,
+      rtcMaxPort : 49999
+    },
+    // WebRtcTransport settings
+    transport: {
+        options: {
+          listenIps: [
+              {
+                  ip          : '127.0.0.1',
+                  announcedIp : null
+              }
+          ],
+          enableUdp: true,
+          enableTcp: true,
+          preferUdp: true
+        }
+    },
+    // WebSocket settings
+    socket: {
+      maxReceivedFrameSize      : 960000,
+      maxReceivedMessageSize    : 960000,
+      fragmentOutgoingMessages  : true,
+      fragmentationThreshold    : 960000
+    }
   },
-  // WebSocket settings
-  socket: {
-    maxReceivedFrameSize      : 960000,
-    maxReceivedMessageSize    : 960000,
-    fragmentOutgoingMessages  : true,
-    fragmentationThreshold    : 960000
+  spatial: {
+    hrir: ' ',
+    brir: ' '
   }
 };
