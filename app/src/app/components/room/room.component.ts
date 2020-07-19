@@ -239,7 +239,7 @@ export class RoomComponent implements OnInit {
         this.addAttendee(attendee);
       }
     } else {
-      this.router.navigate(['', { code: ErrorCode.RoomNotFound }]);
+      this.router.navigate([''], { queryParams: {errorCode: ErrorCode.RoomNotFound } });
     }
   }
 }
