@@ -45,7 +45,7 @@ export class SpatialIRContainer {
     static fromJson(json) {
         return new SpatialIRContainer(
             json.sampleRate,
-            json.dimensions[2],
+            json.size,
             json.positions,
             json.impulseResponses
         );
