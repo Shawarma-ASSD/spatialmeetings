@@ -33,6 +33,7 @@ module.exports = {
               }
           },
         ]
+<<<<<<< 13ab009cd3250708650c6c8fcbee9f15534e0e7f
 <<<<<<< 6457b639abaa5853ccc4118d5ed3e5d2fed26577
   },
   // Worker settings
@@ -52,6 +53,8 @@ module.exports = {
       ]
 =======
 >>>>>>> Added reference to impulse responses on config.js and added the large .JSON files to .gitignore
+=======
+>>>>>>> SpatialService working!
     },
     // Worker settings
     worker :

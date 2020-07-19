@@ -1,0 +1,2 @@
+Sacar el if else nefasto y lograr poner options como variable y que no joda TypeScript
+https://stackoverflow.com/questions/47761262/angular-4-5-httpclient-argument-of-type-string-is-not-assignable-to-body
