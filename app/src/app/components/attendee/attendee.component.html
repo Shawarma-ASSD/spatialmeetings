@@ -1,4 +1,15 @@
+<!--
+    Stream container with the Video Element receiving video data from the transports.
+-->
 <div class="stream">
     <video autoplay playsinline [srcObject]="attendee.getStream('webcam')" ></video>
     <audio autoplay [srcObject]="attendee.getStream('mic')"></audio>
 </div>
+
+<!--
+    Status information of the AttendeeComponent, showing if the mic is muted or not,
+    and whether the camera has been turned off or on.
+    Refactoring is needed, only functional approach implemented here.
+-->
+<p><span>Mic: </span>{{mic()}}</p>
+<p><span>Camera: </span>{{camera()}}</p>

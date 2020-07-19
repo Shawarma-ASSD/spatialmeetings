@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MeetingClient, MediaStreamTypes } from '../lib/meeting-client';
+import { MeetingClient, MediaStreamTypes } from '../lib/meeting-client/meeting-client';
 
 @Injectable()
 export class MeetingService {

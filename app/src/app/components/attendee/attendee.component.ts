@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
 import { Attendee } from '../../interfaces/attendee';
-import { MediaStreamTypes } from '../../lib/meeting-client';
 
 @Component({
   selector: 'app-attendee',
@@ -14,4 +13,12 @@ export class AttendeeComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void { }
+
+  camera() {
+    return this.attendee.getCameraStatus() ? 'Activada' : 'Desactivada';
+  }
+
+  mic() {
+    return this.attendee.getMicrophoneStatus() ? 'Activado' : 'Desactivado';
+  }
 }

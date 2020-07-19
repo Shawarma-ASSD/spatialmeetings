@@ -4,7 +4,7 @@ import { switchMap } from 'rxjs/operators';
 
 import { SessionService } from '../../services/session.service';
 import { MeetingService } from '../../services/meeting.service';
-import { MediaStreamTypes } from '../../lib/meeting-client';
+import { MediaStreamTypes } from '../../lib/meeting-client/meeting-client';
 import { ErrorCode } from '../../interfaces/codes';
 import { Attendee } from '../../interfaces/attendee';
 
@@ -26,6 +26,10 @@ export class RoomComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    // Run the initialization method for the room,
+    // but first we need to verify the SessionService status,
+    // and subscribe to its onReady event, if it is not available yet.
+    // Only done because of the Google API Library (needs to be loaded...)
     let roomName = this.route.snapshot.paramMap.get('roomName');
     if (this.session.isReady()) {
       this.roomInit(roomName);
@@ -38,6 +42,15 @@ export class RoomComponent implements OnInit {
         }
       );
     }
+  }
+
+  /**
+   * hangOut
+   * Hangs out, exits the meeting room.
+   */
+  public hangOut() {
+    this.meeting.getClient().disconnect();
+    this.router.navigate(['']);
   }
 
   /**
@@ -201,8 +214,8 @@ export class RoomComponent implements OnInit {
       this.local = new Attendee(user.email);
       let videoStream = await window.navigator.mediaDevices.getUserMedia({ video: true });
       let audioStream = await window.navigator.mediaDevices.getUserMedia({ audio: true });
-      this.local.addStream(MediaStreamTypes.Microphone, audioStream);
       this.local.addStream(MediaStreamTypes.WebCam, videoStream);
+      this.local.setMicrophoneStatus(true);
 
       // Setting the Meeting Client
       this.meeting.getClient().setUser(user.email);

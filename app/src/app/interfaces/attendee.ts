@@ -1,3 +1,5 @@
+import { MediaStreamTypes } from '../lib/meeting-client/meeting-client';
+
 /**
  * Attendee
  * Attendee's data model class
@@ -90,8 +92,15 @@ export class Attendee {
      * Adds a stream object, overrides the current
      */
     public addStream(type: any, stream: any) {
+        // Modify the streaming object
         this.removeStream(type);
         this.streams.set(type, stream);
+        // Update the status
+        if (type == MediaStreamTypes.Microphone) {
+            this.setMicrophoneStatus(true);
+        } else if(type == MediaStreamTypes.WebCam) {
+            this.setCameraStatus(true);
+        }
     }
 
     /**
@@ -100,7 +109,15 @@ export class Attendee {
      */
     public removeStream(type: any) {
         if ( this.streams.has(type) ) {
+            // Remove the streaming device
             this.streams.delete(type);
+
+            // Update the status
+            if (type == MediaStreamTypes.Microphone) {
+                this.setMicrophoneStatus(false);
+            } else if(type == MediaStreamTypes.WebCam) {
+                this.setCameraStatus(false);
+            }
         }
     }
 };
