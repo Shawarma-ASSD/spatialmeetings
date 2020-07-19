@@ -13,52 +13,57 @@ module.exports = {
     }
   },
   meeting: {
-    // Router settings
-    router: {
-      mediaCodecs:
-        [
-          {
-            kind      : 'audio',
-            mimeType  : 'audio/opus',
-            clockRate : 48000,
-            channels  : 2
-          },
-          {
-            kind      : 'video',
-            mimeType  : 'video/VP8',
-            clockRate : 90000,
-            parameters:
-              {
-                'x-google-start-bitrate': 1000
-              }
-          },
-        ]
-  },
-  // Worker settings
-  worker :
-  {
-    rtcMinPort : 40000,
-    rtcMaxPort : 49999
-  },
-  // WebRtcTransport settings
-  transport: {
-      options: {
-        listenIps: [
+  // Router settings
+  router: {
+    mediaCodecs:
+      [
+        {
+          kind      : 'audio',
+          mimeType  : 'audio/opus',
+          clockRate : 48000,
+          channels  : 2
+        },
+        {
+          kind      : 'video',
+          mimeType  : 'video/VP8',
+          clockRate : 90000,
+          parameters:
             {
-                ip          : '127.0.0.1',
-                announcedIp : null
+              'x-google-start-bitrate': 1000
             }
-        ],
-        enableUdp: true,
-        enableTcp: true,
-        preferUdp: true
-      }
+        },
+      ]
+    },
+    // Worker settings
+    worker :
+    {
+      rtcMinPort : 40000,
+      rtcMaxPort : 49999
+    },
+    // WebRtcTransport settings
+    transport: {
+        options: {
+          listenIps: [
+              {
+                  ip          : '127.0.0.1',
+                  announcedIp : null
+              }
+          ],
+          enableUdp: true,
+          enableTcp: true,
+          preferUdp: true
+        }
+    },
+    // WebSocket settings
+    socket: {
+      maxReceivedFrameSize      : 960000,
+      maxReceivedMessageSize    : 960000,
+      fragmentOutgoingMessages  : true,
+      fragmentationThreshold    : 960000
+    }
   },
-  // WebSocket settings
-  socket: {
-    maxReceivedFrameSize      : 960000,
-    maxReceivedMessageSize    : 960000,
-    fragmentOutgoingMessages  : true,
-    fragmentationThreshold    : 960000
+  spatial: {
+    hrir: ' ',
+    brir: ' '
   }
 };
