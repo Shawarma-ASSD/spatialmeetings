@@ -29,10 +29,10 @@ let app;
 
     // Adding CORS
     app.use(cors());
-    
+
     // Logging requests
     app.use((req, res, next) => {
-        console.log(`[Server] HTTP - ${req.method} - ${req.path} with ${JSON.stringify(req.query)}`);
+        console.log(`[Server] HTTP - ${req.method} - ${req.path}`);
         next();
     });
 

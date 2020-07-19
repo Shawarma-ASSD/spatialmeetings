@@ -68,7 +68,7 @@ class MeetingServer {
      * @param {Configuration needed for the mediasoup server} config
      */
     static async createMeetingServer(server, config) {
-        let worker = await mediasoup.createWorker();
+        let worker = await mediasoup.createWorker(config.worker);
         return new MeetingServer(server, worker, config);
     }
     

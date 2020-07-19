@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit {
 
     // Setup the meeting client with the current user mail
     let user = this.session.getUser();
-    this.meeting.getClient().setUser(user);
+    this.meeting.getClient().setUser(user.email);
 
     // Execute method calls, to verify whether it can be created, or joined
     let result;
