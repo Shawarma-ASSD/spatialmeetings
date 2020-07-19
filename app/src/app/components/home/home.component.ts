@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MatIconRegistry } from '@angular/material/icon';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
@@ -24,7 +25,8 @@ export class HomeComponent implements OnInit {
     private session: SessionService,
     private meeting: MeetingService,
     iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer
+    sanitizer: DomSanitizer,
+    private snackBar: MatSnackBar
   ) {
     iconRegistry.addSvgIcon(
       'github',
@@ -35,9 +37,9 @@ export class HomeComponent implements OnInit {
     this.route.queryParams.subscribe(
       (queryParams: Params) => {
           let errorMessage = queryParams['errorCode'] ? ErrorMessage[ErrorCode[+queryParams['errorCode']]] : null;
-          
+
           if (errorMessage) {
-            // ¡ERROR! Message needs to be displayed
+            this.showSnackBar(errorMessage)
           }
       }
     );
@@ -71,9 +73,19 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['room', this.room]);
     } else {
       // ¡ERROR! Room not found, message needs to be displayed
+      this.showSnackBar(this.method === 'Crear'? 'Hubo un error al crear la sala' : 'Hubo un error al unirse a la sala');
     }
   }
 
+  /**
+   * showSnackBar
+   * show snackbar showing a message for the user
+   *
+   *
+   */
+  private showSnackBar(message:string) {
+    this.snackBar.open(message,'OK',{duration:6000, politeness: 'assertive'});
+  }
   /**
    * goToUrl
    * Open a new window redirecting the user to the GitHub repository
