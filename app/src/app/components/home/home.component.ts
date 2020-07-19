@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import {MatIconRegistry} from '@angular/material/icon';
-import {DomSanitizer} from '@angular/platform-browser';
-import {ErrorCode, ErrorMessage} from '../../interfaces/codes'
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
+import {ErrorCode, ErrorMessage} from '../../interfaces/codes'
 
 @Component({
   selector: 'app-home',
@@ -17,8 +17,8 @@ export class HomeComponent implements OnInit {
   errorMessage = '';
 
   constructor(
-    private router:Router,
-    private route:ActivatedRoute,
+    private router: Router,
+    private route: ActivatedRoute,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer
   ) {
@@ -33,7 +33,6 @@ export class HomeComponent implements OnInit {
           this.errorMessage = queryParams['errorCode'] ? ErrorMessage[ErrorCode[+queryParams['errorCode']]] : 'papa';
           console.log(this.errorMessage);
       }
-
     );
   }
 

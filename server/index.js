@@ -2,6 +2,7 @@
 const express = require('express');
 const https = require('https');
 const fs = require('fs');
+const cors = require('cors');
 
 // Importing project modules
 const { MeetingServer } = require('./lib/meeting-server/meeting-server');
@@ -26,6 +27,9 @@ let app;
     // Creates the meeting server
     meetingServer = await MeetingServer.createMeetingServer(httpServer, config);
 
+    // Adding CORS
+    app.use(cors());
+    
     // Logging requests
     app.use((req, res, next) => {
         console.log(`[Server] HTTP - ${req.method} - ${req.path} with ${JSON.stringify(req.query)}`);

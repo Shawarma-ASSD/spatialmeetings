@@ -22,10 +22,12 @@
     "@angular/platform-browser": "~10.0.4",
     "@angular/platform-browser-dynamic": "~10.0.4",
     "@angular/router": "~10.0.4",
+    "@material/layout-grid": "^7.0.0",
     "@types/gapi": "0.0.39",
     "@types/gapi.auth2": "0.0.52",
     "angularx-social-login": "^3.2.0",
-    "@material/layout-grid": "^7.0.0",
+    "mediasoup-client": "^3.6.12",
+    "protoo-client": "^4.0.4",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
