@@ -67,12 +67,24 @@ class SpatialServer {
      * @param {Paths to the IRs files} config 
      */
     constructor(config) {
+<<<<<<< 33b4c11b5862f81c644ff375790da8cfb0e6c687
+=======
+        // IRs files paths
+        this.hrirPath = config.hrir;
+        this.brirPath = config.brir;
+
+        // IR containers
+        this.hrirContainer = 
+        this.brirContainer = 
+
+>>>>>>> Adding ServerIRContainer
         // Creates an internal HTTP Router, to attach a handler for each 
         // method requested, working as a dispatcher. An externally server 
         // Express App will route request through this Router.
         this.router = express.Router();
         this.router.use(express.urlencoded({extended: true}));
         this.router.use(express.json());
+<<<<<<< 33b4c11b5862f81c644ff375790da8cfb0e6c687
         this.router.get('/hrirs', async (req, res) => this.getIRs('HRIR', req, res));
         this.router.get('/brirs', async(req, res) => this.getIRs('BRIR', req, res));
 
@@ -97,6 +109,10 @@ class SpatialServer {
                 console.log("Couldn't open BRIR file", config.brir, err.message);
             }
         });
+=======
+        this.router.get('/hrirs', async (req, res) => this.getHrirs(req, res));
+        this.router.get('/brirs', async(req, res) => this.brirs(req, res));
+>>>>>>> Adding ServerIRContainer
     }
 
     /**
@@ -109,6 +125,7 @@ class SpatialServer {
     }
 
     /**
+<<<<<<< 33b4c11b5862f81c644ff375790da8cfb0e6c687
      * getIRs
      * Returns the requested IRs, which can be filtered by azimutal,
      * elevation and/or distance. 
@@ -146,6 +163,33 @@ class SpatialServer {
         }
         // Return success with the desired information
         response.send( SpatialServerResponse.result(irs) );
+=======
+     * hrirs
+     * Returns the requested IRs, which can be filtered by azimutal,
+     * elevation and/or distance. 
+     * @param {HTTP Request} request 
+     * @param {HTTP Response} response
+     */
+    getHrirs(request, response) {
+        const { azimutal, elevation, distance } = request.body;
+
+        let hrirs = {
+            impulseResponses: new Array(),
+            positions: new Array()
+        };
+
+        this.hrirSources.forEach( (source, index) => {
+            if( distance === undefined || this.areClose(distance, source[2] )) {
+                if( elevation === undefined || this.areClose(elevation, source[1]) ) {
+                    if( azimutal === undefined || this.areClose(azimutal, source[0]) ) {
+                        hrirs.positions.push(source);
+                        hrirs.impulseResponses.push(this.hrir[index].);
+                    }    
+                }
+            }
+        });
+
+>>>>>>> Adding ServerIRContainer
     }
 
     /**
@@ -155,7 +199,11 @@ class SpatialServer {
      * @param {Number} y 
      * @param {Number} tol 
      */
+<<<<<<< 33b4c11b5862f81c644ff375790da8cfb0e6c687
     areClose(x, y, tol = 1e-6) {
+=======
+    static areClose(x, y, tol = 1e-6) {
+>>>>>>> Adding ServerIRContainer
         return Math.abs(x - y) < tol;
     }
 }

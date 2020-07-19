@@ -30,7 +30,7 @@ let app;
     meetingServer = await MeetingServer.createMeetingServer(httpServer, config.meeting);
 
     // Creates the spatial server
-    spatialServer = await SpatialServer.createSpatialServer(config.spatial);
+    spatialServer = new SpatialServer(config.spatial);
 
     // Adding CORS
     app.use(cors());
