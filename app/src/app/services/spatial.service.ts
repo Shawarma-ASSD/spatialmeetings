@@ -27,6 +27,8 @@ import { SpatialIRContainer } from '../lib/spatial/spatial';
 import { Observable } from 'rxjs';
 >>>>>>> SpatialService working!
 
+import { config } from '../../../config'; 
+
 /**
  * SpatialService
  * Service to communicate to the SpatialServer, get the HRIRs and BRIRs and
@@ -174,7 +176,7 @@ export class SpatialService {
     // Horrible if/else because the options can't be in an Object
     if(params) {
       reqObservable = this.http.get<Observable<any>>(
-        'https://localhost:8080/api/spatial/' + type, {
+        `https://${config.address}/spatial/` + type, {
           observe: 'body',
           responseType: 'json',
           params: params
@@ -183,7 +185,7 @@ export class SpatialService {
     }
     else {
       reqObservable = this.http.get(
-        'https://localhost:8080/api/spatial/' + type, {
+        `https://${config.address}/api/spatial/` + type, {
           observe: 'response',
           responseType: 'json'
         }

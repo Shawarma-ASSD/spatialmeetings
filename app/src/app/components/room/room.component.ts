@@ -39,6 +39,7 @@ export class RoomComponent implements OnInit {
     private spatial: SpatialService,
     private snackbar: MatSnackBar,
     private clipboard: Clipboard
+    //private streamNode: MediaStreamAudioDestinationNode
   ) { }
 
   async ngOnInit() {
@@ -56,6 +57,7 @@ export class RoomComponent implements OnInit {
     );
     this.volume = new GainNode(this.context, { gain: 10 });
     this.volume.connect(this.context.destination);
+    
 
     // Fetching for the first time the Spatial Container from the SpatialService, 
     // to be prepared during the meeting.
