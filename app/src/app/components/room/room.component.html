@@ -1,4 +1,3 @@
-<<<<<<< 13ab009cd3250708650c6c8fcbee9f15534e0e7f
 <mat-sidenav-container>
     <mat-sidenav-content>
         <div class="content-container"> 
@@ -9,7 +8,11 @@
                         Boundary container for the draggable AttendeeComponent, views of the Attendee model 
                     -->
                     <div class="remote-attendees-container">
+<<<<<<< d0436717b9e3a0ebcc9d83c6f8eb61211c3fab2a
                         <div *ngFor="let attendee of attendees" class="attendee-container" cdkDrag cdkDragBoundary=".attendees-container" (cdkDragMove)="setPosition(attendee, $event)" (cdkDragRelease)="setPosition(attendee, $event)" (cdkDragEnded)="setPosition(attendee, $event)">
+=======
+                        <div *ngFor="let attendee of attendees" class="attendee-container" cdkDrag cdkDragBoundary=".attendees-container" (cdkDragEnded)="attendee.setPosition($event.source.getFreeDragPosition())">
+>>>>>>> Adding Spatial sound...
                             <app-attendee [attendee]="attendee"></app-attendee>
                         </div>
                     </div>
@@ -77,8 +80,3 @@
         </div>
     </mat-sidenav>
 </mat-sidenav-container>
-=======
-<p>room works!</p>
-
-<app-test> </app-test>
->>>>>>> SpatialService working!

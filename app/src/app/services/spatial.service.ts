@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 <<<<<<< f47d69f97c8bcdeeb89d368089da7b6d536bde56
 <<<<<<< 80bbb054754e824381991ddaf3a9fcb76ae83bef
 import { HttpClient, HttpParams } from '@angular/common/http';
+<<<<<<< d0436717b9e3a0ebcc9d83c6f8eb61211c3fab2a
 <<<<<<< 1b0a15b571a414f608698a4c88970afdd343cfd0
 <<<<<<< be7fe00844678d21044e5b8aab0bf3b10965fa64
 <<<<<<< bb1cf1a63d1202c2b705ac4b0655c64d0a8f98ed
@@ -213,6 +214,8 @@ import { catchError, retry } from 'rxjs/operators';
 =======
 import { map } from 'rxjs/operators';
 >>>>>>> SpatialService working!
+=======
+>>>>>>> Adding Spatial sound...
 
 // Local modules
 import { SpatialIRContainer } from '../lib/spatial/spatial';
@@ -254,7 +257,6 @@ export class SpatialService {
         }
         // Fetch HRIR data
         let hrirJson = await this.getIRs('hrirs', params); 
-        console.log("Got HRIR, ", hrirJson);
         this.hrirContainer = SpatialIRContainer.fromJson(hrirJson);
 
 <<<<<<< f47d69f97c8bcdeeb89d368089da7b6d536bde56
@@ -263,7 +265,6 @@ export class SpatialService {
         // Fetch BRIR data
         let brirJson = await this.getIRs('brirs', params);
         this.brirContainer = SpatialIRContainer.fromJson(brirJson);
-        console.log("Got BRIR, ", brirJson);
     }
     return {
         hrir: this.hrirContainer, 

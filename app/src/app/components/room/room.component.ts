@@ -45,6 +45,7 @@ export class RoomComponent implements OnInit {
     private route: ActivatedRoute,
     private session: SessionService,
     private meeting: MeetingService,
+    private spatial: SpatialService,
     private snackbar: MatSnackBar,
     private clipboard: Clipboard
     //private streamNode: MediaStreamAudioDestinationNode
@@ -325,7 +326,14 @@ export class RoomComponent implements OnInit {
     if ( await this.meeting.getClient().roomExists(roomName) ) {
       // Setting the local Attendee instance, and getting the media device
       // streaming instances, for both audio and video
-      this.local = new Attendee(user.email);
+      this.local = new Attendee(
+        user.email,
+        {
+          context: this.context,
+          hrir: this.hrir,
+          brir: this.brir
+        }
+      );
       let videoStream = await window.navigator.mediaDevices.getUserMedia({ video: true });
       let audioStream = await window.navigator.mediaDevices.getUserMedia({ audio: true });
       this.local.addStream(MediaStreamTypes.WebCam, videoStream);

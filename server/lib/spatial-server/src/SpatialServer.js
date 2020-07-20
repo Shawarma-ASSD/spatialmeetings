@@ -83,10 +83,13 @@ class SpatialServerResponse {
     }
 }
 
+<<<<<<< d0436717b9e3a0ebcc9d83c6f8eb61211c3fab2a
 <<<<<<< e2e16f7acb883cbd6ab2068f365aaf568e7cc8cc
 =======
 
 >>>>>>> Adding ServerIRContainer
+=======
+>>>>>>> Adding Spatial sound...
 /**
  * SpatialServer
  */
@@ -363,7 +366,7 @@ class SpatialServer {
         let irs = {
             impulseResponses: new Array(),
             positions: new Array(),
-            sampleRate: container.sampleRate,
+            sampleRate: container.rate,
             size: container.size
         };
         let positions = container.getPositions();
