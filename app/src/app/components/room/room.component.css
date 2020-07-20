@@ -1,0 +1,64 @@
+button {
+    margin: 10px;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-image: url(../../../assets/room.jpg);
+}
+
+.attendees-container {
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+.attendee-container {
+    height: 14em;
+    width: 14em;
+}
+
+.remote-attendees-container {
+    height: 80%;
+    padding: 5px;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    order: 1;
+}
+
+.local-attendee-container {
+    margin: 10px auto;
+    height: 10em;
+    width: 10em;
+    order: 2;
+}
+
+.media-button-container {
+    margin: 0 auto;
+}
+
+.general-button-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #131514;
+}
+
+mat-sidenav {
+    background-color: #B4BBB8;
+}
+
+h2 {
+    margin: 0 auto;
+    vertical-align: center;
+}

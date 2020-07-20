@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+}
+
+#person {
+    text-shadow: 2px 2px grey;
+}
+
+mat-icon {
+    margin: 10px;
+}
+
+span {
+    color: black;
+    font-weight: bold;
+    font-size: small;
+}

@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { SessionService } from '../../services/session.service';
 import { MeetingService } from '../../services/meeting.service';
@@ -159,6 +159,7 @@ export class RoomComponent implements OnInit {
   private addAttendee(user: string) {
     let attendee = null;
     if ( !this.hasAttendee(user) ) {
+      // Instance a new Attendee with its asigned position
       attendee = new Attendee(user);
       this.attendees.push(attendee);
     }

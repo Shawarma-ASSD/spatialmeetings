@@ -13,6 +13,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule, MatList } from '@angular/material/list';
 
 import { SessionService } from './services/session.service';
 import { MeetingService } from './services/meeting.service';
@@ -21,8 +23,10 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { RoomComponent } from './components/room/room.component';
 import { AttendeeComponent } from './components/attendee/attendee.component';
+import { AttendeePanelComponent } from './components/attendee-panel/attendee-panel.component';
 
-import { MicIconPipe, CameraIconPipe } from './components/attendee/attendee.component';
+import { MicIconPipe } from './pipes/MicIconPipe';
+import { CameraIconPipe } from './pipes/CameraIconPipe';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,8 @@ import { MicIconPipe, CameraIconPipe } from './components/attendee/attendee.comp
     RoomComponent,
     AttendeeComponent,
     MicIconPipe,
-    CameraIconPipe
+    CameraIconPipe,
+    AttendeePanelComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +52,9 @@ import { MicIconPipe, CameraIconPipe } from './components/attendee/attendee.comp
     DragDropModule,
     MatSnackBarModule,
     MatDividerModule,
-    MatCardModule
+    MatCardModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [
     SessionService,
