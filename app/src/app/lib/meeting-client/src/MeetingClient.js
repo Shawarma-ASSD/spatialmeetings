@@ -134,6 +134,7 @@ class MeetingClient {
      *      @param {string} mail
      *      @param {MediaStreamTypes} type
      *      @param {MediaStream} stream
+     *      @param {Boolean} paused
      */
     setStreamAdded(callback) {
         this.streamAdded = callback;
@@ -229,7 +230,6 @@ class MeetingClient {
             // Get Map with each user's mail and a list of its producers id and type
             await this._updateRemoteStreams(room);
 
-
             // connect to the WebSocket
             this.socketClient.connectSocket(room, this.user, this.server, async () => {
                 // call _updateRemoteStreams() before setting this.connected so that
@@ -241,7 +241,7 @@ class MeetingClient {
                     for( let stream of streams ) {
                         let newStream = new MediaStream();
                         newStream.addTrack(stream.getStreamer().track);
-                        this.streamAdded(id, stream.getType(), newStream);
+                        this.streamAdded(id, stream.getType(), newStream, stream.startedPaused());
                     }
                 }
 
@@ -386,13 +386,14 @@ class MeetingClient {
      * @param {ProducerID} id
      * @param {MediaStreamTypes} type
      * @param {string} room
+     * @param {Boolean} paused indicates initial state of the stream
      */
     async _consume(producerMail, id, type, room) {
-        let newStream = new RemoteMediaStream(type);
         // Tell server to create a Consumer of the Producer
         const {
             id: consumerId, 
-            rtpParameters
+            rtpParameters,
+            producerPaused: paused
         } = this._parseResponse( await this.httpClient.createConsumer(
             room, 
             this.user, 
@@ -400,6 +401,7 @@ class MeetingClient {
             id,
             this.device.rtpCapabilities
         ));
+        let newStream = new RemoteMediaStream(type, paused);
         // create the local Consumer
         let consumer = await this.recvTransport.consume({
             id: consumerId,
@@ -411,7 +413,7 @@ class MeetingClient {
         if( this.connected ) {
             let stream = new MediaStream();
             stream.addTrack(consumer.track);
-            this.streamAdded(producerMail, type, stream);
+            this.streamAdded(producerMail, type, stream, paused);
         }
         return newStream;
     }

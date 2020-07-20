@@ -207,7 +207,8 @@ class Attendee {
             // Returns Consumer's information
             return {
                 id: consumer.id,
-                rtpParameters: consumer.rtpParameters
+                rtpParameters: consumer.rtpParameters,
+                producerPaused: consumer.producerPaused
             };
         } else {
             return null;
