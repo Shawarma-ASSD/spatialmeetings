@@ -57,7 +57,8 @@ export class SpatialConvolverNode extends SpatialNode {
      * disconnect
      * Disonnects SpatialConvolverNode's output
      * @param {AudioNode} node 
-     */    disconnect(node) {
+     */    
+    disconnect(node) {
         this.outputBuffer.disconnect(node);
     }
 

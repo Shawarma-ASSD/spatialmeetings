@@ -5,6 +5,8 @@ import { Clipboard } from '@angular/cdk/clipboard';
 
 import { SessionService } from '../../services/session.service';
 import { MeetingService } from '../../services/meeting.service';
+import { SpatialService } from '../../services/spatial.service';
+
 import { MediaStreamTypes } from '../../lib/meeting-client/meeting-client';
 import { ErrorCode } from '../../interfaces/codes';
 import { Attendee } from '../../interfaces/attendee';
@@ -15,8 +17,18 @@ import { Attendee } from '../../interfaces/attendee';
   styleUrls: ['./room.component.css']
 })
 export class RoomComponent implements OnInit {
+  /* Room's Attendees */
   attendees: Array<Attendee> = [];
   local: Attendee = null;
+
+  /* WebAudio API Instances */
+  context: AudioContext;
+  volume: GainNode;
+  rate: number;
+
+  /* Impulse Response containers, type annotation not used, js library... */
+  hrir: any;
+  brir: any;
 
   constructor(
     private zone: NgZone,
@@ -24,14 +36,32 @@ export class RoomComponent implements OnInit {
     private route: ActivatedRoute,
     private session: SessionService,
     private meeting: MeetingService,
+    private spatial: SpatialService,
     private snackbar: MatSnackBar,
     private clipboard: Clipboard
-      ) { }
+  ) { }
 
   async ngOnInit() {
     // Initializing correcly the RoomComponent variables
     this.attendees = [];
     this.local = null;
+
+    // Initializing AudioContext components
+    this.rate = 48000;
+    this.context = new AudioContext(
+      {
+        latencyHint: 'interactive',
+        sampleRate: this.rate
+      }
+    );
+    this.volume = new GainNode(this.context, { gain: 10 });
+    this.volume.connect(this.context.destination);
+
+    // Fetching for the first time the Spatial Container from the SpatialService, 
+    // to be prepared during the meeting.
+    const { hrir, brir } = await this.spatial.getContainers( { elevation: 0 } );
+    this.hrir = hrir;
+    this.brir = brir;
 
     // Run the initialization method for the room,
     // but first we need to verify the SessionService status,
@@ -49,6 +79,14 @@ export class RoomComponent implements OnInit {
         }
       );
     }
+  }
+
+  /**
+   * setVolume
+   * Sets the current value of the audio system
+   */
+  public setVolumen(value: number) {
+    this.volume.gain.setValueAtTime(value, this.context.currentTime);
   }
 
   /**
@@ -178,8 +216,20 @@ export class RoomComponent implements OnInit {
   private addAttendee(user: string) {
     let attendee = null;
     if ( !this.hasAttendee(user) ) {
-      // Instance a new Attendee with its asigned position
-      attendee = new Attendee(user);
+      // Instance a new Attendee
+      attendee = new Attendee(
+        user,
+        {
+          context: this.context,
+          hrir: this.hrir,
+          brir: this.brir
+        }
+      );
+
+      // Connect its spatial audio output to the destination output
+      attendee.connectSpatialAudio(this.volume);
+
+      // Add it to the attendee list
       this.attendees.push(attendee);
     }
     return attendee;
@@ -230,7 +280,14 @@ export class RoomComponent implements OnInit {
     if ( await this.meeting.getClient().roomExists(roomName) ) {
       // Setting the local Attendee instance, and getting the media device
       // streaming instances, for both audio and video
-      this.local = new Attendee(user.email);
+      this.local = new Attendee(
+        user.email,
+        {
+          context: this.context,
+          hrir: this.hrir,
+          brir: this.brir
+        }
+      );
       let videoStream = await window.navigator.mediaDevices.getUserMedia({ video: true });
       let audioStream = await window.navigator.mediaDevices.getUserMedia({ audio: true });
       this.local.addStream(MediaStreamTypes.WebCam, videoStream);

@@ -1,7 +1,6 @@
 // Angular modules
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 
 // Local modules
 import { SpatialIRContainer } from '../lib/spatial/spatial';
@@ -43,13 +42,11 @@ export class SpatialService {
         }
         // Fetch HRIR data
         let hrirJson = await this.getIRs('hrirs', params); 
-        console.log("Got HRIR, ", hrirJson);
         this.hrirContainer = SpatialIRContainer.fromJson(hrirJson);
 
         // Fetch BRIR data
         let brirJson = await this.getIRs('brirs', params);
         this.brirContainer = SpatialIRContainer.fromJson(brirJson);
-        console.log("Got BRIR, ", brirJson);
     }
     return {
         hrir: this.hrirContainer, 

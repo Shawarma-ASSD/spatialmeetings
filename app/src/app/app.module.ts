@@ -2,11 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { RoomComponent } from './components/room/room.component';
-import { TestComponent } from './components/test/test.component';
-import { SpatialService } from './services/spatial.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input'
 import { MatSelectModule } from '@angular/material/select';
@@ -22,6 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { SessionService } from './services/session.service';
 import { MeetingService } from './services/meeting.service';

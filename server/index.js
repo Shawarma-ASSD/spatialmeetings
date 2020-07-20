@@ -22,6 +22,9 @@ let app;
 
     // Creates the express app
     app = express();
+
+    // Adding CORS
+    app.use(cors());
     
     // Create the https server
     await runHTTPSServer(app);
@@ -30,18 +33,7 @@ let app;
     meetingServer = await MeetingServer.createMeetingServer(httpServer, config.meeting);
 
     // Creates the spatial server
-<<<<<<< 13ab009cd3250708650c6c8fcbee9f15534e0e7f
-<<<<<<< 57cc2508a7b872f5b76dc32a5726b807f20c3764
-    spatialServer = await SpatialServer.createSpatialServer(config.spatial);
-=======
     spatialServer = new SpatialServer(config.spatial);
->>>>>>> Adding ServerIRContainer
-=======
-    spatialServer = new SpatialServer(config.spatial);
->>>>>>> SpatialService working!
-
-    // Adding CORS
-    app.use(cors());
 
     // Logging requests
     app.use((req, res, next) => {

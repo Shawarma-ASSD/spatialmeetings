@@ -1,3 +1,9 @@
-export { SpatialProcessorNode } from './src/SpatialProcessor';
-export { SpatialIRContainer } from './src/spatial';
-export { RoomReverberatorNode } from './src/RoomReverberator';
+const { SpatialProcessorNode } = require('./src/SpatialProcessor');
+const { SpatialIRContainer } = require('./src/spatial');
+const { RoomReverberatorNode } = require('./src/RoomReverberator');
+
+module.exports = {
+    SpatialIRContainer,
+    SpatialProcessorNode,
+    RoomReverberatorNode
+};

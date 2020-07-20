@@ -56,7 +56,6 @@ class SpatialServerResponse {
     }
 }
 
-
 /**
  * SpatialServer
  */
@@ -129,7 +128,7 @@ class SpatialServer {
         let irs = {
             impulseResponses: new Array(),
             positions: new Array(),
-            sampleRate: container.sampleRate,
+            sampleRate: container.rate,
             size: container.size
         };
         let positions = container.getPositions();
