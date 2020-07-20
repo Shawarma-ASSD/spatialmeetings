@@ -55,10 +55,27 @@ button {
 }
 
 mat-sidenav {
-    background-color: #B4BBB8;
+    background-color: #335D70;
 }
 
 h2 {
     margin: 0 auto;
     vertical-align: center;
+}
+
+.members-container {
+    height: 90%;
+}
+
+.setting-container {
+    padding: 5px;
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+mat-slider {
+    margin: 0 auto;
+    width: 85%;
 }

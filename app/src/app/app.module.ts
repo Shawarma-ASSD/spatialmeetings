@@ -33,6 +33,7 @@ import { MicIconPipe } from './pipes/MicIconPipe';
 import { CameraIconPipe } from './pipes/CameraIconPipe';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,7 +62,8 @@ import { CameraIconPipe } from './pipes/CameraIconPipe';
     MatSidenavModule,
     MatListModule,
     MatToolbarModule,
-    ClipboardModule
+    ClipboardModule,
+    MatSliderModule
 
   ],
   providers: [

@@ -60,7 +60,7 @@
         </div>  
     </mat-sidenav-content>
     <mat-sidenav #sidenav position="end" hasBackdrop="false" mode="over">
-        <section>
+        <div class="members-container">
             <mat-list>
                 <mat-list-item *ngIf="local">
                     <app-attendee-panel [attendee]="local"></app-attendee-panel>
@@ -69,10 +69,10 @@
                     <app-attendee-panel [attendee]="attendee"></app-attendee-panel>
                 </mat-list-item>
             </mat-list>
-        </section>
-        <section>
+        </div>
+        <div class="setting-container">
             <mat-icon class="material-icons-two-tone">volume_up</mat-icon>
-            <mat-slider min="1" max="5" step="0.5" value="1.5" (change)="setVolume($event.value)"></mat-slider>
-        </section>
+            <mat-slider min="0.1" max="100" step="1" value="100" (change)="setVolume($event.value)"></mat-slider>
+        </div>
     </mat-sidenav>
 </mat-sidenav-container>

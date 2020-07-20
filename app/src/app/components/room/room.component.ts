@@ -85,7 +85,7 @@ export class RoomComponent implements OnInit {
    * setVolume
    * Sets the current value of the audio system
    */
-  public setVolumen(value: number) {
+  public setVolume(value: number) {
     this.volume.gain.setValueAtTime(value, this.context.currentTime);
   }
 
