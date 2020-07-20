@@ -14,6 +14,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 import { SessionService } from './services/session.service';
 import { MeetingService } from './services/meeting.service';
@@ -45,7 +46,9 @@ import { AttendeeComponent } from './components/attendee/attendee.component';
     MatSnackBarModule,
     MatDividerModule,
     MatCardModule,
-    MatToolbarModule
+    MatToolbarModule,
+    ClipboardModule
+
   ],
   providers: [
     SessionService,

@@ -1,7 +1,7 @@
 <div class="leftContainer">
-    <!-- 
+    <!--
         Attendee Container
-        Boundary container for the draggable AttendeeComponent, views of the Attendee model 
+        Boundary container for the draggable AttendeeComponent, views of the Attendee model
     -->
     <div class="attendeeContainer">
         <ul>
@@ -9,8 +9,8 @@
                 <app-attendee [attendee]="attendee"></app-attendee>
             </div>
         </ul>
-        
-        <!-- 
+
+        <!--
             Isolating the local AttendeeComponent's instance, not a draggable component.
         -->
         <div *ngIf="local">
@@ -18,19 +18,19 @@
         </div>
     </div>
 
-    <!-- 
+    <!--
         Control Container
-        Contains action buttons for the local attendee during the meeting 
+        Contains action buttons for the local attendee during the meeting
     -->
     <div class="controlContainer">
         <button (click)="toggleMicrophone()">Toggle Mic</button>
         <button (click)="toggleCamera()">Toggle Camera</button>
         <button (click)="hangOut()">Hang Out</button>
-        <button >Share Link</button>
+        <button (click)="shareLink()">Share Link</button>
     </div>
 </div>
 
-<!-- 
+<!--
     Panel Container
     Panel with information about the meeting room, right now we're only showing the attendee's
     names. If in the near future scales, a particular view as AttendeePanelComponent should be considered.
