@@ -1,5 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 import { SessionService } from '../../services/session.service';
 import { MeetingService } from '../../services/meeting.service';
@@ -21,8 +23,10 @@ export class RoomComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private session: SessionService,
-    private meeting: MeetingService
-  ) { }
+    private meeting: MeetingService,
+    private snackbar: MatSnackBar,
+    private clipboard: Clipboard
+      ) { }
 
   async ngOnInit() {
     // Run the initialization method for the room,
@@ -34,9 +38,9 @@ export class RoomComponent implements OnInit {
       this.roomInit(roomName);
     } else {
       this.session.ready.subscribe(
-        async () => { 
+        async () => {
           this.zone.run( async () => {
-            await this.roomInit(roomName); 
+            await this.roomInit(roomName);
           });
         }
       );
@@ -83,12 +87,22 @@ export class RoomComponent implements OnInit {
   }
 
   /**
+   * shareLink()
+   * copy current page link to clipboard, useful to share it!
+   */
+  public shareLink() {
+    this.clipboard.copy(location.href);
+    this.snackbar.open('Enlace copiado!', 'OK', {duration: 3000, verticalPosition:'top', horizontalPosition:'center'});
+  }
+
+  /**
    * onAttendeeJoined
    * Fired when a new Attendee joined the meeting room.
    */
   private onAttendeeJoined(user: string) {
     this.zone.run( () => {
       this.addAttendee(user);
+      this.snackbar.open(user + ' ha entrado a la llamada', 'OK', {duration: 3000, verticalPosition:'top', horizontalPosition:'center'});
     });
   }
 
@@ -98,7 +112,8 @@ export class RoomComponent implements OnInit {
    */
   private onAttendeeLeft(user: string) {
     this.zone.run( () => {
-      this.removeAttendee(user);
+      this.removeAttendee(user); 
+      this.snackbar.open(user + ' ha salido de la llamada', 'OK', {duration: 3000, verticalPosition:'top', horizontalPosition:'center'});
     });
   }
 

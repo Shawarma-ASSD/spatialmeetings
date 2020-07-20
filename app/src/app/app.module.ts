@@ -9,13 +9,14 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule, MatList } from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { SessionService } from './services/session.service';
 import { MeetingService } from './services/meeting.service';
@@ -56,7 +57,9 @@ import { CameraIconPipe } from './pipes/CameraIconPipe';
     MatCardModule,
     MatSidenavModule,
     MatListModule,
-    MatToolbarModule
+    MatToolbarModule,
+    ClipboardModule
+
   ],
   providers: [
     SessionService,
