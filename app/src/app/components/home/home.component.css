@@ -76,6 +76,20 @@ p {
   line-height: normal;
 }
 
+#footer {
+  /* height: 100%; */
+  position: relative;
+}
+
+#footer img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  object-fit: contain;
+  height: 100%;
+}
+
+
 #login-text {
   font-size: small;
   margin-right: 5px;
