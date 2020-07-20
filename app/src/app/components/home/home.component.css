@@ -34,6 +34,9 @@ h1{
   font-size: 90px;
   color: #e91e63;
   font-family: Bebas;
+  text-align: center;
+  margin-bottom: auto;
+  line-height: 90px;
 }
 
 h2{
@@ -70,10 +73,11 @@ h2{
 }
 
 p {
-  font-size: x-large;
+  font-size: x-small;
   font-family: 'Trebuchet MS';
   text-align: justify;
   line-height: normal;
+  color: white;
 }
 
 #footer {
