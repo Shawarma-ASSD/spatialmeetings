@@ -1,13 +1,11 @@
 <div class="master-div">
-  <mat-toolbar  class="transparent" fxFlexAlign="center center"  >
-    <span>Spatial Meetings</span>
+  <mat-toolbar  class="transparent" fxFlexAlign="center center">
     <span class="example-spacer"></span>
-    <p  class="nico-bobo" *ngIf="userLogged" >Sesión iniciada como: {{ userMail }}</p>
-    <span class="divider">  </span>
-    <button class="nico-bobo" mat-raised-button color="primary" *ngIf="!userLogged" (click)="onLogin()">
+    <span id="login-text" *ngIf="userLogged" >Sesión iniciada como: {{ userMail }}</span>
+    <button class="log-button" mat-raised-button color="primary" *ngIf="!userLogged" (click)="onLogin()"> 
       Login
     </button>
-    <button class="nico-bobo" mat-raised-button color="primary" *ngIf="userLogged" fxFlexAlign="center center" (click)="onLogout()">
+    <button class="log-button" mat-raised-button color="primary" *ngIf="userLogged" fxFlexAlign="center center" (click)="onLogout()">
       Logout
     </button>
   </mat-toolbar>
@@ -51,30 +49,17 @@
 </div>
 
 
-
-
 <mat-divider></mat-divider>
 <section class="about">
-  Spatial Meetings busca brindar una experiencia de videollamadas más realistas con el agregado de sonido espacial, 
-  para poder escuchar a los participantes desde distintos lugares, como pasa en una charla común de la vida cotidiana. <br>
-
-
-
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores asperiores magnam maiores cum officiis accusantium doloribus rem ipsam earum aperiam accusamus perferendis debitis, laboriosam architecto, quia ratione nobis vitae veniam?
-  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rerum porro consequatur beatae vitae quidem hic laboriosam doloremque, provident debitis temporibus, optio quisquam eius consequuntur alias? Natus molestias repellat saepe quas?
-  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab natus voluptatum sunt corporis error. Aut ipsam error quas a sed distinctio at ex, omnis ratione ut tempore asperiores. Natus, ab?
-  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem perspiciatis dolore aliquid suscipit aliquam temporibus reprehenderit libero debitis mollitia modi, totam quisquam, amet laboriosam dignissimos nulla nam nemo quas obcaecati.
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid magni, suscipit quae, perferendis atque nesciunt quos nam quidem repudiandae ab tempore, corrupti nisi eveniet dignissimos deserunt dolorum! Exercitationem, qui neque?
-  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptates cum iste vitae recusandae quaerat tenetur eaque distinctio accusamus dolorem quidem voluptatibus sunt repellat aperiam sint nesciunt, consectetur ad ea culpa?
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident id velit quaerat! Pariatur totam deleniti facilis, sit tempora quaerat. Adipisci velit ratione quibusdam voluptate rem ullam et neque doloribus minima.
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi dignissimos quisquam beatae corporis minus nulla nesciunt unde a magnam veniam. Accusantium, tempora. Omnis, tenetur corporis quidem ipsa vitae iure est.
-  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequatur sit fugit ducimus, cumque fuga consectetur aperiam porro! Fugiat eius quasi expedita! Qui inventore velit voluptates modi sit nulla! Voluptates, quos?
-  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Animi sunt, suscipit quam quasi inventore atque amet aliquam nihil autem dicta minus quaerat nesciunt numquam iure nostrum dignissimos facere blanditiis porro?
+  <p>
+    Spatial Meetings busca brindar una experiencia de videollamadas más realistas con el agregado de sonido espacial, 
+    para poder escuchar a los participantes desde distintos lugares, como pasa en una charla de la vida cotidiana. 
+  </p>
 </section>
 <mat-divider></mat-divider>
 <footer fxLayout="row">
   <span class="example-spacer"></span>
   <button mat-icon-button color="accent" (click)="goToUrl('https://github.com/Shawarma-ASSD/spatialmeetings')" >
-    <mat-icon svgIcon="github"></mat-icon>
+    <mat-icon svgIcon="github" [inline]="true"></mat-icon>
   </button>
 </footer>
