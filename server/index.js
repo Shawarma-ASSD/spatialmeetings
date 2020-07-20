@@ -22,6 +22,9 @@ let app;
 
     // Creates the express app
     app = express();
+
+    // Adding CORS
+    app.use(cors());
     
     // Create the https server
     await runHTTPSServer(app);
@@ -31,9 +34,12 @@ let app;
 
     // Creates the spatial server
     spatialServer = new SpatialServer(config.spatial);
+<<<<<<< be7fe00844678d21044e5b8aab0bf3b10965fa64
 
     // Adding CORS
     app.use(cors());
+=======
+>>>>>>> Adding Spatial sound...
 
     // Logging requests
     app.use((req, res, next) => {

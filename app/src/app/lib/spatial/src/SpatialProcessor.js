@@ -12,7 +12,7 @@ export class SpatialProcessorNode extends SpatialNode {
     
         // Loading context and sound processing system's nodes
         this.buffer = new GainNode(this.context);
-        this.gain = new GainNode(this.context);
+        this.gain = new GainNode(this.context, { gain: 1 });
         this.convolver = new SpatialConvolverNode(this.context, azimutal, elevation, distance);
         this.reverberator = null;
 
