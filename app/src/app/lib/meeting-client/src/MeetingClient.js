@@ -52,6 +52,7 @@ class MeetingClient {
         this.streamRemoved = () => {};
         this.streamPaused = () => {};
         this.streamResumed = () => {};
+        this.error = () => {};
     }
 
     /**
@@ -171,6 +172,16 @@ class MeetingClient {
      */
     setStreamResumed(callback) {
         this.streamResumed = callback;
+    }
+
+    /**
+     * setError
+     * @param callback
+     * Callback params:
+     *      @param {string} message
+     */
+    setError(callback) {
+        this.error = callback;
     }
 
     /**
@@ -295,7 +306,7 @@ class MeetingClient {
             return body.result;
         }
         else {
-            throw Error(`Request failed: ${body.result}`);
+            this._errorOcurred("Networking", body.result);
         }
     }
 
@@ -572,6 +583,16 @@ class MeetingClient {
      */
     _producerResumed(mail, type) {
         this.streamResumed(mail, type);
+    }
+
+    /**
+     * _errorOcurred
+     * Emits error()
+     * @param {string} type 
+     * @param {string} message 
+     */
+    _errorOcurred(type, message) {
+        this.error(`${type} error: ${message}`);
     }
 
 }
