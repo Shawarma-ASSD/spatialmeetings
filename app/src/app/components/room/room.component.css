@@ -13,7 +13,7 @@ button {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background-image: url(../../../assets/room.jpg);
+    background-image: url('../../../assets/room.jpg');
 }
 
 .attendees-container {

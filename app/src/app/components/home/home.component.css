@@ -2,7 +2,6 @@
   position: relative;
   width: 100%;
   height: 100vh;
-
 }
 
 .banner {
@@ -15,12 +14,6 @@
   text-align: center;
   color: #e91e63;
 }
-.main-page-info{
-  position: relative;
-
-  min-height: 300px;
-  max-height: 1200px;
-}
 
 .vertical-center {
   margin: 0;
@@ -30,16 +23,78 @@
   transform: translateY(-50%);
   width: 100%;
 }
+
 .text-center {
   position: relative;
   text-align: center;
+
 }
+
 h1{
-  font-size: 60px;
+  font-size: 90px;
+  color: #e91e63;
+  font-family: Bebas;
+}
+
+h2{
+  text-align: center;
+  color: white;;
+}
+
+.transparent{
+  position: absolute;
+  background-color: transparent;
+  align-self: end;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.divider {
+  width:5px;
+  height:auto;
+  display:inline-block;
+}
+
+.about {
+  color:white;
+}
+
+.mat-card{
+  background-color: rgba(53, 53, 53, 0.5);
+}
+
+.mat-form-field{
+  margin: 5px;
+}
+
+p {
+  font-size: x-large;
+  font-family: 'Trebuchet MS';
+  text-align: justify;
+  line-height: normal;
+}
+
+#login-text {
+  font-size: small;
+  margin-right: 5px;
+}
+
+.log-button {
+  vertical-align: middle;
+}
+
+@font-face {
+  font-family: BebasNeue;
+  src: url("../../../assets/webfonts/BebasNeue-Regular.otf");
+}
+
+@font-face {
+  font-family: Bebas;
+  src: url("../../../assets/webfonts/Bebas-Regular.otf");
 }
 
 .wrapper{
-  background-image: url('../../../assets/back4.jpg');
-  background-repeat: no-repeat;
-  background-size: 100%;
+  background-image: url('../../../assets/back.jpg');
 }

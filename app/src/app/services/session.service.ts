@@ -1,11 +1,14 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { User } from '../interfaces/user';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
   clientId: string = '224942652925-ogd3js0pdhkonbgltb6mdr5oo06ehftp.apps.googleusercontent.com';
+  private clientLogged = new BehaviorSubject<boolean> (false);
+  clientIsLogged = this.clientLogged.asObservable();
   ready: EventEmitter<any> = new EventEmitter();
   auth: any = null;
 
@@ -59,7 +62,9 @@ export class SessionService {
       {
         scope: 'profile email'
       }
-    );
+    )
+    this.clientLogged.next(true);
+
   }
 
   /**
@@ -68,10 +73,11 @@ export class SessionService {
    */
   public async signOut() {
     await this.auth.signOut();
+    this.clientLogged.next(false);
   }
 
   /**
-   * gapi 
+   * gapi
    * Wrapper to the Google SDK
    */
   private gapi() {
@@ -93,7 +99,7 @@ export class SessionService {
       };
       document.getElementsByTagName('head')[0].appendChild(node);
   }
-  
+
   /**
    * initGoogleAuth
    * Initializes Google API.

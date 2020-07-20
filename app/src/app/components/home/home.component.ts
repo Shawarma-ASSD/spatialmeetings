@@ -3,7 +3,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MatIconRegistry } from '@angular/material/icon';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 
 import { SessionService } from '../../services/session.service';
 import { MeetingService } from '../../services/meeting.service';
@@ -18,6 +17,8 @@ import {ErrorCode, ErrorMessage} from '../../interfaces/codes';
 export class HomeComponent implements OnInit {
   method: string = 'Crear';
   room: string = '';
+  userLogged: boolean = false;
+  userMail: string = '';
 
   constructor(
     private router: Router,
@@ -31,6 +32,11 @@ export class HomeComponent implements OnInit {
     iconRegistry.addSvgIcon(
       'github',
       sanitizer.bypassSecurityTrustResourceUrl('assets/github.svg'));
+
+     session.clientIsLogged.subscribe((isLogged)=>{
+        this.userLogged = isLogged.valueOf();
+     })
+
   }
 
   ngOnInit(): void {
@@ -42,6 +48,9 @@ export class HomeComponent implements OnInit {
           }
       }
     );
+    if( this.session.isSigned() ) {
+      this.userMail = this.session.getUser().email;
+    }
   }
 
   /**
@@ -50,11 +59,9 @@ export class HomeComponent implements OnInit {
    * or the user wants to join the meeting.
    */
   public async onButtonClicked(){
-    // Verifying if the user has not signed in
-    if (!this.session.isSigned()) {
-      await this.session.signIn();
+    if(! this.userLogged) {    
+      await this.onLogin();
     }
-
     // Setup the meeting client with the current user mail
     let user = this.session.getUser();
     this.meeting.getClient().setUser(user.email);
@@ -91,5 +98,24 @@ export class HomeComponent implements OnInit {
    */
   public goToUrl(url: string) {
     window.open(url);
+  }
+  /**
+   * onLogin()
+   */
+  async onLogin() {
+    await this.session.signIn();
+    this.userMail = this.session.getUser().email;
+    //this.showSnackBar('Sesión iniciada con: ' + this.session.getUser().email);
+  }
+
+  /**
+   * onLogout()
+   */
+  onLogout() {
+    let user = this.session.getUser().email;
+    if (this.session.isSigned()) {
+      this.session.signOut();
+    }
+    this.snackBar.open('Se ha cerrado la sesión de ' + user, 'OK');
   }
 }
