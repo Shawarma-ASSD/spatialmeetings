@@ -18,6 +18,8 @@ import {ErrorCode, ErrorMessage} from '../../interfaces/codes';
 export class HomeComponent implements OnInit {
   method: string = 'Crear';
   room: string = '';
+  userLogged: boolean = false;
+  userMail: string = '';
 
   constructor(
     private router: Router,
@@ -31,6 +33,11 @@ export class HomeComponent implements OnInit {
     iconRegistry.addSvgIcon(
       'github',
       sanitizer.bypassSecurityTrustResourceUrl('assets/github.svg'));
+
+     session.clientIsLogged.subscribe((isLogged)=>{
+        this.userLogged = isLogged.valueOf();
+     })
+
   }
 
   ngOnInit(): void {
@@ -93,5 +100,24 @@ export class HomeComponent implements OnInit {
    */
   public goToUrl(url: string) {
     window.open(url);
+  }
+  /**
+   * onLogin()
+   */
+  async onLogin() {
+    await this.session.signIn();
+    this.userMail = this.session.getUser().email;
+    //this.showSnackBar('Sesión iniciada con: ' + this.session.getUser().email);
+  }
+
+  /**
+   * onLogout()
+   */
+  onLogout() {
+    let user = this.session.getUser().email;
+    if (this.session.isSigned()) {
+      this.session.signOut();
+    }
+    this.showSnackBar('Se cerró la sesión de: ' + user);
   }
 }

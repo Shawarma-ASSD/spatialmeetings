@@ -15,12 +15,7 @@
   text-align: center;
   color: #e91e63;
 }
-.main-page-info{
-  position: relative;
 
-  min-height: 300px;
-  max-height: 1200px;
-}
 
 .vertical-center {
   margin: 0;
@@ -33,7 +28,49 @@
 .text-center {
   position: relative;
   text-align: center;
+
 }
 h1{
   font-size: 60px;
+  color: #e91e63;
+}
+h2{
+  text-align: center;
+  color: white;;
+}
+
+.transparent{
+  position: absolute;
+  background-color:transparent;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.divider{
+  width:5px;
+  height:auto;
+  display:inline-block;
+}
+
+.about{
+  color:white;
+}
+
+.mat-card{
+  background-color: rgba(53, 53, 53, 0.5);
+}
+
+.mat-form-field{
+  margin: 5px;
+}
+
+p{
+  font-size: small;
+}
+
+.nico-bobo{
+  vertical-align: middle;
+  display: table-cell;
 }
