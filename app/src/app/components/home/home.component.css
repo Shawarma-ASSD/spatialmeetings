@@ -33,6 +33,7 @@
 h1{
   font-size: 60px;
   color: #e91e63;
+  font-family: Bebas;
 }
 h2{
   text-align: center;
@@ -74,3 +75,14 @@ p{
   vertical-align: middle;
   display: table-cell;
 }
+
+@font-face {
+  font-family: BebasNeue;
+  src: url("../../../assets/webfonts/BebasNeue-Regular.otf");
+}
+
+@font-face {
+  font-family: Bebas;
+  src: url("../../../assets/webfonts/Bebas-Regular.otf");
+}
+

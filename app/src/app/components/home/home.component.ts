@@ -57,28 +57,25 @@ export class HomeComponent implements OnInit {
    * or the user wants to join the meeting.
    */
   public async onButtonClicked(){
-    // Verifying if the user has not signed in
-    if (!this.session.isSigned()) {
-      await this.session.signIn();
-    }
+  if (this.userLogged) {
+      // Setup the meeting client with the current user mail
+      let user = this.session.getUser();
+      this.meeting.getClient().setUser(user.email);
 
-    // Setup the meeting client with the current user mail
-    let user = this.session.getUser();
-    this.meeting.getClient().setUser(user.email);
+      // Execute method calls, to verify whether it can be created, or joined
+      let result;
+      if (this.method == 'Crear') {
+        result = await this.meeting.getClient().createRoom(this.room);
+      } else if (this.method == 'Unirse') {
+        result = await this.meeting.getClient().roomExists(this.room);
+      }
 
-    // Execute method calls, to verify whether it can be created, or joined
-    let result;
-    if (this.method == 'Crear') {
-      result = await this.meeting.getClient().createRoom(this.room);
-    } else if (this.method == 'Unirse') {
-      result = await this.meeting.getClient().roomExists(this.room);
-    }
-
-    // Routing, or showing error message
-    if (result) {
-      this.router.navigate(['room', this.room]);
-    } else {
-      this.showSnackBar(this.method == 'Crear' ? ErrorCode.RoomAlreadyExists : ErrorCode.RoomNotFound);
+      // Routing, or showing error message
+      if (result) {
+        this.router.navigate(['room', this.room]);
+      } else {
+        this.showSnackBar(this.method == 'Crear' ? ErrorCode.RoomAlreadyExists : ErrorCode.RoomNotFound);
+      }
     }
   }
 
@@ -116,6 +113,6 @@ export class HomeComponent implements OnInit {
     if (this.session.isSigned()) {
       this.session.signOut();
     }
-    this.showSnackBar('Se cerró la sesión de: ' + user);
+    this.snackBar.open('Se ha cerrado la sesión de ' + user, 'OK');
   }
 }
