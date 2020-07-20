@@ -62,7 +62,7 @@
     <mat-sidenav #sidenav position="end" hasBackdrop="false" mode="over">
         <section>
             <mat-list>
-                <mat-list-item>
+                <mat-list-item *ngIf="local">
                     <app-attendee-panel [attendee]="local"></app-attendee-panel>
                 </mat-list-item>
                 <mat-list-item *ngFor="let attendee of attendees">                

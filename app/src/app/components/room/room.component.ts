@@ -29,13 +29,17 @@ export class RoomComponent implements OnInit {
       ) { }
 
   async ngOnInit() {
+    // Initializing correcly the RoomComponent variables
+    this.attendees = [];
+    this.local = null;
+
     // Run the initialization method for the room,
     // but first we need to verify the SessionService status,
     // and subscribe to its onReady event, if it is not available yet.
     // Only done because of the Google API Library (needs to be loaded...)
     let roomName = this.route.snapshot.paramMap.get('roomName');
     if (this.session.isReady()) {
-      this.roomInit(roomName);
+      await this.roomInit(roomName);
     } else {
       this.session.ready.subscribe(
         async () => {
@@ -186,7 +190,7 @@ export class RoomComponent implements OnInit {
    * Returns if Attendee exists.
    */
   private hasAttendee(user: string) {
-    return this.attendees.find(attendee => attendee.getUser() == user) !== undefined;
+    return this.attendees.find(a => a.user === user) !== undefined;
   }
 
   /**
@@ -250,9 +254,9 @@ export class RoomComponent implements OnInit {
 
       // Get the meeting room attendees, verifying if we missed
       // some because it did not have stream devices
-      let attendees = this.meeting.getClient().getAttendees();
-      for ( let attendee of attendees ) {
-        this.addAttendee(attendee);
+      let users = this.meeting.getClient().getAttendees();
+      for ( let user of users ) {
+        this.addAttendee(user.id);
       }
     } else {
       this.router.navigate([''], { queryParams: {errorCode: ErrorCode.RoomNotFound } });

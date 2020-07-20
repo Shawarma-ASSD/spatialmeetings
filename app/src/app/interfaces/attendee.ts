@@ -38,7 +38,6 @@ export class Position implements Point {
     public set(x: number, y: number) {
         this.x = x;
         this.y = y;
-        console.log(x, y);
     }
 
     /**
