@@ -3,7 +3,7 @@
     <mat-toolbar  class="transparent" fxFlexAlign="center center">
       <span class="example-spacer"></span>
       <span id="login-text" *ngIf="userLogged" >Sesión iniciada como: {{ userMail }}</span>
-      <button class="log-button" mat-raised-button color="primary" *ngIf="!userLogged" (click)="onLogin()"> 
+      <button class="log-button" mat-raised-button color="primary" *ngIf="!userLogged" (click)="onLogin()">
         Login
       </button>
       <button class="log-button" mat-raised-button color="primary" *ngIf="userLogged" fxFlexAlign="center center" (click)="onLogout()">
@@ -24,11 +24,11 @@
           </h2>
         </div>
       </div>
-  
+
     <div class="banner" fxLayout="column" fxLayoutAlign="center center">
       <mat-card >
         <h2 class="text-center" >Crear sala o unirse a sala existente</h2>
-  
+
         <div fxLayout="column" fxLayoutAlign="center center">
           <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly">
             <mat-form-field appearance="fill">
@@ -48,20 +48,21 @@
       </div>
     </div>
   </div>
-</div>
 
 
-<mat-divider></mat-divider>
-<section class="about">
-  <p>
-    Spatial Meetings busca brindar una experiencia de videollamadas más realistas con el agregado de sonido espacial, 
-    para poder escuchar a los participantes desde distintos lugares, como pasa en una charla de la vida cotidiana. 
-  </p>
-</section>
-<mat-divider></mat-divider>
-<div id="footer" fxLayout="row">
-  <span class="example-spacer"></span>
-  <button mat-icon-button color="accent" (click)="goToUrl('https://github.com/Shawarma-ASSD/spatialmeetings')">
-      <img  id="github-icon" src="../../../assets/github.svg" height="200">
-  </button>
+
+  <mat-divider></mat-divider>
+  <section class="about">
+    <p>
+      Spatial Meetings busca brindar una experiencia de videollamadas más realistas con el agregado de sonido espacial,
+      para poder escuchar a los participantes desde distintos lugares, como pasa en una charla de la vida cotidiana.
+    </p>
+  </section>
+  <mat-divider></mat-divider>
+  <div id="footer" fxLayout="row">
+    <span class="example-spacer"></span>
+    <button mat-icon-button color="accent" (click)="goToUrl('https://github.com/Shawarma-ASSD/spatialmeetings')">
+        <img  id="github-icon" src="../../../assets/github.svg" height="200">
+    </button>
+  </div>
 </div>
