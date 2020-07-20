@@ -285,7 +285,7 @@ export class SpatialService {
     // Horrible if/else because the options can't be in an Object
     if(params) {
       reqObservable = this.http.get<Observable<any>>(
-        `https://${config.address}/spatial/` + type, {
+        `https://${config.address}/api/spatial/` + type, {
           observe: 'body',
           responseType: 'json',
           params: params
