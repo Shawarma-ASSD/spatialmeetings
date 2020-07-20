@@ -12,22 +12,23 @@
     </button>
   </mat-toolbar>
   <div fxLayout="column" fxLayoutAlign="center center">
-    <div fxLayout="column" fxLayoutAlign="center center">
-      <div class="banner" fxLayoutAlign="center center">
+    <div class="banner" fxLayout="column" fxLayoutAlign="center center">
+      <div fxLayoutAlign="end center">
         <h1>
           <b>SPATIAL MEETINGS</b>
         </h1>
       </div>
-      <div fxLayoutAlign="center center">
+      <br>
+      <div fxLayoutAlign="start center">
         <h2>
-          No hay tal cosa como el sonido no espacial
+          "There is no such thing as non-spatial hearing", Jens Blauert
         </h2>
       </div>
     </div>
 
-  <div fxLayout="column" fxLayoutAlign="center center">
+  <div class="banner" fxLayout="column" fxLayoutAlign="center center">
     <mat-card >
-      <h2 class="text-center" >Crear nueva sala</h2>
+      <h2 class="text-center" >Crear sala o unirse a sala existente</h2>
 
       <div fxLayout="column" fxLayoutAlign="center center">
         <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly">
@@ -54,6 +55,11 @@
 
 <mat-divider></mat-divider>
 <section class="about">
+  Spatial Meetings busca brindar una experiencia de videollamadas más realistas con el agregado de sonido espacial, 
+  para poder escuchar a los participantes desde distintos lugares, como pasa en una charla común de la vida cotidiana. <br>
+
+
+
   Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores asperiores magnam maiores cum officiis accusantium doloribus rem ipsam earum aperiam accusamus perferendis debitis, laboriosam architecto, quia ratione nobis vitae veniam?
   Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rerum porro consequatur beatae vitae quidem hic laboriosam doloremque, provident debitis temporibus, optio quisquam eius consequuntur alias? Natus molestias repellat saepe quas?
   Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab natus voluptatum sunt corporis error. Aut ipsam error quas a sed distinctio at ex, omnis ratione ut tempore asperiores. Natus, ab?
@@ -67,7 +73,6 @@
 </section>
 <mat-divider></mat-divider>
 <footer fxLayout="row">
-  <span>hola</span>
   <span class="example-spacer"></span>
   <button mat-icon-button color="accent" (click)="goToUrl('https://github.com/Shawarma-ASSD/spatialmeetings')" >
     <mat-icon svgIcon="github"></mat-icon>
