@@ -3,7 +3,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MatIconRegistry } from '@angular/material/icon';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 
 import { SessionService } from '../../services/session.service';
 import { MeetingService } from '../../services/meeting.service';

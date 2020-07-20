@@ -9,11 +9,14 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { SessionService } from './services/session.service';
 import { MeetingService } from './services/meeting.service';
@@ -22,13 +25,20 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { RoomComponent } from './components/room/room.component';
 import { AttendeeComponent } from './components/attendee/attendee.component';
+import { AttendeePanelComponent } from './components/attendee-panel/attendee-panel.component';
+
+import { MicIconPipe } from './pipes/MicIconPipe';
+import { CameraIconPipe } from './pipes/CameraIconPipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     RoomComponent,
-    AttendeeComponent
+    AttendeeComponent,
+    MicIconPipe,
+    CameraIconPipe,
+    AttendeePanelComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +55,11 @@ import { AttendeeComponent } from './components/attendee/attendee.component';
     MatSnackBarModule,
     MatDividerModule,
     MatCardModule,
-    MatToolbarModule
+    MatSidenavModule,
+    MatListModule,
+    MatToolbarModule,
+    ClipboardModule
+
   ],
   providers: [
     SessionService,

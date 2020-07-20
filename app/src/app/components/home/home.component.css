@@ -109,3 +109,6 @@ p {
   src: url("../../../assets/webfonts/Bebas-Regular.otf");
 }
 
+.wrapper{
+  background-image: url('../../../assets/back.jpg');
+}

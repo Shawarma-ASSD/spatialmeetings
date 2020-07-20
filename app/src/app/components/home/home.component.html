@@ -1,49 +1,51 @@
-<div class="master-div">
-  <mat-toolbar  class="transparent" fxFlexAlign="center center">
-    <span class="example-spacer"></span>
-    <span id="login-text" *ngIf="userLogged" >Sesión iniciada como: {{ userMail }}</span>
-    <button class="log-button" mat-raised-button color="primary" *ngIf="!userLogged" (click)="onLogin()"> 
-      Login
-    </button>
-    <button class="log-button" mat-raised-button color="primary" *ngIf="userLogged" fxFlexAlign="center center" (click)="onLogout()">
-      Logout
-    </button>
-  </mat-toolbar>
-  <div fxLayout="column" fxLayoutAlign="center center">
+<div class="wrapper">
+  <div class="master-div">
+    <mat-toolbar  class="transparent" fxFlexAlign="center center">
+      <span class="example-spacer"></span>
+      <span id="login-text" *ngIf="userLogged" >Sesión iniciada como: {{ userMail }}</span>
+      <button class="log-button" mat-raised-button color="primary" *ngIf="!userLogged" (click)="onLogin()"> 
+        Login
+      </button>
+      <button class="log-button" mat-raised-button color="primary" *ngIf="userLogged" fxFlexAlign="center center" (click)="onLogout()">
+        Logout
+      </button>
+    </mat-toolbar>
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <div class="banner" fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayoutAlign="end center">
+          <h1>
+            <b>SPATIAL MEETINGS</b>
+          </h1>
+        </div>
+        <br>
+        <div fxLayoutAlign="start center">
+          <h2>
+            "There is no such thing as non-spatial hearing", Jens Blauert
+          </h2>
+        </div>
+      </div>
+  
     <div class="banner" fxLayout="column" fxLayoutAlign="center center">
-      <div fxLayoutAlign="end center">
-        <h1>
-          <b>SPATIAL MEETINGS</b>
-        </h1>
+      <mat-card >
+        <h2 class="text-center" >Crear sala o unirse a sala existente</h2>
+  
+        <div fxLayout="column" fxLayoutAlign="center center">
+          <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly">
+            <mat-form-field appearance="fill">
+              <mat-label>Seleccionar una opcion</mat-label>
+              <mat-select [(ngModel)]="method">
+                <mat-option value="Crear">Crear</mat-option>
+                <mat-option value="Unirse">Unirse</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field >
+              <input [(ngModel)]="room" matInput placeholder="Nombre de la sala">
+            </mat-form-field>
+          </div>
+          <button mat-raised-button color="accent" (click)="onButtonClicked()">{{ method }}</button>
+          </div>
+        </mat-card>
       </div>
-      <br>
-      <div fxLayoutAlign="start center">
-        <h2>
-          "There is no such thing as non-spatial hearing", Jens Blauert
-        </h2>
-      </div>
-    </div>
-
-  <div class="banner" fxLayout="column" fxLayoutAlign="center center">
-    <mat-card >
-      <h2 class="text-center" >Crear sala o unirse a sala existente</h2>
-
-      <div fxLayout="column" fxLayoutAlign="center center">
-        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly">
-          <mat-form-field appearance="fill">
-            <mat-label>Seleccionar una opcion</mat-label>
-            <mat-select [(ngModel)]="method">
-              <mat-option value="Crear">Crear</mat-option>
-              <mat-option value="Unirse">Unirse</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field >
-            <input [(ngModel)]="room" matInput placeholder="Nombre de la sala">
-          </mat-form-field>
-        </div>
-        <button mat-raised-button color="accent" (click)="onButtonClicked()">{{ method }}</button>
-        </div>
-      </mat-card>
     </div>
   </div>
 </div>

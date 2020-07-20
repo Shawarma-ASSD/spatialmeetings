@@ -38,6 +38,7 @@ export class Position implements Point {
     public set(x: number, y: number) {
         this.x = x;
         this.y = y;
+        console.log(x, y);
     }
 
     /**
@@ -60,6 +61,17 @@ export class Position implements Point {
             angle: angle
         };
     }
+
+    /**
+     * point
+     * Returns Point object
+     */
+    public point(): Point {
+        return {
+            x: this.x,
+            y: this.y
+        };
+    }
 };
 
 /**
@@ -72,6 +84,20 @@ export class Attendee {
     microphone: boolean;
     camera: boolean;
     position: Position;
+    color: string;
+
+    /**
+     * generateColor
+     * Generates a random CSS color
+     */
+    private static generateColor() {
+        const SCALE = 200;
+        const OFFSET = 50;
+        const red = Math.floor(Math.random() * SCALE + OFFSET);
+        const green = Math.floor(Math.random() * SCALE + OFFSET);
+        const blue = Math.floor(Math.random() * SCALE + OFFSET);
+        return `rgb(${red}, ${green}, ${blue})`;
+    }
 
     /**
      * Attendee's constructor
@@ -80,6 +106,7 @@ export class Attendee {
         this.user = user;
         this.streams = new Map();
         this.position = new Position(0, 0);
+        this.color = Attendee.generateColor();
     }
 
     /**

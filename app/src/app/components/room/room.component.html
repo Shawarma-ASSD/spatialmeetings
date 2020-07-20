@@ -1,47 +1,74 @@
-<div class="leftContainer">
-    <!-- 
-        Attendee Container
-        Boundary container for the draggable AttendeeComponent, views of the Attendee model 
-    -->
-    <div class="attendeeContainer">
-        <ul>
-            <div *ngFor="let attendee of attendees" cdkDrag cdkDragBoundary=".attendeeContainer" (cdkDragEnded)="attendee.position.setFromPoint($event.source.getFreeDragPosition())">
-                <app-attendee [attendee]="attendee"></app-attendee>
+<mat-sidenav-container>
+    <mat-sidenav-content>
+        <div class="content-container"> 
+            <div class="container">
+                <div class="attendees-container">
+                    <!-- 
+                        Attendee Container
+                        Boundary container for the draggable AttendeeComponent, views of the Attendee model 
+                    -->
+                    <div class="remote-attendees-container">
+                        <div *ngFor="let attendee of attendees" class="attendee-container" cdkDrag cdkDragBoundary=".attendees-container" (cdkDragEnded)="attendee.position.setFromPoint($event.source.getFreeDragPosition())">
+                            <app-attendee [attendee]="attendee"></app-attendee>
+                        </div>
+                    </div>
+                        
+                    <!-- 
+                        Isolating the local AttendeeComponent's instance, not a draggable component.
+                    -->
+                    <div *ngIf="local" class="local-attendee-container">
+                        <app-attendee [attendee]="local"></app-attendee>
+                    </div>
+                </div>
+                
+                <!-- 
+                    Control Container
+                    Contains action buttons for the local attendee during the meeting 
+                -->"
+                <div class="media-button-container">
+                    <div id="meeting-buttons">
+                        <button mat-mini-fab color='basic' (click)="toggleMicrophone()">
+                            <mat-icon>
+                                {{local?.microphone | micicon}}
+                            </mat-icon>
+                        </button>
+                        <button mat-fab color='warn' (click)="hangOut()">
+                            <mat-icon>
+                                call_end
+                            </mat-icon>
+                        </button>
+                        <button mat-mini-fab color='basic' (click)="toggleCamera()">
+                            <mat-icon>
+                                {{local?.camera | cameraicon}}
+                            </mat-icon>
+                        </button>
+                    </div>
+                </div>
             </div>
-        </ul>
-        
-        <!-- 
-            Isolating the local AttendeeComponent's instance, not a draggable component.
-        -->
-        <div *ngIf="local">
-            <app-attendee [attendee]="local"></app-attendee>
-        </div>
-    </div>
-
-    <!-- 
-        Control Container
-        Contains action buttons for the local attendee during the meeting 
-    -->
-    <div class="controlContainer">
-        <button (click)="toggleMicrophone()">Toggle Mic</button>
-        <button (click)="toggleCamera()">Toggle Camera</button>
-        <button (click)="hangOut()">Hang Out</button>
-        <button >Share Link</button>
-    </div>
-</div>
-
-<!-- 
-    Panel Container
-    Panel with information about the meeting room, right now we're only showing the attendee's
-    names. If in the near future scales, a particular view as AttendeePanelComponent should be considered.
--->
-<div class="panelContainer">
-    <ul>
-        <li *ngIf="local">
-            {{local.user}}
-        </li>
-        <li *ngFor="let attendee of attendees">
-            {{attendee.user}}
-        </li>
-    </ul>
-</div>
+            <div class="general-button-container">
+                <button mat-mini-fab color='accent' (click)='sidenav.toggle()'>
+                    <mat-icon>
+                        menu
+                    </mat-icon>
+                </button>
+                <button mat-mini-fab color='link' (click)='shareLink()'>
+                    <mat-icon>
+                        share
+                    </mat-icon>
+                </button>
+            </div>
+        </div>  
+    </mat-sidenav-content>
+    <mat-sidenav #sidenav position="end" hasBackdrop="false" mode="over">
+        <section>
+            <mat-list>
+                <mat-list-item>
+                    <app-attendee-panel [attendee]="local"></app-attendee-panel>
+                </mat-list-item>
+                <mat-list-item *ngFor="let attendee of attendees">                
+                    <app-attendee-panel [attendee]="attendee"></app-attendee-panel>
+                </mat-list-item>
+            </mat-list>
+        </section>
+    </mat-sidenav>
+</mat-sidenav-container>
