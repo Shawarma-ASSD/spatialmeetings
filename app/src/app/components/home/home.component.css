@@ -2,7 +2,6 @@
   position: relative;
   width: 100%;
   height: 100vh;
-
 }
 
 .banner {
@@ -16,7 +15,6 @@
   color: #e91e63;
 }
 
-
 .vertical-center {
   margin: 0;
   position: absolute;
@@ -25,16 +23,19 @@
   transform: translateY(-50%);
   width: 100%;
 }
+
 .text-center {
   position: relative;
   text-align: center;
 
 }
+
 h1{
-  font-size: 60px;
+  font-size: 90px;
   color: #e91e63;
   font-family: Bebas;
 }
+
 h2{
   text-align: center;
   color: white;;
@@ -42,20 +43,21 @@ h2{
 
 .transparent{
   position: absolute;
-  background-color:transparent;
+  background-color: transparent;
+  align-self: end;
 }
 
 .example-spacer {
   flex: 1 1 auto;
 }
 
-.divider{
+.divider {
   width:5px;
   height:auto;
   display:inline-block;
 }
 
-.about{
+.about {
   color:white;
 }
 
@@ -67,13 +69,20 @@ h2{
   margin: 5px;
 }
 
-p{
-  font-size: small;
+p {
+  font-size: x-large;
+  font-family: 'Trebuchet MS';
+  text-align: justify;
+  line-height: normal;
 }
 
-.nico-bobo{
+#login-text {
+  font-size: small;
+  margin-right: 5px;
+}
+
+.log-button {
   vertical-align: middle;
-  display: table-cell;
 }
 
 @font-face {
