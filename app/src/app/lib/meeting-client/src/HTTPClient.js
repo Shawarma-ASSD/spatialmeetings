@@ -11,7 +11,6 @@ class HTTPClient {
      * @param {Object} data
      */
     static async postJSON(url, data) {
-        console.log("POST ", url, data);
         let response = await this.post(url, 
             JSON.stringify(data),
             { 
@@ -27,7 +26,6 @@ class HTTPClient {
      * @param {string} url
      */
     static async getJSON(url) {
-        console.log("GET ", url);
         let response = await this.get(url);
         return await response.json();
     }

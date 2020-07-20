@@ -2,6 +2,7 @@ module.exports = {
   // General server settings
   server: {
     port: 8080,
+    keepRoomAlive: true,
     tls: {
       cert: '/etc/ssl/certs/ssl-cert-snakeoil.pem',
       key: '/etc/ssl/private/ssl-cert-snakeoil.key'

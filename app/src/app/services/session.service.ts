@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { User } from '../interfaces/user';
 import { BehaviorSubject } from 'rxjs';
 
@@ -7,16 +7,23 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class SessionService {
   clientId: string = '224942652925-ogd3js0pdhkonbgltb6mdr5oo06ehftp.apps.googleusercontent.com';
-  auth: any;
   private clientLogged = new BehaviorSubject<boolean> (false);
   clientIsLogged = this.clientLogged.asObservable();
+  ready: EventEmitter<any> = new EventEmitter();
+  auth: any = null;
 
   constructor() {
-    // Initializing the GoogleAuth API
-    this.initGoogleAuth();
+    // Loading the script and initializing the Google Auth API
+    this.loadGoogleScript();
+  }
 
-    // Setting default members
-    this.auth = null;
+  /**
+   * isReady
+   * Returns whether the SessionService is ready to be used, or
+   * it is waiting the Google API SDK to be loaded and initialized.
+   */
+  public isReady(): boolean {
+    return this.auth !== null;
   }
 
   /**
@@ -78,6 +85,22 @@ export class SessionService {
   }
 
   /**
+   * loadGoogleScript
+   * Loads the javascript script from the Google API.
+   */
+  private loadGoogleScript() {
+      const node = document.createElement('script');
+      node.src = 'https://apis.google.com/js/api.js';
+      node.type = 'text/javascript';
+      node.async = false;
+      node.charset = 'utf-8';
+      node.onload = async () => {
+        await this.initGoogleAuth();
+      };
+      document.getElementsByTagName('head')[0].appendChild(node);
+  }
+
+  /**
    * initGoogleAuth
    * Initializes Google API.
    */
@@ -93,6 +116,7 @@ export class SessionService {
         .init({ client_id: this.clientId })
         .then(auth => {
           this.auth = auth;
+          this.ready.emit();
         });
     });
   }

@@ -229,7 +229,9 @@ class MeetingServer {
 
                 // Listening for the closure of the Room...
                 room.on('close', () => {
-                    this.rooms.delete(roomName);
+                    if (!this.config.server.keepRoomAlive) {
+                        this.rooms.delete(roomName);
+                    }
                 });
             }
     

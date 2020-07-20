@@ -43,10 +43,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(
       (queryParams: Params) => {
-          let errorMessage = queryParams['errorCode'] ? ErrorMessage[ErrorCode[+queryParams['errorCode']]] : null;
-
-          if (errorMessage) {
-            this.showSnackBar(errorMessage)
+          let errorCode = queryParams['errorCode'];
+          if (errorCode) {
+            this.showSnackBar(errorCode);
           }
       }
     );
@@ -60,7 +59,7 @@ export class HomeComponent implements OnInit {
   public async onButtonClicked(){
     // Verifying if the user has not signed in
     if (!this.session.isSigned()) {
-      this.session.signIn();
+      await this.session.signIn();
     }
 
     // Setup the meeting client with the current user mail
@@ -79,20 +78,19 @@ export class HomeComponent implements OnInit {
     if (result) {
       this.router.navigate(['room', this.room]);
     } else {
-      // ¡ERROR! Room not found, message needs to be displayed
-      this.showSnackBar(this.method === 'Crear'? 'Hubo un error al crear la sala' : 'Hubo un error al unirse a la sala');
+      this.showSnackBar(this.method == 'Crear' ? ErrorCode.RoomAlreadyExists : ErrorCode.RoomNotFound);
     }
   }
 
   /**
    * showSnackBar
    * show snackbar showing a message for the user
-   *
-   *
    */
-  private showSnackBar(message:string) {
-    this.snackBar.open(message,'OK',{duration:6000, politeness: 'assertive'});
+  private showSnackBar(code: ErrorCode) {
+    const message = ErrorMessage[ErrorCode[code]];
+    this.snackBar.open(message, 'OK', { duration: 6000, politeness: 'assertive' });
   }
+
   /**
    * goToUrl
    * Open a new window redirecting the user to the GitHub repository

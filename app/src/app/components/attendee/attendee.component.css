@@ -1,0 +1,12 @@
+.stream { 
+    width: 180px;
+    height: 180px;
+    mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+    border-radius: 50%;
+}
+
+video {
+    position: relative;
+    height: 100%;
+    right: 25%;
+}
