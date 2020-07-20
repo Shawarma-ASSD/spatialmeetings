@@ -272,7 +272,7 @@ export class RoomComponent implements OnInit {
   private async roomInit(roomName: string) {
     // User profile information with Google OAuth
     if ( !this.session.isSigned() ) {
-      this.session.signIn();
+      await this.session.signIn();
     }
     let user = this.session.getUser();
 
