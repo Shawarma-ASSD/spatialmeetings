@@ -98,9 +98,6 @@ p {
   right: 0;
   bottom: 0;
   object-fit: contain;
-  /* height: 100%; */
-  background-color: white;
-  border-radius: 50%;
 }
 
 #login-text {
@@ -126,4 +123,5 @@ p {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000000 100%), url('../../../assets/back5.jpg');
   background-position: center;
   background-size: cover;
+  overflow: hidden;
 }

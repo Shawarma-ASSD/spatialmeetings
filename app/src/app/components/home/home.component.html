@@ -1,6 +1,6 @@
 <div class="wrapper">
   <div class="master-div">
-    <mat-toolbar  class="transparent" fxFlexAlign="center center">
+    <mat-toolbar  class="transparent" fxFlexAlign="center center">  
       <span class="example-spacer"></span>
       <span id="login-text" *ngIf="userLogged" >Sesión iniciada como: {{ userMail }}</span>
       <button class="log-button" mat-raised-button color="primary" *ngIf="!userLogged" (click)="onLogin()">
@@ -22,45 +22,34 @@
             Inicia tu videollamada ahora
         </div>
       </div>
+  <div class="banner" fxLayout="column" fxLayoutAlign="center center"  data-aos="fade-up" data-aos-duration="850">
+    <mat-card >
+      <h2 class="text-center" >Crear sala o unirse a sala existente</h2>
 
-    <div class="banner" fxLayout="column" fxLayoutAlign="center center"  data-aos="fade-up" data-aos-duration="850">
-      <mat-card >
-        <h2 class="text-center" >Crear sala o unirse a sala existente</h2>
-
-        <div fxLayout="column" fxLayoutAlign="center center">
-          <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly">
-            <mat-form-field appearance="fill">
-              <mat-label>Seleccionar una opcion</mat-label>
-              <mat-select [(ngModel)]="method">
-                <mat-option value="Crear">Crear</mat-option>
-                <mat-option value="Unirse">Unirse</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field >
-              <input [(ngModel)]="room" matInput placeholder="Nombre de la sala">
-            </mat-form-field>
-          </div>
-          <button mat-raised-button color="accent" (click)="onButtonClicked()">{{ method }}</button>
-          </div>
-        </mat-card>
-      </div>
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly">
+          <mat-form-field appearance="fill">
+            <mat-label>Seleccionar una opcion</mat-label>
+            <mat-select [(ngModel)]="method">
+              <mat-option value="Crear">Crear</mat-option>
+              <mat-option value="Unirse">Unirse</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field >
+            <input [(ngModel)]="room" matInput placeholder="Nombre de la sala">
+          </mat-form-field>
+        </div>
+        <button mat-raised-button color="accent" (click)="onButtonClicked()">{{ method }}</button>
+        </div>
+      </mat-card>
     </div>
   </div>
-
-
+  </div>
     <mat-divider></mat-divider>
-    <section class="about">
-      <p>
-        Spatial Meetings busca brindar una experiencia de videollamadas más realistas con el agregado de sonido espacial,
-        para poder escuchar a los participantes desde distintas posiciones, como pasa en una charla de la vida cotidiana.
-      </p>
-    </section>
-    <!-- <mat-divider></mat-divider> -->
     <div id="footer" fxLayout="row">
-      <span class="example-spacer"></span>
-      <button mat-icon-button color="accent" (click)="goToUrl('https://github.com/Shawarma-ASSD/spatialmeetings')">
-          <img  id="github-icon" src="../../../assets/github.svg" height="70">
+      <button id="github-button" mat-icon-button color="accent" (click)="goToUrl('https://github.com/Shawarma-ASSD/spatialmeetings')">
+          <mat-icon svgIcon="github"> </mat-icon>
+          <!-- <img  id="github-icon" src="../../../assets/github.svg" height="70"> -->
       </button>
     </div>
-
 </div>
