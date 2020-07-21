@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MatIconRegistry } from '@angular/material/icon';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { SessionService } from '../../services/session.service';
@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit {
    * or the user wants to join the meeting.
    */
   public async onButtonClicked(){
-    if(! this.userLogged) {    
+    if(! this.userLogged) {
       await this.onLogin();
     }
     // Setup the meeting client with the current user mail

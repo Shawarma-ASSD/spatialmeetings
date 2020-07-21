@@ -13,6 +13,8 @@ import { MediaStreamTypes } from '../../lib/meeting-client/meeting-client';
 import { ErrorCode } from '../../interfaces/codes';
 import { Attendee } from '../../interfaces/attendee';
 import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 
 @Component({
   selector: 'app-room',
@@ -27,7 +29,7 @@ export class RoomComponent implements OnInit {
   attendees: Array<Attendee> = [];
   local: Attendee = null;
 
-  /* ResonanceAudio components */ 
+  /* ResonanceAudio components */
   audioContext: AudioContext;
   resonanceRoom: ResonanceAudio;
   roomDimensions: RoomDimensions;
@@ -41,7 +43,8 @@ export class RoomComponent implements OnInit {
     private session: SessionService,
     private meeting: MeetingService,
     private snackbar: MatSnackBar,
-    private clipboard: Clipboard
+    private clipboard: Clipboard,
+    private dialog: MatDialog
   ) { }
 
   async ngOnInit() {
@@ -73,7 +76,7 @@ export class RoomComponent implements OnInit {
       // Room ceiling
       up: 'grass',
     };
-    this.resonanceRoom.setRoomProperties(this.roomDimensions, this.roomMaterials);    
+    this.resonanceRoom.setRoomProperties(this.roomDimensions, this.roomMaterials);
 
 
     // Run the initialization method for the room,
@@ -307,13 +310,21 @@ export class RoomComponent implements OnInit {
   }
 
   /**
+   * openDialog()
+   * opens login dialog
+   */
+  openDialog() {
+    this.dialog.open(LoginDialogComponent);
+  }
+
+  /**
    * roomInit
    * Initialization of the Room meeting.
    */
   private async roomInit(roomName: string) {
     // User profile information with Google OAuth
     if ( !this.session.isSigned() ) {
-      await this.session.signIn();
+      this.openDialog()
     }
     let user = this.session.getUser();
 
