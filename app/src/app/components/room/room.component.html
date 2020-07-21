@@ -2,7 +2,7 @@
     <mat-sidenav-content>
         <div class="content-container">
             <div class="container">
-                <div class="attendees-container">
+                <div #attendeesContainer class="attendees-container">
                     <!--
                         Attendee Container
                         Boundary container for the draggable AttendeeComponent, views of the Attendee model
@@ -24,7 +24,7 @@
                 <!--
                     Control Container
                     Contains action buttons for the local attendee during the meeting
-                -->"
+                -->
                 <div class="media-button-container">
                     <div id="meeting-buttons">
                         <button mat-mini-fab color='basic' (click)="toggleMicrophone()" [disabled]="!local?.hasStream('mic')">

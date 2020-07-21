@@ -61,26 +61,36 @@ export class HomeComponent implements OnInit {
    * or the user wants to join the meeting.
    */
   public async onButtonClicked(){
+<<<<<<< HEAD
     if(! this.userLogged) {
+=======
+    // If not logged, forces to log in
+    if(!this.userLogged) {    
+>>>>>>> e686f2f84414a64cba79a3bc2ba75a858703b298
       await this.onLogin();
     }
-    // Setup the meeting client with the current user mail
-    let user = this.session.getUser();
-    this.meeting.getClient().setUser(user.email);
 
-    // Execute method calls, to verify whether it can be created, or joined
-    let result;
-    if (this.method == 'Crear') {
-      result = await this.meeting.getClient().createRoom(this.room);
-    } else if (this.method == 'Unirse') {
-      result = await this.meeting.getClient().roomExists(this.room);
-    }
+    // If could be forced to log in. This fails when the Google API
+    // has not been loaded yet.
+    if (this.userLogged) {
+      // Setup the meeting client with the current user mail
+      let user = this.session.getUser();
+      this.meeting.getClient().setUser(user.email);
 
-    // Routing, or showing error message
-    if (result) {
-      this.router.navigate(['room', this.room]);
-    } else {
-      this.showSnackBar(this.method == 'Crear' ? ErrorCode.RoomAlreadyExists : ErrorCode.RoomNotFound);
+      // Execute method calls, to verify whether it can be created, or joined
+      let result;
+      if (this.method == 'Crear') {
+        result = await this.meeting.getClient().createRoom(this.room);
+      } else if (this.method == 'Unirse') {
+        result = await this.meeting.getClient().roomExists(this.room);
+      }
+
+      // Routing, or showing error message
+      if (result) {
+        this.router.navigate(['room', this.room]);
+      } else {
+        this.showSnackBar(this.method == 'Crear' ? ErrorCode.RoomAlreadyExists : ErrorCode.RoomNotFound);
+      }
     }
   }
 
@@ -101,24 +111,27 @@ export class HomeComponent implements OnInit {
   public goToUrl(url: string) {
     window.open(url);
   }
+
   /**
    * onLogin()
    */
   async onLogin() {
-    await this.session.signIn();
-    this.userMail = this.session.getUser().email;
-    //this.showSnackBar('Sesión iniciada con: ' + this.session.getUser().email);
+    if (this.session.isLoaded()) {
+      await this.session.signIn();
+      this.userMail = this.session.getUser().email;
+    }
   }
 
   /**
    * onLogout()
    */
   onLogout() {
-    let user = this.session.getUser().email;
-    if (this.session.isSigned()) {
-      this.session.signOut();
+    if (this.session.isLoaded()) {
+      let user = this.session.getUser().email;
+      if (this.session.isSigned()) {
+        this.session.signOut();
+      }
+      this.snackBar.open('Se ha cerrado la sesión de ' + user, 'OK');
     }
-    this.snackBar.open('Se ha cerrado la sesión de ' + user, 'OK');
   }
-
 }

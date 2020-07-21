@@ -123,6 +123,21 @@ export class Attendee {
     }
 
     /**
+     * setStreamStatus
+     * Sets the current status of the stream, only works
+     * when stream has been registered on that type.
+     */
+    public setStreamStatus(type: string, status: boolean) {
+        if (this.streams.has(type)) {
+            if (type == MediaStreamTypes.Microphone) {
+                this.setMicrophoneStatus(status);
+            } else {
+                this.setCameraStatus(status);
+            }
+        }
+    }
+
+    /**
      * setSource
      * Sets the new Source in the ResonanceRoom for the spatial audio
      */

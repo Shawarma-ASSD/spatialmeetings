@@ -117,14 +117,11 @@ class MeetingServer {
     async connectionRequest(info, accept, reject) {
         // On connection request, parses the URL to get parameters
         const { roomName, userMail } = url.parse(info.request.url, true).query;
-        let transport;
-
 
         // Verifies connection parameters
         if (roomName !== undefined && userMail !== undefined) {
             if (this.rooms.has(roomName)) {
-                transport = accept();
-                await this.rooms.get(roomName).handleAttendeeConnection(userMail, transport);
+                await this.rooms.get(roomName).handleAttendeeConnection(userMail, accept, reject);
             } else {
                 reject(404, 'Room not found');
             }
@@ -215,7 +212,6 @@ class MeetingServer {
         if (roomName !== undefined && userMail !== undefined) {
             let wasCreated = false;
             let router;
-            let protooRoom;
             let room;
     
             // Verifiying if the room already exists

@@ -60,21 +60,19 @@ export class RoomComponent implements OnInit {
     this.volume.connect(this.audioContext.destination);
 
     // Setting the Room properties for the spatial sound processor
+    this.resonanceRoom.setAmbisonicOrder(3);
     this.roomDimensions = {
-      width: 4.0,
-      height: 4.0,
-      depth: 4.0,
+      width: 8, 
+      height: 3.4,
+      depth: 9,
     };
     this.roomMaterials = {
-      // Room wall materials
-      left: 'brick-bare',
-      right: 'curtain-heavy',
-      front: 'marble',
-      back: 'glass-thin',
-      // Room floor
+      left: 'transparent', 
+      right: 'transparent',
+      up: 'transparent', 
       down: 'grass',
-      // Room ceiling
-      up: 'grass',
+      front: 'transparent', 
+      back: 'transparent'
     };
     this.resonanceRoom.setRoomProperties(this.roomDimensions, this.roomMaterials);
 
@@ -111,10 +109,11 @@ export class RoomComponent implements OnInit {
 
     // Normalizing position
     let x = (attendeePosition.x * (this.roomDimensions.width / 2)) / (containerRect.width / 2);
-    let y = ((localRect.y - attendeePosition.y) * this.roomDimensions.height) / containerRect.height;
+    let y = ((localRect.y - attendeePosition.y) * this.roomDimensions.depth) / containerRect.height;
 
     // Setting position
     attendee.setPosition(x, y);
+    console.log(x, y);
   }
 
   /**
@@ -210,9 +209,12 @@ export class RoomComponent implements OnInit {
    * onStreamAdded
    * Fired when an Attendee has added a new streaming device to its producers.
    */
-  private onStreamAdded(user: string, type: any, stream: any) {
+  private onStreamAdded(user: string, type: any, stream: any, paused: boolean) {
     this.zone.run( () => {
+      // Sets the stream status and the stream
       this.getAttendee(user).addStream(type, stream);
+      this.getAttendee(user).setStreamStatus(type, !paused);
+
       // When stream has been added, if Microphone, a Source must be created in the
       // ResonanceRoom, fed by the streaming input from WebRTC
       if (type == MediaStreamTypes.Microphone) {
@@ -345,21 +347,17 @@ export class RoomComponent implements OnInit {
           } catch (error) {
             this.snackbar.open('Hubo un error al cargar la cámara', 'OK', {duration: 3000, verticalPosition:'top', horizontalPosition:'center'});
           }
-
       }
       if(availableDevices.some(( element ) => {
         return (element.kind === 'audioinput');
       })) {
         try {
           audioStream = await window.navigator.mediaDevices.getUserMedia({ audio: true });
-        this.local.addStream(MediaStreamTypes.Microphone, audioStream);
+          this.local.addStream(MediaStreamTypes.Microphone, audioStream);
         } catch (error) {
           this.snackbar.open('Hubo un error al cargar el micrófono', 'OK', {duration: 3000, verticalPosition:'top', horizontalPosition:'center'});
         }
-
       }
-
-
 
       // Setting the Meeting Client
       this.meeting.getClient().setUser(user.email);
@@ -369,7 +367,7 @@ export class RoomComponent implements OnInit {
       // Set the callback for each event raised by the MeetingClient
       this.meeting.getClient().setAttendeeJoined( (user) => this.onAttendeeJoined(user) );
       this.meeting.getClient().setAttendeeLeft( (user) => this.onAttendeeLeft(user) );
-      this.meeting.getClient().setStreamAdded( (user, type, stream) => this.onStreamAdded(user, type, stream) );
+      this.meeting.getClient().setStreamAdded( (user, type, stream, paused) => this.onStreamAdded(user, type, stream, paused) );
       this.meeting.getClient().setStreamRemoved( (user, type) => this.onStreamRemoved(user, type) );
       this.meeting.getClient().setStreamPaused( (user, type) => this.onStreamPaused(user, type) );
       this.meeting.getClient().setStreamResumed( (user, type) => this.onStreamResumed(user, type) );
