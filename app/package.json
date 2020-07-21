@@ -29,6 +29,7 @@
     "aos": "^2.3.4",
     "mediasoup-client": "^3.6.12",
     "protoo-client": "^4.0.4",
+    "resonance-audio": "^1.0.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

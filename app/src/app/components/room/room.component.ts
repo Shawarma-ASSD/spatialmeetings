@@ -2,6 +2,9 @@ import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { CdkDragMove } from '@angular/cdk/drag-drop'
+
+import { ResonanceAudio, RoomDimensions, RoomMaterials } from 'resonance-audio';
 
 import { SessionService } from '../../services/session.service';
 import { MeetingService } from '../../services/meeting.service';
@@ -17,20 +20,24 @@ import { Attendee } from '../../interfaces/attendee';
   styleUrls: ['./room.component.css']
 })
 export class RoomComponent implements OnInit {
+  @ViewChild('attendeesContainer') attendeesContainer;
   @ViewChild('localContainer') localContainer;
 
   /* Room's Attendees */
   attendees: Array<Attendee> = [];
   local: Attendee = null;
 
-  /* WebAudio API Instances */
-  context: AudioContext;
-  volume: GainNode;
-  rate: number;
+  // context: AudioContext;
+  // volume: GainNode;
+  // rate: number;
+  // hrir: any;
+  // brir: any;
 
-  /* Impulse Response containers, type annotation not used, js library... */
-  hrir: any;
-  brir: any;
+  /* ResonanceAudio components */ 
+  audioContext: AudioContext;
+  resonanceRoom: ResonanceAudio;
+  roomDimensions: RoomDimensions;
+  roomMaterials: RoomMaterials;
 
   constructor(
     private zone: NgZone,
@@ -38,7 +45,6 @@ export class RoomComponent implements OnInit {
     private route: ActivatedRoute,
     private session: SessionService,
     private meeting: MeetingService,
-    private spatial: SpatialService,
     private snackbar: MatSnackBar,
     private clipboard: Clipboard
     //private streamNode: MediaStreamAudioDestinationNode
@@ -49,15 +55,30 @@ export class RoomComponent implements OnInit {
     this.attendees = [];
     this.local = null;
 
-    // Initializing AudioContext components
-    this.rate = 48000;
-    this.context = new AudioContext({ sampleRate: this.rate });
+    // Creating the ResonanceAudio handler for the Room
+    this.audioContext = new AudioContext();
+    this.resonanceRoom = new ResonanceAudio(this.audioContext);
+    this.resonanceRoom.output.connect(this.audioContext.destination);
 
-    // Fetching for the first time the Spatial Container from the SpatialService, 
-    // to be prepared during the meeting.
-    const { hrir, brir } = await this.spatial.getContainers( { elevation: 0 } );
-    this.hrir = hrir;
-    this.brir = brir;
+    // Setting the Room properties for the spatial sound processor
+    this.roomDimensions = {
+      width: 4.0,
+      height: 4.0,
+      depth: 4.0,
+    };
+    this.roomMaterials = {
+      // Room wall materials
+      left: 'brick-bare',
+      right: 'curtain-heavy',
+      front: 'marble',
+      back: 'glass-thin',
+      // Room floor
+      down: 'grass',
+      // Room ceiling
+      up: 'grass',
+    };
+    this.resonanceRoom.setRoomProperties(this.roomDimensions, this.roomMaterials);    
+
 
     // Run the initialization method for the room,
     // but first we need to verify the SessionService status,
@@ -78,14 +99,30 @@ export class RoomComponent implements OnInit {
   }
 
   /**
+   * setPosition
+   * Fired whenever the position of any Attendee (except the Local Attendee),
+   * has been changed.
+   */
+  public setPosition(attendee: Attendee, event: CdkDragMove) {
+    // Getting data of size and position of interest elements
+    let containerRect = this.attendeesContainer.nativeElement.getBoundingClientRect();
+    let localRect = this.localContainer.nativeElement.getBoundingClientRect();
+    let attendeePosition = event.source.getFreeDragPosition();
+
+    // Normalizing position
+    let x = (attendeePosition.x * (this.roomDimensions.width / 2)) / (containerRect.width / 2);
+    let y = ((localRect.y - attendeePosition.y) * this.roomDimensions.height) / containerRect.height;
+
+    // Setting position
+    attendee.setPosition(x, y);
+  }
+
+  /**
    * setVolume
    * Sets the current value of the audio system
    */
   public setVolume(value: number) {
-    this.local.setVolume(value);
-    for (let attendee of this.attendees) {
-      attendee.setVolume(value);
-    }
+    // Code here to control the volume of the Room...
   }
 
   /**
@@ -176,6 +213,15 @@ export class RoomComponent implements OnInit {
   private onStreamAdded(user: string, type: any, stream: any) {
     this.zone.run( () => {
       this.getAttendee(user).addStream(type, stream);
+
+      // When stream has been added, if Microphone, a Source must be created in the
+      // ResonanceRoom, fed by the streaming input from WebRTC
+      if (type == MediaStreamTypes.Microphone) {
+        let mediaSource = this.audioContext.createMediaStreamSource(stream);
+        let source = this.resonanceRoom.createSource();
+        mediaSource.connect(source.input);
+        this.getAttendee(user).setSource(source);
+      }
     });
   }
 
@@ -227,14 +273,7 @@ export class RoomComponent implements OnInit {
     let attendee = null;
     if ( !this.hasAttendee(user) ) {
       // Instance a new Attendee
-      attendee = new Attendee(
-        user,
-        {
-          context: this.context,
-          hrir: this.hrir,
-          brir: this.brir
-        }
-      );
+      attendee = new Attendee(user);
       // Add it to the attendee list
       this.attendees.push(attendee);
     }
@@ -286,18 +325,10 @@ export class RoomComponent implements OnInit {
     if ( await this.meeting.getClient().roomExists(roomName) ) {
       // Setting the local Attendee instance, and getting the media device
       // streaming instances, for both audio and video
-      this.local = new Attendee(
-        user.email,
-        {
-          context: this.context,
-          hrir: this.hrir,
-          brir: this.brir
-        }
-      );
+      this.local = new Attendee(user.email);
       let videoStream = await window.navigator.mediaDevices.getUserMedia({ video: true });
       let audioStream = await window.navigator.mediaDevices.getUserMedia({ audio: true });
       this.local.addStream(MediaStreamTypes.WebCam, videoStream);
-      this.local.addStream(MediaStreamTypes.Microphone, audioStream);
       this.local.setMicrophoneStatus(true);
 
       // Setting the Meeting Client
