@@ -21,7 +21,6 @@ import { MatSliderModule } from '@angular/material/slider';
 
 import { SessionService } from './services/session.service';
 import { MeetingService } from './services/meeting.service';
-import { SpatialService } from './services/spatial.service';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -66,8 +65,7 @@ import { CameraIconPipe } from './pipes/CameraIconPipe';
   ],
   providers: [
     SessionService,
-    MeetingService,
-    SpatialService
+    MeetingService
   ],
   bootstrap: [AppComponent]
 })

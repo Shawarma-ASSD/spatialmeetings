@@ -5,7 +5,6 @@ const fs = require('fs');
 
 // Importing project modules
 const { MeetingServer } = require('./lib/meeting-server/meeting-server');
-const { SpatialServer } = require('./lib/spatial-server/spatial-server');
 
 // Importing server configuration
 const config = require('./config');
@@ -27,9 +26,6 @@ let app;
 
     // Creates the meeting server
     meetingServer = await MeetingServer.createMeetingServer(httpServer, config.meeting);
-    
-    // Adding CORS
-    app.use(cors());
 
     // Logging requests
     app.use((req, res, next) => {
