@@ -5,14 +5,12 @@ const fs = require('fs');
 
 // Importing project modules
 const { MeetingServer } = require('./lib/meeting-server/meeting-server');
-const { SpatialServer } = require('./lib/spatial-server/spatial-server');
 
 // Importing server configuration
 const config = require('./config');
 
 // Global variables
 let meetingServer;
-let spatialServer;
 let httpServer;
 let app;
 
