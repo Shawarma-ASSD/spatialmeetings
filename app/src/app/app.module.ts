@@ -18,6 +18,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatDialogModule} from '@angular/material/dialog';
 
 import { SessionService } from './services/session.service';
 import { MeetingService } from './services/meeting.service';
@@ -30,6 +31,7 @@ import { AttendeePanelComponent } from './components/attendee-panel/attendee-pan
 
 import { MicIconPipe } from './pipes/MicIconPipe';
 import { CameraIconPipe } from './pipes/CameraIconPipe';
+import { LoginDialogComponent } from './components/room/login-dialog/login-dialog.component';
 
 
 @NgModule({
@@ -40,7 +42,8 @@ import { CameraIconPipe } from './pipes/CameraIconPipe';
     AttendeeComponent,
     MicIconPipe,
     CameraIconPipe,
-    AttendeePanelComponent
+    AttendeePanelComponent,
+    LoginDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +64,8 @@ import { CameraIconPipe } from './pipes/CameraIconPipe';
     MatListModule,
     MatToolbarModule,
     ClipboardModule,
-    MatSliderModule
+    MatSliderModule,
+    MatDialogModule
   ],
   providers: [
     SessionService,
