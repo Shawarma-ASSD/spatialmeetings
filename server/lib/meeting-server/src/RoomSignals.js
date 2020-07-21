@@ -76,6 +76,8 @@ class RoomSignals extends EventEmitter {
 
             // Emitting the event over socket of the Attendee leaving the Room
             await this.broadcastUserLeft(user);
+
+            console.log(`[Server] ${user} se ha desconectado del socket.`);
         });
     }
 

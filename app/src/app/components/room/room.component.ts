@@ -113,7 +113,6 @@ export class RoomComponent implements OnInit {
 
     // Setting position
     attendee.setPosition(x, y);
-    console.log(x, y);
   }
 
   /**

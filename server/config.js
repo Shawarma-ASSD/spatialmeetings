@@ -13,7 +13,7 @@ module.exports = {
   },
   meeting: {
     // General settings
-    keepRoomAlive: true,
+    keepRoomAlive: false,
     // Router settings
     router: {
       mediaCodecs:
