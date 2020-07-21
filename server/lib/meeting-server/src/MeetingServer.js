@@ -228,7 +228,11 @@ class MeetingServer {
                     if (!this.config.keepRoomAlive) {
                         this.rooms.delete(roomName);
                     }
+
+                    console.log(`[Server] La sala ${roomName} se ha cerrado por estar vacía.`);
                 });
+
+                console.log(`[Server] La sala ${roomName} ha sido creada por ${userMail}`);
             }
     
             // HTTP Response, return success with the creation status
