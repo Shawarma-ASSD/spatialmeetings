@@ -129,7 +129,11 @@ export class Attendee {
      */
     public setStreamStatus(type: string, status: boolean) {
         if (this.streams.has(type)) {
-            (type == MediaStreamTypes.Microphone ? this.setMicrophoneStatus : this.setCameraStatus)(status);
+            if (type == MediaStreamTypes.Microphone) {
+                this.setMicrophoneStatus(status);
+            } else {
+                this.setCameraStatus(status);
+            }
         }
     }
 

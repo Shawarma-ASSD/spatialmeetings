@@ -336,7 +336,7 @@ export class RoomComponent implements OnInit {
       // Set the callback for each event raised by the MeetingClient
       this.meeting.getClient().setAttendeeJoined( (user) => this.onAttendeeJoined(user) );
       this.meeting.getClient().setAttendeeLeft( (user) => this.onAttendeeLeft(user) );
-      this.meeting.getClient().setStreamAdded( (user, type, stream) => this.onStreamAdded(user, type, stream) );
+      this.meeting.getClient().setStreamAdded( (user, type, stream, paused) => this.onStreamAdded(user, type, stream, paused) );
       this.meeting.getClient().setStreamRemoved( (user, type) => this.onStreamRemoved(user, type) );
       this.meeting.getClient().setStreamPaused( (user, type) => this.onStreamPaused(user, type) );
       this.meeting.getClient().setStreamResumed( (user, type) => this.onStreamResumed(user, type) );

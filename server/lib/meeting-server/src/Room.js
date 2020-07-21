@@ -35,6 +35,32 @@ class Room extends EventEmitter {
         this.room = new RoomSignals();
         this.room.on('userLeft', async (user) => await this._userLeft(user));
         this.room.on('producerRemoved', async (user, type) => await this._producerRemoved(user, type));
+        this.room.on('producerPaused', async (user, type) => await this._producerPaused(user, type));
+        this.room.on('producerResumed', async (user, type) => await this._producerResumed(user, type));
+    }
+
+    /**
+     * _producerPaused
+     * Handles the event when the user pauses the producer.
+     * @param {string} user 
+     * @param {MediaStreamType} type 
+     */
+    async _producerPaused(user, type) {
+        if (this.hasAttendee(user)) {
+            this.attendees.get(user).pauseProducer(type);
+        }
+    }
+
+    /**
+     * _producerResumed
+     * Handles the event when the user resumes the producer.
+     * @param {string} user 
+     * @param {MediaStreamType} type 
+     */
+    async _producerResumed(user, type) {
+        if (this.hasAttendee(user)) {
+            this.attendees.get(user).resumeProducer(type);
+        }
     }
 
     /**
@@ -45,10 +71,12 @@ class Room extends EventEmitter {
      * @param {string} user 
      */
     async _userLeft(user) {
-        this.attendees.get(user).close();
-        this.attendees.delete(user);
-        if (this.attendees.size == 0) {
-            this.emit('close');
+        if (this.hasAttendee(user)) {
+            this.attendees.get(user).close();
+            this.attendees.delete(user);
+            if (this.attendees.size == 0) {
+                this.emit('close');
+            }
         }
     }
 
@@ -60,9 +88,11 @@ class Room extends EventEmitter {
      * @param {MediaStreamType} type 
      */
     async _producerRemoved(user, type) {
-        this.attendees
-            .get(user)
-            .removeProducer(type);
+        if (this.hasAttendee(user)) {
+            this.attendees
+                .get(user)
+                .removeProducer(type);
+        }
     }
 
     /**
@@ -90,6 +120,8 @@ class Room extends EventEmitter {
         
                 // Emitting the socket event of a new Attendee joining the Room
                 await this.room.broadcastUserJoined(id, producers);
+
+                console.log(`[Server] ${id} se ha conectado al socket.`);
             }
         }
 
