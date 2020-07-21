@@ -39,6 +39,14 @@ let app;
     // Sets the route of the meeting server api
     app.use('/api/media', meetingServer.getRouter());
 
+   // Serve client files
+   app.use(express.static(process.cwd() + "/app/dist/app/"));
+    
+   // Serve index.html for default route
+   app.get('*', (req, res) => {
+       res.sendFile(process.cwd() + "/app/dist/app/index.html");
+   });
+
     // Console message
     console.log(`[Server] The server is listening to port ${config.server.port}`);
 })();

@@ -79,9 +79,19 @@ class RemoteMediaStream extends BaseMediaStream {
      * RemoteMediaStream
      * Contains a remote's stream MediaSoup Consumer
      * @param {MediaStreamTypes} type 
+     * @param {Boolean} paused: initial state
      */
-    constructor(type) {
+    constructor(type, paused) {
         super(type);
+        this.paused = paused;
+    }
+
+    /**
+     * startedPaused
+     * Returns true if the stream was initially paused
+     */
+    startedPaused() {
+        return this.paused;
     }
 }
 

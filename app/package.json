@@ -26,6 +26,7 @@
     "@types/gapi": "0.0.39",
     "@types/gapi.auth2": "0.0.52",
     "angularx-social-login": "^3.2.0",
+    "aos": "^2.3.4",
     "mediasoup-client": "^3.6.12",
     "protoo-client": "^4.0.4",
     "rxjs": "~6.5.5",
