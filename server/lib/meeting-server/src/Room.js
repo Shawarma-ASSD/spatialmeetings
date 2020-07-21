@@ -70,16 +70,32 @@ class Room extends EventEmitter {
      * Handles a new connection on the web socket server,
      * from an incoming Attendee.
      * @param {Attendee's mail: string} id 
-     * @param {Transport} transport 
+     * @param {Accept function} accept
+     * @param {Reject function} reject 
      */
-    async handleAttendeeConnection(id, transport) {
-        let producers = this.attendees.get(id).getProducersInfo();
+    async handleAttendeeConnection(id, accept, reject) {
+        // We must verify that the user has followed the networking
+        // and an Attendee instance was created, also check that the
+        // connection has not been already established.
+        let shouldReject = true;
 
-        // Adding the Attendee connection to the Socket Room
-        await this.room.addAttendee(id, transport);
+        if (this.hasAttendee(id)) {
+            if (!this.room.hasAttendee(id)) {
+                let producers = this.attendees.get(id).getProducersInfo();
+                let transport = accept();
+                shouldReject = false;
 
-        // Emitting the socket event of a new Attendee joining the Room
-        await this.room.broadcastUserJoined(id, producers);
+                // Adding the Attendee connection to the Socket Room
+                await this.room.addAttendee(id, transport);
+        
+                // Emitting the socket event of a new Attendee joining the Room
+                await this.room.broadcastUserJoined(id, producers);
+            }
+        }
+
+        if (shouldReject) {
+            reject();
+        }
     }
 
     /**
