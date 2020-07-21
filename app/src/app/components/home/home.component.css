@@ -39,6 +39,12 @@ h1{
   line-height: 90px;
 }
 
+.subtext{
+  text-align: center;
+  font-size: 30px;
+  color: lightgrey;
+}
+
 h2{
   text-align: center;
   color: lightgrey;
@@ -117,7 +123,7 @@ p {
 }
 
 .wrapper{
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000000 100%), url('../../../assets/back1.jpg');
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000000 100%), url('../../../assets/back5.jpg');
   background-position: center;
   background-size: cover;
 }
