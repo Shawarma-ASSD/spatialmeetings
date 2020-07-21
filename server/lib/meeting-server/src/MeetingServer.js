@@ -123,8 +123,7 @@ class MeetingServer {
         // Verifies connection parameters
         if (roomName !== undefined && userMail !== undefined) {
             if (this.rooms.has(roomName)) {
-                transport = accept();
-                await this.rooms.get(roomName).handleAttendeeConnection(userMail, transport);
+                await this.rooms.get(roomName).handleAttendeeConnection(userMail, accept, reject);
             } else {
                 reject(404, 'Room not found');
             }
@@ -229,7 +228,7 @@ class MeetingServer {
 
                 // Listening for the closure of the Room...
                 room.on('close', () => {
-                    if (!this.config.server.keepRoomAlive) {
+                    if (!this.config.keepRoomAlive) {
                         this.rooms.delete(roomName);
                     }
                 });

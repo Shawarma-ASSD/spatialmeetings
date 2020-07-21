@@ -9,7 +9,9 @@ const protoo = require('protoo-server');
  * 
  * As an EventEmitter, raises the following events:
  *      + userLeft [user: string] : User left the Room
- *      + producerRemoved [user: string, type: string] : User removed a producer resource
+ *      + producerRemoved [user: string, type: string] : User removed a producer resourserce
+ *      + producerPaused [user: string, type: string] : User paused the producer
+ *      + producerResumed [user: string, type: string] : User resumed the producer
  */
 class RoomSignals extends EventEmitter {
     
@@ -214,6 +216,7 @@ class RoomSignals extends EventEmitter {
      */
     async _producerPaused(user, data) {
         this.broadcastProducerPaused(user, data.type);
+        this.emit('producerPaused', user, data.type);
     }
 
     /**
@@ -224,6 +227,7 @@ class RoomSignals extends EventEmitter {
      */
     async _producerResumed(user, data) {
         this.broadcastProducerResumed(user, data.type);
+        this.emit('producerResumed', user, data.type);
     }
 }
 

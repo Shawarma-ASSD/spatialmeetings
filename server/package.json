@@ -14,6 +14,8 @@
     "express": "^4.17.1",
     "mediasoup": "^3.6.12",
     "nodemon": "^2.0.4",
-    "protoo-server": "^4.0.4"
+    "npm": "^6.14.6",
+    "protoo-server": "^4.0.4",
+    "start": "^5.1.0"
   }
 }

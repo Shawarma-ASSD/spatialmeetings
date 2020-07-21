@@ -17,6 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { SessionService } from './services/session.service';
 import { MeetingService } from './services/meeting.service';
@@ -29,6 +30,7 @@ import { AttendeePanelComponent } from './components/attendee-panel/attendee-pan
 
 import { MicIconPipe } from './pipes/MicIconPipe';
 import { CameraIconPipe } from './pipes/CameraIconPipe';
+
 
 @NgModule({
   declarations: [
@@ -58,8 +60,8 @@ import { CameraIconPipe } from './pipes/CameraIconPipe';
     MatSidenavModule,
     MatListModule,
     MatToolbarModule,
-    ClipboardModule
-
+    ClipboardModule,
+    MatSliderModule
   ],
   providers: [
     SessionService,

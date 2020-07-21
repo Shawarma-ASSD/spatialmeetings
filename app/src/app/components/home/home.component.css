@@ -32,16 +32,22 @@
 
 h1{
   font-size: 90px;
-  color: #e91e63;
+  color: white;
   font-family: Bebas;
   text-align: center;
   margin-bottom: auto;
   line-height: 90px;
 }
 
+.subtext{
+  text-align: center;
+  font-size: 30px;
+  color: lightgrey;
+}
+
 h2{
   text-align: center;
-  color: white;;
+  color: lightgrey;
 }
 
 .transparent{
@@ -92,9 +98,6 @@ p {
   right: 0;
   bottom: 0;
   object-fit: contain;
-  /* height: 100%; */
-  background-color: white;
-  border-radius: 50%;
 }
 
 #login-text {
@@ -117,5 +120,8 @@ p {
 }
 
 .wrapper{
-  background-image: url('../../../assets/back.jpg');
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000000 100%), url('../../../assets/back5.jpg');
+  background-position: center;
+  background-size: cover;
+  overflow: hidden;
 }

@@ -1,33 +1,33 @@
 <mat-sidenav-container>
     <mat-sidenav-content>
-        <div class="content-container"> 
+        <div class="content-container">
             <div class="container">
                 <div class="attendees-container">
-                    <!-- 
+                    <!--
                         Attendee Container
-                        Boundary container for the draggable AttendeeComponent, views of the Attendee model 
+                        Boundary container for the draggable AttendeeComponent, views of the Attendee model
                     -->
                     <div class="remote-attendees-container">
-                        <div *ngFor="let attendee of attendees" class="attendee-container" cdkDrag cdkDragBoundary=".attendees-container" (cdkDragEnded)="attendee.position.setFromPoint($event.source.getFreeDragPosition())">
+                        <div *ngFor="let attendee of attendees" class="attendee-container" cdkDrag cdkDragBoundary=".attendees-container" (cdkDragMove)="setPosition(attendee, $event)" (cdkDragRelease)="setPosition(attendee, $event)" (cdkDragEnded)="setPosition(attendee, $event)">
                             <app-attendee [attendee]="attendee"></app-attendee>
                         </div>
                     </div>
-                        
-                    <!-- 
+
+                    <!--
                         Isolating the local AttendeeComponent's instance, not a draggable component.
                     -->
-                    <div *ngIf="local" class="local-attendee-container">
+                    <div *ngIf="local" #localContainer class="local-attendee-container">
                         <app-attendee [attendee]="local"></app-attendee>
                     </div>
                 </div>
-                
-                <!-- 
+
+                <!--
                     Control Container
-                    Contains action buttons for the local attendee during the meeting 
+                    Contains action buttons for the local attendee during the meeting
                 -->"
                 <div class="media-button-container">
                     <div id="meeting-buttons">
-                        <button mat-mini-fab color='basic' (click)="toggleMicrophone()">
+                        <button mat-mini-fab color='basic' (click)="toggleMicrophone()" [disabled]="!local?.hasStream('mic')">
                             <mat-icon>
                                 {{local?.microphone | micicon}}
                             </mat-icon>
@@ -37,7 +37,7 @@
                                 call_end
                             </mat-icon>
                         </button>
-                        <button mat-mini-fab color='basic' (click)="toggleCamera()">
+                        <button mat-mini-fab color='basic' (click)="toggleCamera()" [disabled]="!local?.hasStream('webcam')">
                             <mat-icon>
                                 {{local?.camera | cameraicon}}
                             </mat-icon>
@@ -57,18 +57,22 @@
                     </mat-icon>
                 </button>
             </div>
-        </div>  
+        </div>
     </mat-sidenav-content>
     <mat-sidenav #sidenav position="end" hasBackdrop="false" mode="over">
-        <section>
+        <div class="members-container">
             <mat-list>
-                <mat-list-item>
+                <mat-list-item *ngIf="local">
                     <app-attendee-panel [attendee]="local"></app-attendee-panel>
                 </mat-list-item>
-                <mat-list-item *ngFor="let attendee of attendees">                
+                <mat-list-item *ngFor="let attendee of attendees">
                     <app-attendee-panel [attendee]="attendee"></app-attendee-panel>
                 </mat-list-item>
             </mat-list>
-        </section>
+        </div>
+        <div class="setting-container">
+            <mat-icon class="material-icons-two-tone">volume_up</mat-icon>
+            <mat-slider color="primary" thumbLabel min="0" max="1" step="0.1" value="1" (change)="setVolume($event.value)"></mat-slider>
+        </div>
     </mat-sidenav>
 </mat-sidenav-container>
