@@ -110,7 +110,9 @@ class SocketConnectionClient {
      * Disconnects WebSocket
      */
     disconnectSocket() {
-        this.peer.close();
+        if(this.peer) {
+            this.peer.close();
+        }
     }
 
     /**
