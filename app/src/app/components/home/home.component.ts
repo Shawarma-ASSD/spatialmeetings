@@ -61,12 +61,8 @@ export class HomeComponent implements OnInit {
    * or the user wants to join the meeting.
    */
   public async onButtonClicked(){
-<<<<<<< HEAD
-    if(! this.userLogged) {
-=======
     // If not logged, forces to log in
-    if(!this.userLogged) {    
->>>>>>> e686f2f84414a64cba79a3bc2ba75a858703b298
+    if(!this.userLogged) {
       await this.onLogin();
     }
 
