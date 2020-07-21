@@ -1,5 +1,7 @@
 import { MediaStreamTypes } from '../lib/meeting-client/meeting-client';
 
+import { Source } from 'resonance-audio';
+
 /**
  * Polar position coordinates interface
  */
@@ -38,7 +40,6 @@ export class Position implements Point {
     public set(x: number, y: number) {
         this.x = x;
         this.y = y;
-        console.log(x, y);
     }
 
     /**
@@ -79,12 +80,18 @@ export class Position implements Point {
  * Attendee's data model class
  */
 export class Attendee {
+    /* General Attendee's properties */
     user: string;
-    streams: Map<any, any>;
     microphone: boolean;
     camera: boolean;
     position: Position;
     color: string;
+
+    /* Streaming instances */
+    streams: Map<any, any>;
+
+    /* ResonanceAudio components */
+    source: Source;
 
     /**
      * generateColor
@@ -101,12 +108,37 @@ export class Attendee {
 
     /**
      * Attendee's constructor
+     * @param { string } user
+     * @param { AudioContext } context
+     * @param { SpatialIRContainer } hrir
+     * @param { SpatialIRContainer } brir
      */
     constructor(user: string) {
+        // General property setting
         this.user = user;
         this.streams = new Map();
         this.position = new Position(0, 0);
         this.color = Attendee.generateColor();
+        this.source = null;
+    }
+
+    /**
+     * setSource
+     * Sets the new Source in the ResonanceRoom for the spatial audio
+     */
+    public setSource(source: Source) {
+        this.source = source;
+    }
+
+    /**
+     * setPosition
+     * Sets the current position of the Attendee
+     */
+    public setPosition(x: number, y: number) {
+        this.position.set(x, y);
+        if (this.source) {
+            this.source.setPosition(x, y, 0);
+        }
     }
 
     /**
@@ -195,6 +227,7 @@ export class Attendee {
         // Modify the streaming object
         this.removeStream(type);
         this.streams.set(type, stream);
+
         // Update the status
         if (type == MediaStreamTypes.Microphone) {
             this.setMicrophoneStatus(true);

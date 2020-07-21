@@ -1,10 +1,14 @@
-import { Component, OnInit, NgZone } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { CdkDragMove } from '@angular/cdk/drag-drop'
+
+import { ResonanceAudio, RoomDimensions, RoomMaterials } from 'resonance-audio';
 
 import { SessionService } from '../../services/session.service';
 import { MeetingService } from '../../services/meeting.service';
+
 import { MediaStreamTypes } from '../../lib/meeting-client/meeting-client';
 import { ErrorCode } from '../../interfaces/codes';
 import { Attendee } from '../../interfaces/attendee';
@@ -16,8 +20,19 @@ import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_c
   styleUrls: ['./room.component.css']
 })
 export class RoomComponent implements OnInit {
+  @ViewChild('attendeesContainer') attendeesContainer;
+  @ViewChild('localContainer') localContainer;
+
+  /* Room's Attendees */
   attendees: Array<Attendee> = [];
   local: Attendee = null;
+
+  /* ResonanceAudio components */ 
+  audioContext: AudioContext;
+  resonanceRoom: ResonanceAudio;
+  roomDimensions: RoomDimensions;
+  roomMaterials: RoomMaterials;
+  volume: GainNode;
 
   constructor(
     private zone: NgZone,
@@ -27,16 +42,47 @@ export class RoomComponent implements OnInit {
     private meeting: MeetingService,
     private snackbar: MatSnackBar,
     private clipboard: Clipboard
-      ) { }
+  ) { }
 
   async ngOnInit() {
+    // Initializing correcly the RoomComponent variables
+    this.attendees = [];
+    this.local = null;
+
+    // Creating the ResonanceAudio handler for the Room
+    this.audioContext = new AudioContext();
+    this.volume = this.audioContext.createGain();
+    this.resonanceRoom = new ResonanceAudio(this.audioContext);
+    this.resonanceRoom.output.connect(this.volume);
+    this.volume.connect(this.audioContext.destination);
+
+    // Setting the Room properties for the spatial sound processor
+    this.roomDimensions = {
+      width: 4.0,
+      height: 4.0,
+      depth: 4.0,
+    };
+    this.roomMaterials = {
+      // Room wall materials
+      left: 'brick-bare',
+      right: 'curtain-heavy',
+      front: 'marble',
+      back: 'glass-thin',
+      // Room floor
+      down: 'grass',
+      // Room ceiling
+      up: 'grass',
+    };
+    this.resonanceRoom.setRoomProperties(this.roomDimensions, this.roomMaterials);    
+
+
     // Run the initialization method for the room,
     // but first we need to verify the SessionService status,
     // and subscribe to its onReady event, if it is not available yet.
     // Only done because of the Google API Library (needs to be loaded...)
     let roomName = this.route.snapshot.paramMap.get('roomName');
     if (this.session.isReady()) {
-      this.roomInit(roomName);
+      await this.roomInit(roomName);
     } else {
       this.session.ready.subscribe(
         async () => {
@@ -47,6 +93,33 @@ export class RoomComponent implements OnInit {
       );
     }
 
+  }
+
+  /**
+   * setPosition
+   * Fired whenever the position of any Attendee (except the Local Attendee),
+   * has been changed.
+   */
+  public setPosition(attendee: Attendee, event: CdkDragMove) {
+    // Getting data of size and position of interest elements
+    let containerRect = this.attendeesContainer.nativeElement.getBoundingClientRect();
+    let localRect = this.localContainer.nativeElement.getBoundingClientRect();
+    let attendeePosition = event.source.getFreeDragPosition();
+
+    // Normalizing position
+    let x = (attendeePosition.x * (this.roomDimensions.width / 2)) / (containerRect.width / 2);
+    let y = ((localRect.y - attendeePosition.y) * this.roomDimensions.height) / containerRect.height;
+
+    // Setting position
+    attendee.setPosition(x, y);
+  }
+
+  /**
+   * setVolume
+   * Sets the current value of the audio system
+   */
+  public setVolume(value: number) {
+    this.volume.gain.setValueAtTime(value, this.audioContext.currentTime);
   }
 
   /**
@@ -98,6 +171,17 @@ export class RoomComponent implements OnInit {
   }
 
   /**
+   * origin
+   * Returns the origin position.
+   */
+  public origin() {
+    return {
+      x: this.localContainer.nativeElement.getBoundingClientRect().x,
+      y: this.localContainer.nativeElement.getBoundingClientRect().y
+    };
+  }
+
+  /**
    * onAttendeeJoined
    * Fired when a new Attendee joined the meeting room.
    */
@@ -126,6 +210,14 @@ export class RoomComponent implements OnInit {
   private onStreamAdded(user: string, type: any, stream: any) {
     this.zone.run( () => {
       this.getAttendee(user).addStream(type, stream);
+      // When stream has been added, if Microphone, a Source must be created in the
+      // ResonanceRoom, fed by the streaming input from WebRTC
+      if (type == MediaStreamTypes.Microphone) {
+        let mediaSource = this.audioContext.createMediaStreamSource(stream);
+        let source = this.resonanceRoom.createSource();
+        mediaSource.connect(source.input);
+        this.getAttendee(user).setSource(source);
+      }
     });
   }
 
@@ -176,8 +268,9 @@ export class RoomComponent implements OnInit {
   private addAttendee(user: string) {
     let attendee = null;
     if ( !this.hasAttendee(user) ) {
-      // Instance a new Attendee with its asigned position
+      // Instance a new Attendee
       attendee = new Attendee(user);
+      // Add it to the attendee list
       this.attendees.push(attendee);
     }
     return attendee;
@@ -188,7 +281,7 @@ export class RoomComponent implements OnInit {
    * Returns if Attendee exists.
    */
   private hasAttendee(user: string) {
-    return this.attendees.find(attendee => attendee.getUser() == user) !== undefined;
+    return this.attendees.find(a => a.user === user) !== undefined;
   }
 
   /**
@@ -220,7 +313,7 @@ export class RoomComponent implements OnInit {
   private async roomInit(roomName: string) {
     // User profile information with Google OAuth
     if ( !this.session.isSigned() ) {
-      this.session.signIn();
+      await this.session.signIn();
     }
     let user = this.session.getUser();
 
@@ -275,9 +368,9 @@ export class RoomComponent implements OnInit {
 
       // Get the meeting room attendees, verifying if we missed
       // some because it did not have stream devices
-      let attendees = this.meeting.getClient().getAttendees();
-      for ( let attendee of attendees ) {
-        this.addAttendee(attendee);
+      let users = this.meeting.getClient().getAttendees();
+      for ( let user of users ) {
+        this.addAttendee(user.id);
       }
     } else {
       this.router.navigate([''], { queryParams: {errorCode: ErrorCode.RoomNotFound } });
