@@ -62,11 +62,5 @@ module.exports = {
       fragmentOutgoingMessages  : true,
       fragmentationThreshold    : 960000
     }
-  },
-  spatial: {
-    // These files can be found here: https://github.com/Shawarma-ASSD/resources
-    // hrir: '../resources/hrir/ari.json',
-    hrir: './server/lib/spatial-server/resources/hrir/ari.json',
-    brir: './server/lib/spatial-server/resources/brir/SBSBRIR00.json'
   }
 };

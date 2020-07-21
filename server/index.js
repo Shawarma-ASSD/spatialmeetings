@@ -5,14 +5,12 @@ const fs = require('fs');
 
 // Importing project modules
 const { MeetingServer } = require('./lib/meeting-server/meeting-server');
-const { SpatialServer } = require('./lib/spatial-server/spatial-server');
 
 // Importing server configuration
 const config = require('./config');
 
 // Global variables
 let meetingServer;
-let spatialServer;
 let httpServer;
 let app;
 
@@ -28,9 +26,6 @@ let app;
     // Creates the meeting server
     meetingServer = await MeetingServer.createMeetingServer(httpServer, config.meeting);
 
-    // Creates the spatial server
-    spatialServer = new SpatialServer(config.spatial);
-
     // Logging requests
     app.use((req, res, next) => {
         console.log(`[Server] HTTP - ${req.method} - ${req.path}`);
@@ -40,12 +35,17 @@ let app;
     // Sets the route of the meeting server api
     app.use('/api/media', meetingServer.getRouter());
 
-    // Sets the route of the spatial server api
-    app.use('/api/spatial', spatialServer.getRouter());
+   // Serve client files
+   app.use(express.static(process.cwd() + "/app/dist/app/"));
+    
+   // Serve index.html for default route
+   app.get('*', (req, res) => {
+       res.sendFile(process.cwd() + "/app/dist/app/index.html");
+   });
 
     // Serve client files
     app.use(express.static(process.cwd() + "/app/dist/app/"));
-    
+
     // Serve index.html for default route
     app.get('*', (req, res) => {
         res.sendFile(process.cwd() + "/app/dist/app/index.html");

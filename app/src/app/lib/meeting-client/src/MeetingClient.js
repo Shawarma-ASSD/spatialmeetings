@@ -52,6 +52,7 @@ class MeetingClient {
         this.streamRemoved = () => {};
         this.streamPaused = () => {};
         this.streamResumed = () => {};
+        this.error = () => {};
     }
 
     /**
@@ -134,6 +135,7 @@ class MeetingClient {
      *      @param {string} mail
      *      @param {MediaStreamTypes} type
      *      @param {MediaStream} stream
+     *      @param {Boolean} paused
      */
     setStreamAdded(callback) {
         this.streamAdded = callback;
@@ -170,6 +172,16 @@ class MeetingClient {
      */
     setStreamResumed(callback) {
         this.streamResumed = callback;
+    }
+
+    /**
+     * setError
+     * @param callback
+     * Callback params:
+     *      @param {string} message
+     */
+    setError(callback) {
+        this.error = callback;
     }
 
     /**
@@ -229,7 +241,6 @@ class MeetingClient {
             // Get Map with each user's mail and a list of its producers id and type
             await this._updateRemoteStreams(room);
 
-
             // connect to the WebSocket
             this.socketClient.connectSocket(room, this.user, this.server, async () => {
                 // call _updateRemoteStreams() before setting this.connected so that
@@ -241,10 +252,7 @@ class MeetingClient {
                     for( let stream of streams ) {
                         let newStream = new MediaStream();
                         newStream.addTrack(stream.getStreamer().track);
-                        console.log("MEETING CLIENT TRACK: ", stream.getStreamer().track);
-                        console.log("MEETING CLIENT NEWSTREAM ", newStream);
-                        console.log("MEETING CLIENT TRACK SETTINGS: ", stream.getStreamer().track.getSettings().sampleRate);
-                        this.streamAdded(id, stream.getType(), newStream);
+                        this.streamAdded(id, stream.getType(), newStream, stream.startedPaused());
                     }
                 }
 
@@ -298,7 +306,7 @@ class MeetingClient {
             return body.result;
         }
         else {
-            throw Error(`Request failed: ${body.result}`);
+            this._errorOcurred("Networking", body.result);
         }
     }
 
@@ -389,13 +397,14 @@ class MeetingClient {
      * @param {ProducerID} id
      * @param {MediaStreamTypes} type
      * @param {string} room
+     * @param {Boolean} paused indicates initial state of the stream
      */
     async _consume(producerMail, id, type, room) {
-        let newStream = new RemoteMediaStream(type);
         // Tell server to create a Consumer of the Producer
         const {
             id: consumerId, 
-            rtpParameters
+            rtpParameters,
+            producerPaused: paused
         } = this._parseResponse( await this.httpClient.createConsumer(
             room, 
             this.user, 
@@ -403,6 +412,7 @@ class MeetingClient {
             id,
             this.device.rtpCapabilities
         ));
+        let newStream = new RemoteMediaStream(type, paused);
         // create the local Consumer
         let consumer = await this.recvTransport.consume({
             id: consumerId,
@@ -414,7 +424,7 @@ class MeetingClient {
         if( this.connected ) {
             let stream = new MediaStream();
             stream.addTrack(consumer.track);
-            this.streamAdded(producerMail, type, stream);
+            this.streamAdded(producerMail, type, stream, paused);
         }
         return newStream;
     }
@@ -573,6 +583,16 @@ class MeetingClient {
      */
     _producerResumed(mail, type) {
         this.streamResumed(mail, type);
+    }
+
+    /**
+     * _errorOcurred
+     * Emits error()
+     * @param {string} type 
+     * @param {string} message 
+     */
+    _errorOcurred(type, message) {
+        this.error(`${type} error: ${message}`);
     }
 
 }

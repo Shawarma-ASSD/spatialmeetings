@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   room: string = '';
   userLogged: boolean = false;
   userMail: string = '';
+  rand = 0;
 
   constructor(
     private router: Router,
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit {
     sanitizer: DomSanitizer,
     private snackBar: MatSnackBar
   ) {
+    this.rand = Math.floor(Math.random() * 10);
     iconRegistry.addSvgIcon(
       'github',
       sanitizer.bypassSecurityTrustResourceUrl('assets/github.svg'));
@@ -118,4 +120,5 @@ export class HomeComponent implements OnInit {
     }
     this.snackBar.open('Se ha cerrado la sesión de ' + user, 'OK');
   }
+
 }
