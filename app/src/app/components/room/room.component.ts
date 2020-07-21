@@ -8,6 +8,7 @@ import { MeetingService } from '../../services/meeting.service';
 import { MediaStreamTypes } from '../../lib/meeting-client/meeting-client';
 import { ErrorCode } from '../../interfaces/codes';
 import { Attendee } from '../../interfaces/attendee';
+import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
 
 @Component({
   selector: 'app-room',
@@ -45,6 +46,7 @@ export class RoomComponent implements OnInit {
         }
       );
     }
+
   }
 
   /**
@@ -112,7 +114,7 @@ export class RoomComponent implements OnInit {
    */
   private onAttendeeLeft(user: string) {
     this.zone.run( () => {
-      this.removeAttendee(user); 
+      this.removeAttendee(user);
       this.snackbar.open(user + ' ha salido de la llamada', 'OK', {duration: 3000, verticalPosition:'top', horizontalPosition:'center'});
     });
   }
@@ -227,10 +229,33 @@ export class RoomComponent implements OnInit {
       // Setting the local Attendee instance, and getting the media device
       // streaming instances, for both audio and video
       this.local = new Attendee(user.email);
-      let videoStream = await window.navigator.mediaDevices.getUserMedia({ video: true });
-      let audioStream = await window.navigator.mediaDevices.getUserMedia({ audio: true });
-      this.local.addStream(MediaStreamTypes.WebCam, videoStream);
-      this.local.setMicrophoneStatus(true);
+      let availableDevices = await window.navigator.mediaDevices.enumerateDevices();
+      let videoStream;
+      let audioStream;
+      if(availableDevices.some(( element ) => {
+        return (element.kind === 'videoinput');
+      })) {
+          try {
+            videoStream = await window.navigator.mediaDevices.getUserMedia({ video: true });
+            this.local.addStream(MediaStreamTypes.WebCam, videoStream);
+          } catch (error) {
+            this.snackbar.open('Hubo un error al cargar la cámara', 'OK', {duration: 3000, verticalPosition:'top', horizontalPosition:'center'});
+          }
+
+      }
+      if(availableDevices.some(( element ) => {
+        return (element.kind === 'audioinput');
+      })) {
+        try {
+          audioStream = await window.navigator.mediaDevices.getUserMedia({ audio: true });
+        this.local.addStream(MediaStreamTypes.Microphone, audioStream);
+        } catch (error) {
+          this.snackbar.open('Hubo un error al cargar el micrófono', 'OK', {duration: 3000, verticalPosition:'top', horizontalPosition:'center'});
+        }
+
+      }
+
+
 
       // Setting the Meeting Client
       this.meeting.getClient().setUser(user.email);

@@ -167,7 +167,7 @@ export class Attendee {
 
     /**
      * getStream
-     * Returns the stream if exists any registered stream linked to the 
+     * Returns the stream if exists any registered stream linked to the
      * given type
      */
     public getStream(type: any) {
@@ -176,6 +176,15 @@ export class Attendee {
             stream = this.streams.get(type);
         }
         return stream;
+    }
+
+    /**
+     * hasStream
+     * returns a boolean indicating if the stream of the given
+     * type exists
+     */
+    public hasStream(type: any) {
+      return this.getStream(type) ? true : false;
     }
 
     /**
@@ -211,4 +220,6 @@ export class Attendee {
             }
         }
     }
+
+
 };
