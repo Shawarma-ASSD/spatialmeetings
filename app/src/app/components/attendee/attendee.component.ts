@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
 import { Attendee } from '../../interfaces/attendee';
 
@@ -12,5 +12,9 @@ export class AttendeeComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+  }
+
+  ngAfterViewInit(): void {
+  }
 }

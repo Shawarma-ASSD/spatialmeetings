@@ -94,7 +94,8 @@ export class Attendee {
     reverberator: any;
     spatializer: any;
     context: AudioContext;
-    source: MediaStreamTrackAudioSourceNode;
+    destination: MediaStreamAudioDestinationNode;
+    volume: GainNode;
 
     /**
      * generateColor
@@ -131,48 +132,47 @@ export class Attendee {
             this.spatializer = new SpatialProcessorNode(context);
             this.spatializer.setHRIRContainer(hrir);
             this.spatializer.setReverberator(this.reverberator);
+            this.destination = context.createMediaStreamDestination();
+            this.volume = context.createGain();
+            this.spatializer.connect(this.volume);
+            this.volume.connect(this.destination);
             this.context = context;
         } else {
             this.context = null;
             this.spatializer = null;
             this.reverberator = null;
         }
-        this.source = null;
     }
 
     /**
      * setPosition
      * Sets the current position of the Attendee
      */
-    public setPosition(point: Point) {
+    public setPosition(point: Point, origin: Point) {
         // Setting the current position, getting the polar coordinantes
         // and transforming the values, suitable values for spatializer
-        // should be checked.
-        this.position.set(point.x, point.y);
+        // should be checked!
+        this.position.set(point.x, origin.y - 50 - point.y);
+        console.log(this.position.x, this.position.y);
         let { distance, angle } = this.position.polar();
         angle = (angle * 360) / (2 * Math.PI);
-        this.spatializer.setPosition(angle, 0, distance);
-    }
-
-    /**
-     * hasSpatialAudio
-     * Returns whether the attendee has spatial audio components initialized
-     */
-    public hasSpatialAudio() {
-        return this.spatializer !== null;
-    }
-
-    /**
-     * connectSpatialAudio
-     * Connects the audio output to the given WebAudio Node
-     */
-    public connectSpatialAudio(node: AudioNode) {
-        let status = false;
-        if (this.spatializer) {
-            this.spatializer.connect(node);
-            status = true;
+        if ( angle < 0 ) {
+            angle = angle + 90;
+        } else {
+            angle = angle - 90;
         }
-        return status;
+        distance = distance / 300;
+        if (this.spatializer) {
+            this.spatializer.setPosition(angle, 0, distance);
+        }
+    }
+
+    /**
+     * setVolume
+     * Sets the volume of the audio output
+     */
+    public setVolume(volume: number) {
+        this.volume.gain.value = volume;
     }
 
     /**
@@ -256,16 +256,19 @@ export class Attendee {
         // Reconnecting the audio if that the case
         if (this.spatializer) {
             if (type == MediaStreamTypes.Microphone) {
-                if ( this.source ) {
-                    this.source.disconnect(this.spatializer.input());
-                }
-                console.log("Context rate: ", this.context.sampleRate);
-                console.log("Stream: ", stream);
-                console.log("Stream.getAudioTracks(): ", stream.getAudioTracks());
-                console.log("Stream track settings: ", stream.getAudioTracks()[0].getSettings().sampleRate);
-                this.source = this.context.createMediaStreamSource(stream);
-                this.source.connect(this.spatializer.input());
-            }
+                const source = this.context.createMediaStreamSource(stream);
+                source.connect(this.spatializer.input());
+                /*
+                var audio = new Audio();
+                audio.srcObject = stream;
+                document.body.appendChild(audio);
+                const source = this.context.createMediaElementSource(audio);
+                const gain = this.context.createGain();
+                gain.gain.value = 10000;
+                source.connect(gain);
+                gain.connect(this.spatializer.input());
+                */
+             }
         }
 
         // Update the status
