@@ -1,5 +1,5 @@
-import { Component, OnInit, NgZone } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Clipboard } from '@angular/cdk/clipboard';
 
@@ -17,6 +17,8 @@ import { Attendee } from '../../interfaces/attendee';
   styleUrls: ['./room.component.css']
 })
 export class RoomComponent implements OnInit {
+  @ViewChild('localContainer') localContainer;
+
   /* Room's Attendees */
   attendees: Array<Attendee> = [];
   local: Attendee = null;
@@ -49,15 +51,7 @@ export class RoomComponent implements OnInit {
 
     // Initializing AudioContext components
     this.rate = 48000;
-    this.context = new AudioContext(
-      {
-        latencyHint: 'interactive',
-        sampleRate: this.rate
-      }
-    );
-    this.volume = new GainNode(this.context, { gain: 10 });
-    this.volume.connect(this.context.destination);
-    
+    this.context = new AudioContext({ sampleRate: this.rate });
 
     // Fetching for the first time the Spatial Container from the SpatialService, 
     // to be prepared during the meeting.
@@ -87,8 +81,11 @@ export class RoomComponent implements OnInit {
    * setVolume
    * Sets the current value of the audio system
    */
-  public setVolumen(value: number) {
-    this.volume.gain.setValueAtTime(value, this.context.currentTime);
+  public setVolume(value: number) {
+    this.local.setVolume(value);
+    for (let attendee of this.attendees) {
+      attendee.setVolume(value);
+    }
   }
 
   /**
@@ -137,6 +134,17 @@ export class RoomComponent implements OnInit {
   public shareLink() {
     this.clipboard.copy(location.href);
     this.snackbar.open('Enlace copiado!', 'OK', {duration: 3000, verticalPosition:'top', horizontalPosition:'center'});
+  }
+
+  /**
+   * origin
+   * Returns the origin position.
+   */
+  public origin() {
+    return {
+      x: this.localContainer.nativeElement.getBoundingClientRect().x,
+      y: this.localContainer.nativeElement.getBoundingClientRect().y
+    };
   }
 
   /**
@@ -227,10 +235,6 @@ export class RoomComponent implements OnInit {
           brir: this.brir
         }
       );
-
-      // Connect its spatial audio output to the destination output
-      attendee.connectSpatialAudio(this.volume);
-
       // Add it to the attendee list
       this.attendees.push(attendee);
     }
@@ -293,6 +297,7 @@ export class RoomComponent implements OnInit {
       let videoStream = await window.navigator.mediaDevices.getUserMedia({ video: true });
       let audioStream = await window.navigator.mediaDevices.getUserMedia({ audio: true });
       this.local.addStream(MediaStreamTypes.WebCam, videoStream);
+      this.local.addStream(MediaStreamTypes.Microphone, audioStream);
       this.local.setMicrophoneStatus(true);
 
       // Setting the Meeting Client

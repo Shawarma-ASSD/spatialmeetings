@@ -2,7 +2,6 @@
 const express = require('express');
 const https = require('https');
 const fs = require('fs');
-const cors = require('cors');
 
 // Importing project modules
 const { MeetingServer } = require('./lib/meeting-server/meeting-server');
@@ -23,9 +22,6 @@ let app;
     // Creates the express app
     app = express();
 
-    // Adding CORS
-    app.use(cors());
-    
     // Create the https server
     await runHTTPSServer(app);
 
@@ -60,13 +56,20 @@ let app;
 
     // Serve client files
     app.use(express.static(process.cwd() + "/app/dist/app/"));
+<<<<<<< 57fab266efa5e0b89d2997c76f93e91b491a921c
 
+=======
+    
+>>>>>>> Adding some tests with the LocalAttendee
     // Serve index.html for default route
     app.get('*', (req, res) => {
         res.sendFile(process.cwd() + "/app/dist/app/index.html");
     });
 
+<<<<<<< 57fab266efa5e0b89d2997c76f93e91b491a921c
 
+=======
+>>>>>>> Adding some tests with the LocalAttendee
     // Console message
     console.log(`[Server] The server is listening to port ${config.server.port}`);
 })();
