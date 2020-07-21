@@ -60,8 +60,8 @@ import { CameraIconPipe } from './pipes/CameraIconPipe';
     MatSidenavModule,
     MatListModule,
     MatToolbarModule,
-    ClipboardModule
-
+    ClipboardModule,
+    MatSliderModule
   ],
   providers: [
     SessionService,
