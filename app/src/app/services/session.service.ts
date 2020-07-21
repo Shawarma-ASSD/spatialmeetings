@@ -11,6 +11,7 @@ export class SessionService {
   clientIsLogged = this.clientLogged.asObservable();
   ready: EventEmitter<any> = new EventEmitter();
   auth: any = null;
+  loaded: boolean = false;
 
   constructor() {
     // Loading the script and initializing the Google Auth API
@@ -24,6 +25,14 @@ export class SessionService {
    */
   public isReady(): boolean {
     return this.auth !== null;
+  }
+
+  /**
+   * isLoaded
+   * Returns whether the API has been loaded or not.
+   */
+  public isLoaded(): boolean {
+    return this.loaded;
   }
 
   /**
@@ -116,6 +125,7 @@ export class SessionService {
         .init({ client_id: this.clientId })
         .then(auth => {
           this.auth = auth;
+          this.loaded = true;
           this.ready.emit();
         });
     });

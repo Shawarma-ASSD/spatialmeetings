@@ -57,21 +57,19 @@ export class RoomComponent implements OnInit {
     this.volume.connect(this.audioContext.destination);
 
     // Setting the Room properties for the spatial sound processor
+    this.resonanceRoom.setAmbisonicOrder(3);
     this.roomDimensions = {
-      width: 4.0,
-      height: 4.0,
-      depth: 4.0,
+      width: 8, 
+      height: 3.4,
+      depth: 9,
     };
     this.roomMaterials = {
-      // Room wall materials
-      left: 'brick-bare',
-      right: 'curtain-heavy',
-      front: 'marble',
-      back: 'glass-thin',
-      // Room floor
+      left: 'transparent', 
+      right: 'transparent',
+      up: 'transparent', 
       down: 'grass',
-      // Room ceiling
-      up: 'grass',
+      front: 'transparent', 
+      back: 'transparent'
     };
     this.resonanceRoom.setRoomProperties(this.roomDimensions, this.roomMaterials);    
 
@@ -108,10 +106,11 @@ export class RoomComponent implements OnInit {
 
     // Normalizing position
     let x = (attendeePosition.x * (this.roomDimensions.width / 2)) / (containerRect.width / 2);
-    let y = ((localRect.y - attendeePosition.y) * this.roomDimensions.height) / containerRect.height;
+    let y = ((localRect.y - attendeePosition.y) * this.roomDimensions.depth) / containerRect.height;
 
     // Setting position
     attendee.setPosition(x, y);
+    console.log(x, y);
   }
 
   /**
@@ -337,21 +336,17 @@ export class RoomComponent implements OnInit {
           } catch (error) {
             this.snackbar.open('Hubo un error al cargar la cámara', 'OK', {duration: 3000, verticalPosition:'top', horizontalPosition:'center'});
           }
-
       }
       if(availableDevices.some(( element ) => {
         return (element.kind === 'audioinput');
       })) {
         try {
           audioStream = await window.navigator.mediaDevices.getUserMedia({ audio: true });
-        this.local.addStream(MediaStreamTypes.Microphone, audioStream);
+          this.local.addStream(MediaStreamTypes.Microphone, audioStream);
         } catch (error) {
           this.snackbar.open('Hubo un error al cargar el micrófono', 'OK', {duration: 3000, verticalPosition:'top', horizontalPosition:'center'});
         }
-
       }
-
-
 
       // Setting the Meeting Client
       this.meeting.getClient().setUser(user.email);
