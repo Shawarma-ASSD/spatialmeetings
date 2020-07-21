@@ -123,6 +123,21 @@ export class Attendee {
     }
 
     /**
+     * setStreamStatus
+     * Sets the current status of the stream, only works
+     * when stream has been registered on that type.
+     */
+    public setStreamStatus(type: string, status: boolean) {
+        if (this.streams.has(type)) {
+            if (type == MediaStreamTypes.Microphone) {
+                this.setMicrophoneStatus(status);
+            } else {
+                this.setCameraStatus(status);
+            }
+        }
+    }
+
+    /**
      * setSource
      * Sets the new Source in the ResonanceRoom for the spatial audio
      */
@@ -199,7 +214,7 @@ export class Attendee {
 
     /**
      * getStream
-     * Returns the stream if exists any registered stream linked to the 
+     * Returns the stream if exists any registered stream linked to the
      * given type
      */
     public getStream(type: any) {
@@ -208,6 +223,15 @@ export class Attendee {
             stream = this.streams.get(type);
         }
         return stream;
+    }
+
+    /**
+     * hasStream
+     * returns a boolean indicating if the stream of the given
+     * type exists
+     */
+    public hasStream(type: any) {
+      return this.getStream(type) ? true : false;
     }
 
     /**
@@ -244,4 +268,6 @@ export class Attendee {
             }
         }
     }
+
+
 };

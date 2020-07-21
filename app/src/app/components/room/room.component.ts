@@ -12,6 +12,7 @@ import { MeetingService } from '../../services/meeting.service';
 import { MediaStreamTypes } from '../../lib/meeting-client/meeting-client';
 import { ErrorCode } from '../../interfaces/codes';
 import { Attendee } from '../../interfaces/attendee';
+import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
 
 @Component({
   selector: 'app-room',
@@ -91,6 +92,7 @@ export class RoomComponent implements OnInit {
         }
       );
     }
+
   }
 
   /**
@@ -196,7 +198,7 @@ export class RoomComponent implements OnInit {
    */
   private onAttendeeLeft(user: string) {
     this.zone.run( () => {
-      this.removeAttendee(user); 
+      this.removeAttendee(user);
       this.snackbar.open(user + ' ha salido de la llamada', 'OK', {duration: 3000, verticalPosition:'top', horizontalPosition:'center'});
     });
   }
@@ -205,9 +207,12 @@ export class RoomComponent implements OnInit {
    * onStreamAdded
    * Fired when an Attendee has added a new streaming device to its producers.
    */
-  private onStreamAdded(user: string, type: any, stream: any) {
+  private onStreamAdded(user: string, type: any, stream: any, paused: boolean) {
     this.zone.run( () => {
+      // Sets the stream status and the stream
       this.getAttendee(user).addStream(type, stream);
+      this.getAttendee(user).setStreamStatus(type, !paused);
+
       // When stream has been added, if Microphone, a Source must be created in the
       // ResonanceRoom, fed by the streaming input from WebRTC
       if (type == MediaStreamTypes.Microphone) {
@@ -320,10 +325,33 @@ export class RoomComponent implements OnInit {
       // Setting the local Attendee instance, and getting the media device
       // streaming instances, for both audio and video
       this.local = new Attendee(user.email);
-      let videoStream = await window.navigator.mediaDevices.getUserMedia({ video: true });
-      let audioStream = await window.navigator.mediaDevices.getUserMedia({ audio: true });
-      this.local.addStream(MediaStreamTypes.WebCam, videoStream);
-      this.local.setMicrophoneStatus(true);
+      let availableDevices = await window.navigator.mediaDevices.enumerateDevices();
+      let videoStream;
+      let audioStream;
+      if(availableDevices.some(( element ) => {
+        return (element.kind === 'videoinput');
+      })) {
+          try {
+            videoStream = await window.navigator.mediaDevices.getUserMedia({ video: true });
+            this.local.addStream(MediaStreamTypes.WebCam, videoStream);
+          } catch (error) {
+            this.snackbar.open('Hubo un error al cargar la cámara', 'OK', {duration: 3000, verticalPosition:'top', horizontalPosition:'center'});
+          }
+
+      }
+      if(availableDevices.some(( element ) => {
+        return (element.kind === 'audioinput');
+      })) {
+        try {
+          audioStream = await window.navigator.mediaDevices.getUserMedia({ audio: true });
+        this.local.addStream(MediaStreamTypes.Microphone, audioStream);
+        } catch (error) {
+          this.snackbar.open('Hubo un error al cargar el micrófono', 'OK', {duration: 3000, verticalPosition:'top', horizontalPosition:'center'});
+        }
+
+      }
+
+
 
       // Setting the Meeting Client
       this.meeting.getClient().setUser(user.email);
@@ -333,7 +361,7 @@ export class RoomComponent implements OnInit {
       // Set the callback for each event raised by the MeetingClient
       this.meeting.getClient().setAttendeeJoined( (user) => this.onAttendeeJoined(user) );
       this.meeting.getClient().setAttendeeLeft( (user) => this.onAttendeeLeft(user) );
-      this.meeting.getClient().setStreamAdded( (user, type, stream) => this.onStreamAdded(user, type, stream) );
+      this.meeting.getClient().setStreamAdded( (user, type, stream, paused) => this.onStreamAdded(user, type, stream, paused) );
       this.meeting.getClient().setStreamRemoved( (user, type) => this.onStreamRemoved(user, type) );
       this.meeting.getClient().setStreamPaused( (user, type) => this.onStreamPaused(user, type) );
       this.meeting.getClient().setStreamResumed( (user, type) => this.onStreamResumed(user, type) );

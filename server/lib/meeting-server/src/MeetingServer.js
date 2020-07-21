@@ -123,8 +123,7 @@ class MeetingServer {
         // Verifies connection parameters
         if (roomName !== undefined && userMail !== undefined) {
             if (this.rooms.has(roomName)) {
-                transport = accept();
-                await this.rooms.get(roomName).handleAttendeeConnection(userMail, transport);
+                await this.rooms.get(roomName).handleAttendeeConnection(userMail, accept, reject);
             } else {
                 reject(404, 'Room not found');
             }
