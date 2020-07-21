@@ -1,11 +1,11 @@
 <mat-sidenav-container>
     <mat-sidenav-content>
-        <div class="content-container"> 
+        <div class="content-container">
             <div class="container">
-                <div #attendeesContainer class="attendees-container">
-                    <!-- 
+                <div class="attendees-container">
+                    <!--
                         Attendee Container
-                        Boundary container for the draggable AttendeeComponent, views of the Attendee model 
+                        Boundary container for the draggable AttendeeComponent, views of the Attendee model
                     -->
                     <div class="remote-attendees-container">
                         <div *ngFor="let attendee of attendees" class="attendee-container" cdkDrag cdkDragBoundary=".attendees-container" (cdkDragMove)="setPosition(attendee, $event)" (cdkDragRelease)="setPosition(attendee, $event)" (cdkDragEnded)="setPosition(attendee, $event)">
@@ -13,21 +13,21 @@
                         </div>
                     </div>
 
-                    <!-- 
+                    <!--
                         Isolating the local AttendeeComponent's instance, not a draggable component.
                     -->
                     <div *ngIf="local" #localContainer class="local-attendee-container">
                         <app-attendee [attendee]="local"></app-attendee>
                     </div>
                 </div>
-                
-                <!-- 
+
+                <!--
                     Control Container
-                    Contains action buttons for the local attendee during the meeting 
-                -->
+                    Contains action buttons for the local attendee during the meeting
+                -->"
                 <div class="media-button-container">
                     <div id="meeting-buttons">
-                        <button mat-mini-fab color='basic' (click)="toggleMicrophone()">
+                        <button mat-mini-fab color='basic' (click)="toggleMicrophone()" [disabled]="!local?.hasStream('mic')">
                             <mat-icon>
                                 {{local?.microphone | micicon}}
                             </mat-icon>
@@ -37,7 +37,7 @@
                                 call_end
                             </mat-icon>
                         </button>
-                        <button mat-mini-fab color='basic' (click)="toggleCamera()">
+                        <button mat-mini-fab color='basic' (click)="toggleCamera()" [disabled]="!local?.hasStream('webcam')">
                             <mat-icon>
                                 {{local?.camera | cameraicon}}
                             </mat-icon>
@@ -57,7 +57,7 @@
                     </mat-icon>
                 </button>
             </div>
-        </div>  
+        </div>
     </mat-sidenav-content>
     <mat-sidenav #sidenav position="end" hasBackdrop="false" mode="over">
         <div class="members-container">
