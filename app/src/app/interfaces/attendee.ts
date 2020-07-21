@@ -181,6 +181,7 @@ export class Attendee {
      */
     public toggleCamera() {
         this.camera = !this.camera;
+
     }
 
     /**
@@ -256,18 +257,12 @@ export class Attendee {
         // Reconnecting the audio if that the case
         if (this.spatializer) {
             if (type == MediaStreamTypes.Microphone) {
-                const source = this.context.createMediaStreamSource(stream);
-                source.connect(this.spatializer.input());
-                /*
                 var audio = new Audio();
                 audio.srcObject = stream;
+                audio.controls = true;
                 document.body.appendChild(audio);
                 const source = this.context.createMediaElementSource(audio);
-                const gain = this.context.createGain();
-                gain.gain.value = 10000;
-                source.connect(gain);
-                gain.connect(this.spatializer.input());
-                */
+                source.connect(this.spatializer.input());
              }
         }
 
