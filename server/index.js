@@ -2,7 +2,6 @@
 const express = require('express');
 const https = require('https');
 const fs = require('fs');
-const cors = require('cors');
 
 // Importing project modules
 const { MeetingServer } = require('./lib/meeting-server/meeting-server');
@@ -23,9 +22,6 @@ let app;
     // Creates the express app
     app = express();
 
-    // Adding CORS
-    app.use(cors());
-    
     // Create the https server
     await runHTTPSServer(app);
 
@@ -46,6 +42,14 @@ let app;
 
     // Sets the route of the spatial server api
     app.use('/api/spatial', spatialServer.getRouter());
+
+    // Serve client files
+    app.use(express.static(process.cwd() + "/app/dist/app/"));
+    
+    // Serve index.html for default route
+    app.get('*', (req, res) => {
+        res.sendFile(process.cwd() + "/app/dist/app/index.html");
+    });
 
     // Console message
     console.log(`[Server] The server is listening to port ${config.server.port}`);

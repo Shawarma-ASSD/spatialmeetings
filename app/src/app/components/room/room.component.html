@@ -8,7 +8,7 @@
                         Boundary container for the draggable AttendeeComponent, views of the Attendee model 
                     -->
                     <div class="remote-attendees-container">
-                        <div *ngFor="let attendee of attendees" class="attendee-container" cdkDrag cdkDragBoundary=".attendees-container" (cdkDragEnded)="attendee.setPosition($event.source.getFreeDragPosition())">
+                        <div *ngFor="let attendee of attendees" class="attendee-container" cdkDrag cdkDragBoundary=".attendees-container" (cdkDragEnded)="local.setPosition($event.source.getFreeDragPosition(), origin())">
                             <app-attendee [attendee]="attendee"></app-attendee>
                         </div>
                     </div>
@@ -16,7 +16,7 @@
                     <!-- 
                         Isolating the local AttendeeComponent's instance, not a draggable component.
                     -->
-                    <div *ngIf="local" class="local-attendee-container">
+                    <div *ngIf="local" #localContainer class="local-attendee-container">
                         <app-attendee [attendee]="local"></app-attendee>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                 <!-- 
                     Control Container
                     Contains action buttons for the local attendee during the meeting 
-                -->"
+                -->
                 <div class="media-button-container">
                     <div id="meeting-buttons">
                         <button mat-mini-fab color='basic' (click)="toggleMicrophone()">
@@ -65,7 +65,7 @@
                 <mat-list-item *ngIf="local">
                     <app-attendee-panel [attendee]="local"></app-attendee-panel>
                 </mat-list-item>
-                <mat-list-item *ngFor="let attendee of attendees">           "     
+                <mat-list-item *ngFor="let attendee of attendees">
                     <app-attendee-panel [attendee]="attendee"></app-attendee-panel>
                 </mat-list-item>
             </mat-list>

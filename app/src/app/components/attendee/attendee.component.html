@@ -4,5 +4,6 @@
 <div class="border-stream" [style.border-color]="attendee.color">
     <div class="stream">
         <video autoplay playsinline [srcObject]="attendee.getStream('webcam')" ></video>
+        <audio autoplay [srcObject]="attendee.destination.stream"></audio>
     </div>
 </div>
