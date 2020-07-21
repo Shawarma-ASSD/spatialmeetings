@@ -259,6 +259,10 @@ export class Attendee {
                 if ( this.source ) {
                     this.source.disconnect(this.spatializer.input());
                 }
+                console.log("Context rate: ", this.context.sampleRate);
+                console.log("Stream: ", stream);
+                console.log("Stream.getAudioTracks(): ", stream.getAudioTracks());
+                console.log("Stream track settings: ", stream.getAudioTracks()[0].getSettings().sampleRate);
                 this.source = this.context.createMediaStreamSource(stream);
                 this.source.connect(this.spatializer.input());
             }

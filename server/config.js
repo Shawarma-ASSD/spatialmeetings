@@ -46,7 +46,7 @@ module.exports = {
         options: {
           listenIps: [
               {
-                  ip          : '127.0.0.1',
+                  ip          : '192.168.0.9',
                   announcedIp : null
               }
           ],

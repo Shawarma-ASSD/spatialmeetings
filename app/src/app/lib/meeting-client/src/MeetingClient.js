@@ -241,6 +241,9 @@ class MeetingClient {
                     for( let stream of streams ) {
                         let newStream = new MediaStream();
                         newStream.addTrack(stream.getStreamer().track);
+                        console.log("MEETING CLIENT TRACK: ", stream.getStreamer().track);
+                        console.log("MEETING CLIENT NEWSTREAM ", newStream);
+                        console.log("MEETING CLIENT TRACK SETTINGS: ", stream.getStreamer().track.getSettings().sampleRate);
                         this.streamAdded(id, stream.getType(), newStream);
                     }
                 }
