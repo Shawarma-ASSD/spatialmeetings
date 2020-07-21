@@ -1,3 +1,3 @@
 export const config = {
-    address: 'localhost:8080'
+    address: 'www.spatialmeetings.live'
 };
