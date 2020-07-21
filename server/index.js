@@ -11,7 +11,6 @@ const config = require('./config');
 
 // Global variables
 let meetingServer;
-let spatialServer;
 let httpServer;
 let app;
 
