@@ -8,6 +8,10 @@ import { ResonanceAudio, RoomDimensions, RoomMaterials } from 'resonance-audio';
 
 import { SessionService } from '../../services/session.service';
 import { MeetingService } from '../../services/meeting.service';
+<<<<<<< HEAD
+=======
+import { SpatialService } from '../../services/spatial.service';
+>>>>>>> 1635a81bf7bea7a9b0e87f7013e52840cae794c8
 
 import { MediaStreamTypes } from '../../lib/meeting-client/meeting-client';
 import { ErrorCode } from '../../interfaces/codes';
@@ -26,12 +30,24 @@ export class RoomComponent implements OnInit {
   attendees: Array<Attendee> = [];
   local: Attendee = null;
 
+<<<<<<< HEAD
+=======
+  // context: AudioContext;
+  // volume: GainNode;
+  // rate: number;
+  // hrir: any;
+  // brir: any;
+
+>>>>>>> 1635a81bf7bea7a9b0e87f7013e52840cae794c8
   /* ResonanceAudio components */ 
   audioContext: AudioContext;
   resonanceRoom: ResonanceAudio;
   roomDimensions: RoomDimensions;
   roomMaterials: RoomMaterials;
+<<<<<<< HEAD
   volume: GainNode;
+=======
+>>>>>>> 1635a81bf7bea7a9b0e87f7013e52840cae794c8
 
   constructor(
     private zone: NgZone,
@@ -41,6 +57,10 @@ export class RoomComponent implements OnInit {
     private meeting: MeetingService,
     private snackbar: MatSnackBar,
     private clipboard: Clipboard
+<<<<<<< HEAD
+=======
+    //private streamNode: MediaStreamAudioDestinationNode
+>>>>>>> 1635a81bf7bea7a9b0e87f7013e52840cae794c8
   ) { }
 
   async ngOnInit() {
@@ -50,10 +70,15 @@ export class RoomComponent implements OnInit {
 
     // Creating the ResonanceAudio handler for the Room
     this.audioContext = new AudioContext();
+<<<<<<< HEAD
     this.volume = this.audioContext.createGain();
     this.resonanceRoom = new ResonanceAudio(this.audioContext);
     this.resonanceRoom.output.connect(this.volume);
     this.volume.connect(this.audioContext.destination);
+=======
+    this.resonanceRoom = new ResonanceAudio(this.audioContext);
+    this.resonanceRoom.output.connect(this.audioContext.destination);
+>>>>>>> 1635a81bf7bea7a9b0e87f7013e52840cae794c8
 
     // Setting the Room properties for the spatial sound processor
     this.roomDimensions = {
@@ -117,7 +142,11 @@ export class RoomComponent implements OnInit {
    * Sets the current value of the audio system
    */
   public setVolume(value: number) {
+<<<<<<< HEAD
     this.volume.gain.setValueAtTime(value, this.audioContext.currentTime);
+=======
+    // Code here to control the volume of the Room...
+>>>>>>> 1635a81bf7bea7a9b0e87f7013e52840cae794c8
   }
 
   /**
@@ -208,6 +237,10 @@ export class RoomComponent implements OnInit {
   private onStreamAdded(user: string, type: any, stream: any) {
     this.zone.run( () => {
       this.getAttendee(user).addStream(type, stream);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1635a81bf7bea7a9b0e87f7013e52840cae794c8
       // When stream has been added, if Microphone, a Source must be created in the
       // ResonanceRoom, fed by the streaming input from WebRTC
       if (type == MediaStreamTypes.Microphone) {

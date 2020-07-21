@@ -1,6 +1,10 @@
 import { MediaStreamTypes } from '../lib/meeting-client/meeting-client';
 import { Source } from 'resonance-audio';
 
+import { Source } from 'resonance-audio';
+
+import { SpatialProcessorNode, RoomReverberatorNode } from '../lib/spatial/spatial';
+
 /**
  * Polar position coordinates interface
  */

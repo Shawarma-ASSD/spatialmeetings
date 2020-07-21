@@ -21,6 +21,7 @@ import { MatSliderModule } from '@angular/material/slider';
 
 import { SessionService } from './services/session.service';
 import { MeetingService } from './services/meeting.service';
+import { SpatialService } from './services/spatial.service';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -32,6 +33,10 @@ import { MicIconPipe } from './pipes/MicIconPipe';
 import { CameraIconPipe } from './pipes/CameraIconPipe';
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1635a81bf7bea7a9b0e87f7013e52840cae794c8
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,10 +67,15 @@ import { CameraIconPipe } from './pipes/CameraIconPipe';
     MatToolbarModule,
     ClipboardModule,
     MatSliderModule
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1635a81bf7bea7a9b0e87f7013e52840cae794c8
   ],
   providers: [
     SessionService,
-    MeetingService
+    MeetingService,
+    SpatialService
   ],
   bootstrap: [AppComponent]
 })
