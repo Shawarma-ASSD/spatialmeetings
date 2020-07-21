@@ -337,6 +337,7 @@ export class RoomComponent implements OnInit {
       let videoStream = await window.navigator.mediaDevices.getUserMedia({ video: true });
       let audioStream = await window.navigator.mediaDevices.getUserMedia({ audio: true });
       this.local.addStream(MediaStreamTypes.WebCam, videoStream);
+      this.local.addStream(MediaStreamTypes.Microphone, audioStream);
       this.local.setMicrophoneStatus(true);
 
       // Setting the Meeting Client
