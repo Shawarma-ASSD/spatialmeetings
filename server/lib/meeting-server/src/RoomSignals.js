@@ -206,6 +206,8 @@ class RoomSignals extends EventEmitter {
 
         // Broadcast the message to the other peers in the room
         this.broadcastProducerRemoved(user, data.type);
+     
+        console.log(`[Server] ${user} ha removido su ${data.type.toUpperCase()}`);
     }
 
     /**
@@ -217,6 +219,8 @@ class RoomSignals extends EventEmitter {
     async _producerPaused(user, data) {
         this.broadcastProducerPaused(user, data.type);
         this.emit('producerPaused', user, data.type);
+
+        console.log(`[Server] ${user} ha pausado su ${data.type.toUpperCase()}`);
     }
 
     /**
@@ -228,6 +232,8 @@ class RoomSignals extends EventEmitter {
     async _producerResumed(user, data) {
         this.broadcastProducerResumed(user, data.type);
         this.emit('producerResumed', user, data.type);
+
+        console.log(`[Server] ${user} ha reanudado su ${data.type.toUpperCase()}`);
     }
 }
 
