@@ -2,17 +2,17 @@
     <mat-sidenav-content>
         <div class="content-container"> 
             <div class="container">
-                <div class="attendees-container">
+                <div #attendeesContainer class="attendees-container">
                     <!-- 
                         Attendee Container
                         Boundary container for the draggable AttendeeComponent, views of the Attendee model 
                     -->
                     <div class="remote-attendees-container">
-                        <div *ngFor="let attendee of attendees" class="attendee-container" cdkDrag cdkDragBoundary=".attendees-container" (cdkDragEnded)="local.setPosition($event.source.getFreeDragPosition(), origin())">
+                        <div *ngFor="let attendee of attendees" class="attendee-container" cdkDrag cdkDragBoundary=".attendees-container" (cdkDragMove)="setPosition(attendee, $event)" (cdkDragRelease)="setPosition(attendee, $event)" (cdkDragEnded)="setPosition(attendee, $event)">
                             <app-attendee [attendee]="attendee"></app-attendee>
                         </div>
                     </div>
-                        
+
                     <!-- 
                         Isolating the local AttendeeComponent's instance, not a draggable component.
                     -->
@@ -72,7 +72,7 @@
         </div>
         <div class="setting-container">
             <mat-icon class="material-icons-two-tone">volume_up</mat-icon>
-            <mat-slider min="0.1" max="100" step="1" value="100" (change)="setVolume($event.value)"></mat-slider>
+            <mat-slider min="0.1" max="10000" step="1" value="100" (change)="setVolume($event.value)"></mat-slider>
         </div>
     </mat-sidenav>
 </mat-sidenav-container>

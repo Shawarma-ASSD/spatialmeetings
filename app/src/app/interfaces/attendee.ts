@@ -1,5 +1,7 @@
 import { MediaStreamTypes } from '../lib/meeting-client/meeting-client';
 
+import { Source } from 'resonance-audio';
+
 import { SpatialProcessorNode, RoomReverberatorNode } from '../lib/spatial/spatial';
 
 /**
@@ -90,12 +92,15 @@ export class Attendee {
     /* Streaming instances */
     streams: Map<any, any>;
 
+    /* ResonanceAudio components */
+    source: Source;
+
     /* WebAudio API components */
-    reverberator: any;
-    spatializer: any;
-    context: AudioContext;
-    destination: MediaStreamAudioDestinationNode;
-    volume: GainNode;
+    // reverberator: any;
+    // spatializer: any;
+    // context: AudioContext;
+    // destination: MediaStreamAudioDestinationNode;
+    // volume: GainNode;
 
     /**
      * generateColor
@@ -123,56 +128,45 @@ export class Attendee {
         this.streams = new Map();
         this.position = new Position(0, 0);
         this.color = Attendee.generateColor();
+        this.source = null;
 
         // Initializing the WebAudio API components, only when all required parameters
         // have been set, if not, not used the web audio interface
-        if (context && hrir && brir) {
-            this.reverberator = new RoomReverberatorNode(context);
-            this.reverberator.setSpatialIRContainer(brir);
-            this.spatializer = new SpatialProcessorNode(context);
-            this.spatializer.setHRIRContainer(hrir);
-            this.spatializer.setReverberator(this.reverberator);
-            this.destination = context.createMediaStreamDestination();
-            this.volume = context.createGain();
-            this.spatializer.connect(this.volume);
-            this.volume.connect(this.destination);
-            this.context = context;
-        } else {
-            this.context = null;
-            this.spatializer = null;
-            this.reverberator = null;
-        }
+        // if (context && hrir && brir) {
+        //     this.reverberator = new RoomReverberatorNode(context);
+        //     this.reverberator.setSpatialIRContainer(brir);
+        //     this.spatializer = new SpatialProcessorNode(context);
+        //     this.spatializer.setHRIRContainer(hrir);
+        //     this.spatializer.setReverberator(this.reverberator);
+        //     this.destination = context.createMediaStreamDestination();
+        //     this.volume = context.createGain();
+        //     this.spatializer.connect(this.volume);
+        //     this.volume.connect(this.destination);
+        //     this.context = context;
+        // } else {
+        //     this.context = null;
+        //     this.spatializer = null;
+        //     this.reverberator = null;
+        // }
+    }
+
+    /**
+     * setSource
+     * Sets the new Source in the ResonanceRoom for the spatial audio
+     */
+    public setSource(source: Source) {
+        this.source = source;
     }
 
     /**
      * setPosition
      * Sets the current position of the Attendee
      */
-    public setPosition(point: Point, origin: Point) {
-        // Setting the current position, getting the polar coordinantes
-        // and transforming the values, suitable values for spatializer
-        // should be checked!
-        this.position.set(point.x, origin.y - 50 - point.y);
-        console.log(this.position.x, this.position.y);
-        let { distance, angle } = this.position.polar();
-        angle = (angle * 360) / (2 * Math.PI);
-        if ( angle < 0 ) {
-            angle = angle + 90;
-        } else {
-            angle = angle - 90;
+    public setPosition(x: number, y: number) {
+        this.position.set(x, y);
+        if (this.source) {
+            this.source.setPosition(x, y, 0);
         }
-        distance = distance / 300;
-        if (this.spatializer) {
-            this.spatializer.setPosition(angle, 0, distance);
-        }
-    }
-
-    /**
-     * setVolume
-     * Sets the volume of the audio output
-     */
-    public setVolume(volume: number) {
-        this.volume.gain.value = volume;
     }
 
     /**
@@ -254,22 +248,13 @@ export class Attendee {
         this.streams.set(type, stream);
 
         // Reconnecting the audio if that the case
-        if (this.spatializer) {
-            if (type == MediaStreamTypes.Microphone) {
-                const source = this.context.createMediaStreamSource(stream);
-                source.connect(this.spatializer.input());
-                /*
-                var audio = new Audio();
-                audio.srcObject = stream;
-                document.body.appendChild(audio);
-                const source = this.context.createMediaElementSource(audio);
-                const gain = this.context.createGain();
-                gain.gain.value = 10000;
-                source.connect(gain);
-                gain.connect(this.spatializer.input());
-                */
-             }
-        }
+        // if (this.spatializer) {
+        //     if (type == MediaStreamTypes.Microphone) {
+        //         const magicStreamPlease = new MediaStream( [ stream.getAudioTracks()[0] ] );
+        //         const source = this.context.createMediaStreamSource(magicStreamPlease);
+        //         source.connect(this.spatializer.input());
+        //     }
+        // }
 
         // Update the status
         if (type == MediaStreamTypes.Microphone) {
