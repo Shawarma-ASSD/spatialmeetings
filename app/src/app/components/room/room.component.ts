@@ -205,9 +205,12 @@ export class RoomComponent implements OnInit {
    * onStreamAdded
    * Fired when an Attendee has added a new streaming device to its producers.
    */
-  private onStreamAdded(user: string, type: any, stream: any) {
+  private onStreamAdded(user: string, type: any, stream: any, paused: boolean) {
     this.zone.run( () => {
+      // Sets the stream status and the stream
       this.getAttendee(user).addStream(type, stream);
+      this.getAttendee(user).setStreamStatus(type, !paused);
+
       // When stream has been added, if Microphone, a Source must be created in the
       // ResonanceRoom, fed by the streaming input from WebRTC
       if (type == MediaStreamTypes.Microphone) {
