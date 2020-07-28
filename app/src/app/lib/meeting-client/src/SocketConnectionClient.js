@@ -98,10 +98,10 @@ class SocketConnectionClient {
         this.peer = new protooClient.Peer(this.socketTransport);
         this.peer.on('open', connectionEstablished);
         this.peer.on('close', () => {
-            console.log("Connection via WebSocket lost");
+            console.log("Connection to WebSocket lost");
         });
         this.peer.on('failed', () => {
-            console.log("Attemp to connect via WebScoket failed");
+            console.log("Attemp to connect to WebScoket failed");
         })
         this.peer.on('notification', async (notification) => {
             await this.handleProtooNotification(notification.method, notification.data);

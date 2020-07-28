@@ -123,9 +123,11 @@ class MeetingServer {
             if (this.rooms.has(roomName)) {
                 await this.rooms.get(roomName).handleAttendeeConnection(userMail, accept, reject);
             } else {
+                console.log("[Server] rejecting socket connection attemp: Room not found.");
                 reject(404, 'Room not found');
             }
         } else {
+            console.log("[Server] rejecting socket connection attemp: Invalid parameters, room and user are needed.");
             reject(400, 'Invalid parameters, room and user are needed.');
         }
     }
