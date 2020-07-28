@@ -40,7 +40,7 @@ git clone https://github.com/Shawarma-ASSD/spatialmeetings.git
 cd spatialmeetings
 ```
 
-1. Install dependencies on server and client:
+2. Install dependencies on server and client:
     
 ```bash
 cd app
@@ -64,7 +64,7 @@ sudo npm run build
 3. Run the server, from the root directory:
 ```bash
 # Needs sudo to access the SSL certificates
-sudo node server/index.js
+sudo npm start
 ```
 
 4. Open Firefox and go to https://localhost:8080 on different tabs, you need to login with different email addresses. 
