@@ -63,8 +63,8 @@ let app;
  */
 async function runHTTPSServer(app) {
     const tls = {
-		cert : fs.readFileSync(config.server.tlsVM.cert),
-		key  : fs.readFileSync(config.server.tlsVM.key)
+		cert : fs.readFileSync(config.server.tls.cert),
+		key  : fs.readFileSync(config.server.tls.key)
     };
     
     httpServer = https.createServer(tls, app);
