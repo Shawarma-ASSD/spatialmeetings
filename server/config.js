@@ -3,8 +3,8 @@ module.exports = {
   server: {
     port: 8080,
     tls: {
-      cert: '/home/nico/www.spatialmeetings.live.chained.crt',
-      key: '/etc/ssl/www.spatialmeetings.live.key'
+      cert: '/etc/ssl/certs/ssl-cert-snakeoil.pem',
+      key: '/etc/ssl/private/ssl-cert-snakeoil.key'
     }
   },
   meeting: {
@@ -42,7 +42,7 @@ module.exports = {
         options: {
           listenIps: [
               {
-                  ip          : '64.225.44.122',
+                  ip          : '192.168.0.9',
                   announcedIp : null
               }
           ],
