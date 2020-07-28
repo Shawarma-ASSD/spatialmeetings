@@ -97,6 +97,12 @@ class SocketConnectionClient {
         this.socketTransport = new protooClient.WebSocketTransport(`wss://${server}?roomName=${roomName}&userMail=${userMail}`);
         this.peer = new protooClient.Peer(this.socketTransport);
         this.peer.on('open', connectionEstablished);
+        this.peer.on('close', () => {
+            console.log("Connection via WebSocket lost");
+        });
+        this.peer.on('failed', () => {
+            console.log("Attemp to connect via WebScoket failed");
+        })
         this.peer.on('notification', async (notification) => {
             await this.handleProtooNotification(notification.method, notification.data);
         });
