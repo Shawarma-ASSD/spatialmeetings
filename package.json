@@ -1,0 +1,24 @@
+{
+  "name": "spatialmeetings",
+  "version": "1.0.0",
+  "description": "Spatial meetings web application. Try it using Firefox browser on [www.spatialmeetings.live](https://www.spatialmeetings.live), until 9/12/2020 when our DigitalOcean free credit expires.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "sudo node server/index.js",
+    "deploy": "sudo ./deploy.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shawarma-ASSD/spatialmeetings.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shawarma-ASSD/spatialmeetings/issues"
+  },
+  "homepage": "https://github.com/Shawarma-ASSD/spatialmeetings#readme"
+}
