@@ -7,4 +7,4 @@ cd ..
 sudo pm2 delete all
 
 # Run 
-sudo pm2 start server/index.js
+sudo npm start
