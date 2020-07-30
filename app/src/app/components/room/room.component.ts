@@ -138,7 +138,7 @@ export class RoomComponent implements OnInit {
    */
   @HostListener('window:unload', ['$event'])
   @HostListener('window:popstate',['$event'])
-  onClosedTab(event){
+  public onClosedTab(event){
     this.meeting.getClient().disconnect();
   }
 
