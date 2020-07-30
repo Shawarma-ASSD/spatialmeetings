@@ -96,6 +96,7 @@ class MeetingServer {
         this.router.get('/rooms/attendees', async(req, res) => await this.attendees(req, res));
         this.router.get('/rooms/exists', async(req, res) => await this.roomExists(req, res));
         this.router.post('/rooms/createRoom', async (req, res) => await this.createRoom(req, res));
+        this.router.post('/rooms/leaveRoom', async (req, res) => await this.leaveRoom(req, res));
         this.router.post('/rooms/createAttendee', async (req, res) => await this.createAttendee(req, res));
         this.router.post('/rooms/connectSender', async (req, res) => await this.connectSender(req, res));
         this.router.post('/rooms/createProducer', async (req, res) => await this.createProducer(req, res));
@@ -239,6 +240,33 @@ class MeetingServer {
     
             // HTTP Response, return success with the creation status
             response.send(MediaServerResponse.result({ created: wasCreated }));
+        } else {
+            // HTTP Response, return failed, invalid parameters
+            response.send(MediaServerResponse.failed('Invalid parameters in HTTP Request'));
+        }
+    }
+
+
+    /**
+     * leaveRoom
+     * Handles a request to leave a room. Removes the attendee from
+     * the room and emits a WebSocket event.
+     * @param {HTTP Request} request 
+     * @param {HTTP Response} response 
+     */
+    async leaveRoom(request, response) {
+        // Unwrapping the http request parameters
+        let { roomName, userMail } = request.body;
+
+        if (roomName !== undefined && userMail !== undefined) {    
+            // Verifiying if the room already exists
+            if (this.hasRoom(roomName)) {
+                // Remove attendee from the room
+                this.rooms.get(roomName).removeAttendee(userMail);
+                console.log(`[Server] ${userMail} ha abandonado la sala ${roomName}.`);
+            }
+            // HTTP Response, return success
+            response.send(MediaServerResponse.succeded());
         } else {
             // HTTP Response, return failed, invalid parameters
             response.send(MediaServerResponse.failed('Invalid parameters in HTTP Request'));

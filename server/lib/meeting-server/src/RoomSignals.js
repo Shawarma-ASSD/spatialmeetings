@@ -33,6 +33,9 @@ class RoomSignals extends EventEmitter {
             producerPaused: async (user, data) => await this._producerPaused(user, data),
             producerResumed: async (user, data) => await this._producerResumed(user, data) 
         };
+
+        // Timers to check disconnections
+        this.timeouts = new Map();
     }
 
     /**
@@ -59,6 +62,16 @@ class RoomSignals extends EventEmitter {
      * @param {Transport} transport 
      */
     async addAttendee(user, transport) {
+
+        // Check if we were about to remove the user from the room
+        if(this.timeouts.has(user)) {
+            // Stop timeout from firing
+            clearTimeout(this.timeouts.get(user));
+
+            // Remove from the record
+            this.timeouts.delete(user);
+        }
+
         // Connects the incoming socket as a peer to this Room
         let peer = await this.room.createPeer(user, transport);
 
@@ -71,11 +84,20 @@ class RoomSignals extends EventEmitter {
 
         // Handling socket connection closed
         peer.on('close', async () => {
-            // Emitting the event to higher level API
-            this.emit('userLeft', user);
 
-            // Emitting the event over socket of the Attendee leaving the Room
-            await this.broadcastUserLeft(user);
+            // Take as disconnected after 10 seconds of disconnection
+            this.timeouts.set(user, setTimeout( () => {
+
+                // Emitting the event to higher level API
+                this.emit('userLeft', user);
+
+                // Emitting the event over socket of the Attendee leaving the Room
+                await this.broadcastUserLeft(user);
+
+                // Remove from the record
+                this.timeouts.delete(user);
+            }, 
+            10e3));
 
             console.log(`[Server] ${user} se ha desconectado del socket.`);
         });

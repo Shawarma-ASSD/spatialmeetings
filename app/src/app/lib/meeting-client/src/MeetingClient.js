@@ -263,9 +263,16 @@ class MeetingClient {
         return ret;
     }
 
-    disconnect() {
-        // disconnect from WebSocket
-        this.socketClient.disconnectSocket();
+    /**
+     * disconnect
+     * Notifies the server the user is leaving the room and closes the local
+     * MediaSoup resources.
+     */
+    async disconnect() {
+        // notify the server we are leaving the room 
+        if(this.connected) {
+            await this.httpClient.leaveRoom(this.room, this.user);
+        }
         // Close transports, producers and consumers are automatically closed
         if (this.sendTransport) {
             this.sendTransport.close();
@@ -273,7 +280,7 @@ class MeetingClient {
         if (this.recvTransport) {
             this.recvTransport.close();
         }
-        // Clear remote info, keep local info (localStreams)
+        // Clear remote info, keep local info (localStreams and user)
         this.attendees = new Array();
         this.remoteStreams = new Map();
         this.room = null;
