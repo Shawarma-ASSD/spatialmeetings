@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Clipboard } from '@angular/cdk/clipboard';
@@ -62,16 +62,16 @@ export class RoomComponent implements OnInit {
     // Setting the Room properties for the spatial sound processor
     this.resonanceRoom.setAmbisonicOrder(3);
     this.roomDimensions = {
-      width: 8, 
+      width: 8,
       height: 3.4,
       depth: 9,
     };
     this.roomMaterials = {
-      left: 'transparent', 
+      left: 'transparent',
       right: 'transparent',
-      up: 'transparent', 
+      up: 'transparent',
       down: 'grass',
-      front: 'transparent', 
+      front: 'transparent',
       back: 'transparent'
     };
     this.resonanceRoom.setRoomProperties(this.roomDimensions, this.roomMaterials);
@@ -130,6 +130,16 @@ export class RoomComponent implements OnInit {
   public hangOut() {
     this.meeting.getClient().disconnect();
     this.router.navigate(['']);
+  }
+
+  /**
+   * onClosedTab
+   * hangs the call when closing window or tab
+   */
+  @HostListener('window:unload', ['$event'])
+  @HostListener('window:popstate',['$event'])
+  onClosedTab(event){
+    this.meeting.getClient().disconnect();
   }
 
   /**
