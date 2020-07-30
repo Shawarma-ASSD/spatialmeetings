@@ -47,6 +47,23 @@ class HTTPConnectionClient {
     }
 
     /**
+     * leaveRoom 
+     * Performs POST request to leave the room and returns
+     * its answer.
+     * @param {string} roomName 
+     * @param {string} userMail
+     */
+    async leaveRoom(roomName, userMail) {
+        return await HTTPClient.postJSON(
+            this.roomsUrl + "/leaveRoom",
+            {
+                roomName: roomName,
+                userMail: userMail
+            }
+        );
+    }
+
+    /**
      * getAttendees
      * Performs GET request to obtain the attendees information 
      * for the given room
@@ -169,6 +186,8 @@ class HTTPConnectionClient {
             }
         );
     }
+
+    
 }
 
 module.exports = {

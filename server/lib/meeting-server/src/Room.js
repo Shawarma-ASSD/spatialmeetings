@@ -65,7 +65,7 @@ class Room extends EventEmitter {
 
     /**
      * _userLeft
-     * Handles the event when a user lefts, closes its transports,
+     * Handles the event when a user leaves, closes its transports,
      * deletes its entry from the internal map and verifies whether the
      * Room should be closed.
      * @param {string} user 
@@ -260,6 +260,11 @@ class Room extends EventEmitter {
             )
         });
         return info;
+    }
+
+    async removeAttendee(id) {
+        await this._userLeft(id);
+        await this.room.broadcastUserLeft(id);
     }
 
     /**
