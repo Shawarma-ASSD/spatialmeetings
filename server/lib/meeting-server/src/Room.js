@@ -108,6 +108,7 @@ class Room extends EventEmitter {
         // and an Attendee instance was created, also check that the
         // connection has not been already established.
         let shouldReject = true;
+        let rejectReason = "";
 
         if (this.hasAttendee(id)) {
             if (!this.room.hasAttendee(id)) {
@@ -123,9 +124,16 @@ class Room extends EventEmitter {
 
                 console.log(`[Server] ${id} se ha conectado al socket.`);
             }
+            else {
+                rejectReason = "the room already had the attendee";
+            }
+        }
+        else {
+            rejectReason = "id not found in the room";
         }
 
         if (shouldReject) {
+            console.log(`[Server] rejecting socket connection attemp from ${id}: ` + rejectReason);
             reject();
         }
     }

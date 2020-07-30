@@ -5,10 +5,6 @@ module.exports = {
     tls: {
       cert: '/etc/ssl/certs/ssl-cert-snakeoil.pem',
       key: '/etc/ssl/private/ssl-cert-snakeoil.key'
-    },
-    tlsVM: {
-      cert: '/home/nico/www.spatialmeetings.live.chained.crt',
-      key: '/etc/ssl/www.spatialmeetings.live.key'
     }
   },
   meeting: {
@@ -26,7 +22,7 @@ module.exports = {
           },
           {
             kind      : 'video',
-            mimeType  : 'video/VP8',
+            mimeType  : 'video/vp8',
             clockRate : 90000,
             parameters:
               {
@@ -46,7 +42,7 @@ module.exports = {
         options: {
           listenIps: [
               {
-                  ip          : '192.168.1.17',
+                  ip          : '192.168.0.9',
                   announcedIp : null
               }
           ],
