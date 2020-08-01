@@ -117,12 +117,16 @@ class Room extends EventEmitter {
                 shouldReject = false;
 
                 // Adding the Attendee connection to the Socket Room
-                await this.room.addAttendee(id, transport);
-        
-                // Emitting the socket event of a new Attendee joining the Room
-                await this.room.broadcastUserJoined(id, producers);
+                if ( await this.room.addAttendee(id, transport) ) {
 
-                console.log(`[Server] ${id} se ha conectado al socket.`);
+                    // If its a new connection, emitting the socket event of a new Attendee joining the Room
+                    await this.room.broadcastUserJoined(id, producers);
+
+                    console.log(`[Server] ${id} se ha conectado al socket.`);
+                }
+                else {
+                    console.log(`[Server] ${user} se ha reconectado al socket.`);
+                }
             }
             else {
                 rejectReason = "the room already had the attendee";

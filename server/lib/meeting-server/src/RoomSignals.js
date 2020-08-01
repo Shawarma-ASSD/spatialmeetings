@@ -58,13 +58,18 @@ class RoomSignals extends EventEmitter {
     /**
      * addAttendee
      * Adds a new Attendee's peer to the Room.
+     * Returns true if its a new connection, false if its a reconnection.
      * @param {Attendee's id: string} user 
      * @param {Transport} transport 
      */
     async addAttendee(user, transport) {
+        let newConnection = true;
 
         // Check if we were about to remove the user from the room
         if(this.timeouts.has(user)) {
+            // Its a reconnection
+            newConnection = false;
+
             // Stop timeout from firing
             clearTimeout(this.timeouts.get(user));
 
@@ -101,6 +106,8 @@ class RoomSignals extends EventEmitter {
 
             console.log(`[Server] ${user} se ha desconectado del socket.`);
         });
+
+        return newConnection;
     }
 
     /**
