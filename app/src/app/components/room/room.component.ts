@@ -136,9 +136,9 @@ export class RoomComponent implements OnInit {
    * onClosedTab
    * hangs the call when closing window or tab
    */
-  @HostListener('window:unload', ['$event'])
-  @HostListener('window:popstate',['$event'])
-  public onClosedTab(event){
+  @HostListener('window:popstate')
+  @HostListener('window:beforeunload')
+  public onClosedTab() {
     this.meeting.getClient().disconnect();
   }
 
