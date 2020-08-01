@@ -488,6 +488,7 @@ class MeetingClient {
                 }
             }    
         }
+        console.log("_updateRemoteStreams: ret=", ret);
         return ret;
     }
 
