@@ -323,9 +323,11 @@ export class RoomComponent implements OnInit {
   /**
    * openDialog()
    * opens login dialog
+   * returns a reference to the dialog, useful to know if the dialog was closed
    */
   openDialog() {
-    this.dialog.open(LoginDialogComponent);
+    let reference = this.dialog.open(LoginDialogComponent);
+    return reference;
   }
 
   /**
@@ -335,7 +337,8 @@ export class RoomComponent implements OnInit {
   private async roomInit(roomName: string) {
     // User profile information with Google OAuth
     if ( !this.session.isSigned() ) {
-      this.openDialog();
+      let dialogRef = this.openDialog();
+      await dialogRef.afterClosed().toPromise();
     }
     let user = this.session.getUser();
 
