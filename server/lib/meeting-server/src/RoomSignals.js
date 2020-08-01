@@ -86,7 +86,7 @@ class RoomSignals extends EventEmitter {
         peer.on('close', async () => {
 
             // Take as disconnected after 10 seconds of disconnection
-            this.timeouts.set(user, setTimeout( () => {
+            this.timeouts.set(user, setTimeout( async () => {
 
                 // Emitting the event to higher level API
                 this.emit('userLeft', user);

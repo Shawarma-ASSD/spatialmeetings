@@ -335,7 +335,7 @@ export class RoomComponent implements OnInit {
   private async roomInit(roomName: string) {
     // User profile information with Google OAuth
     if ( !this.session.isSigned() ) {
-      this.openDialog()
+      this.openDialog();
     }
     let user = this.session.getUser();
 
