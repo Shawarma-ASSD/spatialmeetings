@@ -245,17 +245,17 @@ class MeetingClient {
             this.socketClient.connectSocket(room, this.user, this.server, async () => {
                 // call _updateRemoteStreams() before setting this.connected so that
                 // no events are emitted 
-                if ( await this._updateRemoteStreams(room) ) {
-                    // If there are any, notify each new stream to the client
-                    for( let [id, streams ] of this.remoteStreams ) {
-                        for( let stream of streams ) {
-                            let newStream = new MediaStream();
-                            newStream.addTrack(stream.getStreamer().track);
-                            this.streamAdded(id, stream.getType(), newStream, stream.startedPaused());
-                        }
+                await this._updateRemoteStreams(room);
+                this.connected = true;
+
+                // If there are any, notify each new stream to the client
+                for( let [id, streams ] of this.remoteStreams ) {
+                    for( let stream of streams ) {
+                        let newStream = new MediaStream();
+                        newStream.addTrack(stream.getStreamer().track);
+                        this.streamAdded(id, stream.getType(), newStream, stream.startedPaused());
                     }
                 }
-                this.connected = true;
                 
                 this.room = room;
                 this.setSocketCallbacks();            
@@ -488,7 +488,6 @@ class MeetingClient {
                 }
             }    
         }
-        console.log("_updateRemoteStreams: ret=", ret);
         return ret;
     }
 
