@@ -77,7 +77,6 @@ class Room extends EventEmitter {
             if (this.attendees.size == 0) {
                 this.emit('close');
             }
-            console.log(`[Server] ${id} left the room.`);
         }
     }
 
