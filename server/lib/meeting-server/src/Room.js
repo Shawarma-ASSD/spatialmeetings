@@ -125,7 +125,7 @@ class Room extends EventEmitter {
                     console.log(`[Server] ${id} se ha conectado al socket.`);
                 }
                 else {
-                    console.log(`[Server] ${user} se ha reconectado al socket.`);
+                    console.log(`[Server] ${id} se ha reconectado al socket.`);
                 }
             }
             else {

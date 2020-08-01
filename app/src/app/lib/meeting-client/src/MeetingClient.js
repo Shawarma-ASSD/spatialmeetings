@@ -245,17 +245,18 @@ class MeetingClient {
             this.socketClient.connectSocket(room, this.user, this.server, async () => {
                 // call _updateRemoteStreams() before setting this.connected so that
                 // no events are emitted 
-                await this._updateRemoteStreams(room);
-                this.connected = true;
-                // Notify each new stream to the client
-                for(let [id, streams ] of this.remoteStreams) {
-                    for( let stream of streams ) {
-                        let newStream = new MediaStream();
-                        newStream.addTrack(stream.getStreamer().track);
-                        this.streamAdded(id, stream.getType(), newStream, stream.startedPaused());
+                if ( await this._updateRemoteStreams(room) ) {
+                    // If there are any, notify each new stream to the client
+                    for( let [id, streams ] of this.remoteStreams ) {
+                        for( let stream of streams ) {
+                            let newStream = new MediaStream();
+                            newStream.addTrack(stream.getStreamer().track);
+                            this.streamAdded(id, stream.getType(), newStream, stream.startedPaused());
+                        }
                     }
                 }
-
+                this.connected = true;
+                
                 this.room = room;
                 this.setSocketCallbacks();            
             });
@@ -454,10 +455,12 @@ class MeetingClient {
 
     /**
      * _updateRemoteStreams
+     * Returns true if there are new streams
      * @param {string} room 
      */
     async _updateRemoteStreams(room) {
         let remoteProducers = this._parseResponse( await this.httpClient.getProducers(room) );
+        let ret = false;
         if(remoteProducers != {}) {
             for(let id in remoteProducers) {
                 // Doesnt consume own streams
@@ -470,15 +473,22 @@ class MeetingClient {
                             index = this.remoteStreams.get(id).findIndex( (el) => el.getType() == prod.type );
                         }
                         // If already consuming this stream, don't consume again
-                        let addStream = (hasId && index >= 0) ?
-                            this.remoteStreams.get(id)[index] :
-                            await this._consume(id, prod.id, prod.type, room);
+                        let addStream = null;
+                        if( hasId && index >= 0 ) {
+                            addStream = this.remoteStreams.get(id)[index];
+                        }
+                        else {
+                            addStream = await this._consume(id, prod.id, prod.type, room);
+                            // Notify there is a new stream
+                            ret = true;
+                        }
                         attendeeStreams.push(addStream);
                     }
                     this.remoteStreams.set(id, attendeeStreams);
                 }
             }    
         }
+        return ret;
     }
 
 
