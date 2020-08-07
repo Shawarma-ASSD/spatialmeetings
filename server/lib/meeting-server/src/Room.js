@@ -267,6 +267,7 @@ class Room extends EventEmitter {
     }
 
     async removeAttendee(id) {
+        this.room.removeAttendee(id);
         await this._userLeft(id);
         await this.room.broadcastUserLeft(id);
     }

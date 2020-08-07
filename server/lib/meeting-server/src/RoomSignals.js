@@ -110,6 +110,12 @@ class RoomSignals extends EventEmitter {
         return newConnection;
     }
 
+    removeAttendee(user) {
+        if(this.timeouts.has(user)) {
+            this.timeouts.delete(user);
+        }
+    }
+
     /**
      * broadcastUserJoined
      * Broadcasts to all Peers in the Room that a user joined.
