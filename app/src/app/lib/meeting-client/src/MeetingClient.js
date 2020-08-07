@@ -272,6 +272,7 @@ class MeetingClient {
      * MediaSoup resources.
      */
     async disconnect() {
+        this.socketClient.disconnectSocket();
         // notify the server we are leaving the room 
         if(this.connected) {
             await this.httpClient.leaveRoom(this.room, this.user);
