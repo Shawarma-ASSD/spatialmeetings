@@ -258,7 +258,7 @@ class MeetingClient {
                         }
                     }    
                 }
-
+                
                 this.room = room;
                 this.setSocketCallbacks();            
             });
@@ -457,10 +457,12 @@ class MeetingClient {
 
     /**
      * _updateRemoteStreams
+     * Returns true if there are new streams
      * @param {string} room 
      */
     async _updateRemoteStreams(room) {
         let remoteProducers = this._parseResponse( await this.httpClient.getProducers(room) );
+        let ret = false;
         if(remoteProducers != {}) {
             for(let id in remoteProducers) {
                 // Doesnt consume own streams
@@ -473,15 +475,22 @@ class MeetingClient {
                             index = this.remoteStreams.get(id).findIndex( (el) => el.getType() == prod.type );
                         }
                         // If already consuming this stream, don't consume again
-                        let addStream = (hasId && index >= 0) ?
-                            this.remoteStreams.get(id)[index] :
-                            await this._consume(id, prod.id, prod.type, room);
+                        let addStream = null;
+                        if( hasId && index >= 0 ) {
+                            addStream = this.remoteStreams.get(id)[index];
+                        }
+                        else {
+                            addStream = await this._consume(id, prod.id, prod.type, room);
+                            // Notify there is a new stream
+                            ret = true;
+                        }
                         attendeeStreams.push(addStream);
                     }
                     this.remoteStreams.set(id, attendeeStreams);
                 }
             }    
         }
+        return ret;
     }
 
 
