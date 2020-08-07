@@ -3,6 +3,8 @@
 Spatial meetings web application.
 Try it using Firefox browser on [www.spatialmeetings.live](https://www.spatialmeetings.live), until 9/12/2020 when our DigitalOcean free credit expires.
 
+![Screenshot](docs/screenshot.png)
+
 This project doesn't work on Chrome and Chromium based browsers because of [this Chromium bug](https://bugs.chromium.org/p/chromium/issues/detail?can=2&q=121673&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified&id=121673)
 
 _____________________________
