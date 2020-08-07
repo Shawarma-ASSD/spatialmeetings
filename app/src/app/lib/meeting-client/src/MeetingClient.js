@@ -243,17 +243,20 @@ class MeetingClient {
 
             // connect to the WebSocket
             this.socketClient.connectSocket(room, this.user, this.server, async () => {
-                // call _updateRemoteStreams() before setting this.connected so that
-                // no events are emitted 
-                await this._updateRemoteStreams(room);
-                this.connected = true;
-                // Notify each new stream to the client
-                for(let [id, streams ] of this.remoteStreams) {
-                    for( let stream of streams ) {
-                        let newStream = new MediaStream();
-                        newStream.addTrack(stream.getStreamer().track);
-                        this.streamAdded(id, stream.getType(), newStream, stream.startedPaused());
-                    }
+                // Don't do this on reconnections
+                if( !this.connected ) {
+                    // call _updateRemoteStreams() before setting this.connected so that
+                    // no events are emitted 
+                    await this._updateRemoteStreams(room);
+                    this.connected = true;
+                    // Notify each new stream to the client
+                    for(let [id, streams ] of this.remoteStreams) {
+                        for( let stream of streams ) {
+                            let newStream = new MediaStream();
+                            newStream.addTrack(stream.getStreamer().track);
+                            this.streamAdded(id, stream.getType(), newStream, stream.startedPaused());
+                        }
+                    }    
                 }
 
                 this.room = room;
