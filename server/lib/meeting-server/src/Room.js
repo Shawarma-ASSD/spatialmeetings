@@ -71,7 +71,7 @@ class Room extends EventEmitter {
      * @param {string} user 
      */
     async _userLeft(user) {
-        this.room.removeAttendee(id);
+        this.room.removeAttendee(user);
         if (this.hasAttendee(user)) {
             this.attendees.get(user).close();
             this.attendees.delete(user);
