@@ -1,7 +1,7 @@
 # spatialmeetings
 
 Spatial meetings web application.
-Try it using Firefox browser on [www.spatialmeetings.live](https://www.spatialmeetings.live), until 9/12/2020 when our DigitalOcean free credit expires.
+You could have tried it using Firefox browser on [www.spatialmeetings.live](https://www.spatialmeetings.live), before 9/11/2020 when our DigitalOcean free credit expired :(
 
 ![Screenshot](docs/screenshot.png)
 
